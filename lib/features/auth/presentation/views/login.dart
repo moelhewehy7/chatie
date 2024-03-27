@@ -1,7 +1,7 @@
-import 'package:chatie/features/presentation/auth/views/sign_up.dart';
-import 'package:chatie/features/presentation/auth/views/widgets/app_logo.dart';
-import 'package:chatie/features/presentation/auth/views/widgets/forgot_password.dart';
-import 'package:chatie/features/presentation/auth/views/widgets/text_fields.dart';
+import 'package:chatie/features/auth/presentation/views/sign_up.dart';
+import 'package:chatie/features/auth/presentation/views/widgets/app_logo.dart';
+import 'package:chatie/features/auth/presentation/views/widgets/forgot_password.dart';
+import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:flutter/material.dart';
 
 import 'widgets/button.dart';

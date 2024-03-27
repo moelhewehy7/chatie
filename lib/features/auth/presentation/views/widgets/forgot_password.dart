@@ -1,5 +1,5 @@
-import 'package:chatie/features/presentation/auth/views/widgets/button.dart';
-import 'package:chatie/features/presentation/auth/views/widgets/text_fields.dart';
+import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
+import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:flutter/material.dart';
 
 class ForgotPassword extends StatelessWidget {
