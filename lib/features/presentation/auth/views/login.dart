@@ -1,3 +1,4 @@
+import 'package:chatie/features/presentation/auth/views/sign_up.dart';
 import 'package:chatie/features/presentation/auth/views/widgets/app_logo.dart';
 import 'package:chatie/features/presentation/auth/views/widgets/forgot_password.dart';
 import 'package:chatie/features/presentation/auth/views/widgets/text_fields.dart';
@@ -25,7 +26,9 @@ class LoginView extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-            EmailField(
+            TextForm(
+              icon: Icons.email,
+              hinttext: "Email",
               validator: (data) {
                 if (data == null || data.isEmpty) {
                   return 'Please enter your email';
@@ -75,7 +78,11 @@ class LoginView extends StatelessWidget {
               height: 20,
             ),
             FilledTonalButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return const SignUp();
+                }));
+              },
               text: "Sign Up",
             )
           ],

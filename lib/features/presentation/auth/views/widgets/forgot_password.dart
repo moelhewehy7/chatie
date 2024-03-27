@@ -27,7 +27,8 @@ class ForgotPassword extends StatelessWidget {
               "Your Registered Email",
             ),
             const SizedBox(height: 10),
-            EmailField(
+            TextForm(
+              icon: Icons.email,
               validator: (data) {
                 if (data == null || data.isEmpty) {
                   return 'Please enter your email';
@@ -38,6 +39,7 @@ class ForgotPassword extends StatelessWidget {
                 return null;
               },
               onchanged: (data) {},
+              hinttext: 'Email',
             ),
             const SizedBox(height: 20),
           ],

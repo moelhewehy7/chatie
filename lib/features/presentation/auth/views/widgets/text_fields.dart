@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
-class EmailField extends StatelessWidget {
-  const EmailField({
+class TextForm extends StatelessWidget {
+  const TextForm({
     super.key,
     this.validator,
     this.onchanged,
+    required this.hinttext,
+    required this.icon,
   });
+  final String hinttext;
+  final IconData icon;
   final String? Function(String?)? validator;
   final Function(String?)? onchanged;
   @override
@@ -18,10 +22,8 @@ class EmailField extends StatelessWidget {
       decoration: InputDecoration(
         contentPadding: const EdgeInsets.all(15),
         filled: true,
-        hintText: "Email",
-        prefixIcon: const Icon(
-          Icons.email,
-        ),
+        hintText: hinttext,
+        prefixIcon: Icon(icon),
         // prefixIconColor: isDark ? Colors.white : Colors.black87,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
@@ -29,8 +31,8 @@ class EmailField extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide:
-                BorderSide(style: BorderStyle.solid, color: Colors.blueGrey)),
+            borderSide: const BorderSide(
+                style: BorderStyle.solid, color: Colors.blueGrey)),
       ),
     );
   }
@@ -73,8 +75,8 @@ class _PasswordFieldState extends State<PasswordField> {
             setState(() {});
           },
           icon: ishiding
-              ? Icon(Icons.visibility_off)
-              : Icon(
+              ? const Icon(Icons.visibility_off)
+              : const Icon(
                   Icons.visibility,
                 ),
         ),
@@ -85,8 +87,8 @@ class _PasswordFieldState extends State<PasswordField> {
         ),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide:
-                BorderSide(style: BorderStyle.solid, color: Colors.blueGrey)),
+            borderSide: const BorderSide(
+                style: BorderStyle.solid, color: Colors.blueGrey)),
       ),
     );
   }
