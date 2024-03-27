@@ -1,4 +1,5 @@
 import 'package:chatie/features/presentation/auth/views/widgets/app_logo.dart';
+import 'package:chatie/features/presentation/auth/views/widgets/forgot_password.dart';
 import 'package:chatie/features/presentation/auth/views/widgets/text_fields.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +20,7 @@ class LoginView extends StatelessWidget {
             const AppLogo(),
             Text(
               "Welcome Back! 👋",
-              style: Theme.of(context).textTheme.headlineMedium,
-              // style: context.hm!.copyWith(fontWeight: FontWeight.bold),
+              style: Theme.of(context).textTheme.headlineSmall,
             ),
             const SizedBox(
               height: 20,
@@ -55,7 +55,12 @@ class LoginView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return const ForgotPassword();
+                    }));
+                  },
                   child: const Text(
                     "Forgot Password?",
                   ),
@@ -64,14 +69,14 @@ class LoginView extends StatelessWidget {
             ),
             FillButton(
               onPressed: () {},
-              text: 'Login',
+              text: 'Sign In',
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
-            OutLineButton(
+            FilledTonalButton(
               onPressed: () {},
-              text: "Register",
+              text: "Sign Up",
             )
           ],
         ),
