@@ -1,3 +1,4 @@
+import 'package:chatie/features/presentation/auth/views/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -20,10 +21,7 @@ class Chatie extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
       ),
-      home: Scaffold(
-        appBar: AppBar(),
-        floatingActionButton: FloatingActionButton(onPressed: () {}),
-      ),
+      home: const LoginView(),
     );
   }
 }
