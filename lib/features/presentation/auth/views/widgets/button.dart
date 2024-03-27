@@ -25,10 +25,10 @@ class FillButton extends StatelessWidget {
   }
 }
 
-class OutLineButton extends StatelessWidget {
+class FilledTonalButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
-  const OutLineButton({
+  const FilledTonalButton({
     super.key,
     required this.onPressed,
     required this.text,
@@ -36,11 +36,11 @@ class OutLineButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return FilledButton.tonal(
       onPressed: onPressed,
-      style: OutlinedButton.styleFrom(
+      style: FilledButton.styleFrom(
           elevation: 1,
-          fixedSize: Size.fromHeight(50),
+          fixedSize: const Size.fromHeight(50),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
       child: Text(
