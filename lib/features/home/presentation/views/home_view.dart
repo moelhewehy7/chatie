@@ -1,5 +1,10 @@
+import 'package:chatie/features/chat/presentation/views/chats_view.dart';
+import 'package:chatie/features/home/presentation/views/groups_view.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
+
+import 'contacts_view.dart';
+import 'settings_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -15,7 +20,6 @@ class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
       body: PageView(
         controller: pageController,
         onPageChanged: (value) {
@@ -24,20 +28,7 @@ class _HomeViewState extends State<HomeView> {
           });
         },
         //updates the currentindex variable to reflect the selectedIndex property
-        children: [
-          Container(
-            color: Colors.blue,
-          ),
-          Container(
-            color: Colors.red,
-          ),
-          Container(
-            color: Colors.green,
-          ),
-          Container(
-            color: Colors.pinkAccent,
-          ),
-        ],
+        children: [ChatView(), GroupsView(), ContactsView(), SettingsView()],
       ),
       bottomNavigationBar: NavigationBar(
         elevation: 0,
@@ -52,10 +43,10 @@ class _HomeViewState extends State<HomeView> {
           NavigationDestination(
               selectedIcon: Icon(IconlyBold.chat),
               icon: Icon(IconlyLight.chat),
-              label: "Chat"),
+              label: "Chats"),
           NavigationDestination(
-              selectedIcon: Icon(Icons.groups),
-              icon: Icon(Icons.groups_outlined),
+              selectedIcon: Icon(IconlyBold.user_3, size: 26),
+              icon: Icon(IconlyLight.user_1, size: 26),
               label: "Groups"),
           NavigationDestination(
               selectedIcon: Icon(Icons.contacts),
