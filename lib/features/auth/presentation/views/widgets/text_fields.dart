@@ -31,8 +31,8 @@ class TextForm extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-                style: BorderStyle.solid, color: Colors.blueGrey)),
+            borderSide:
+                BorderSide(color: Theme.of(context).colorScheme.onSurface)),
       ),
     );
   }
@@ -87,8 +87,9 @@ class _PasswordFieldState extends State<PasswordField> {
         ),
         focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15),
-            borderSide: const BorderSide(
-                style: BorderStyle.solid, color: Colors.blueGrey)),
+            borderSide: BorderSide(
+                style: BorderStyle.solid,
+                color: Theme.of(context).colorScheme.onSurface)),
       ),
     );
   }
