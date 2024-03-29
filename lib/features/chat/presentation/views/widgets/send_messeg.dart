@@ -19,16 +19,17 @@ class SendMessege extends StatelessWidget {
                   FocusManager.instance.primaryFocus!.unfocus(),
               decoration: InputDecoration(
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.all(16),
+                  contentPadding: const EdgeInsets.all(16),
                   hintText: "Message",
                   suffixIcon: Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       IconButton(
-                          onPressed: () {}, icon: Icon(Icons.emoji_emotions)),
+                          onPressed: () {},
+                          icon: const Icon(Icons.emoji_emotions)),
                       IconButton(
-                          onPressed: () {}, icon: Icon(IconlyBold.camera))
+                          onPressed: () {}, icon: const Icon(IconlyBold.camera))
                     ],
                   )),
             ),
@@ -37,9 +38,9 @@ class SendMessege extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(left: 3),
           child: IconButton.filled(
-              padding: EdgeInsets.all(12),
+              padding: const EdgeInsets.all(12),
               onPressed: () {},
-              icon: Icon(IconlyLight.send)),
+              icon: const Icon(IconlyLight.send)),
         )
       ],
     );
