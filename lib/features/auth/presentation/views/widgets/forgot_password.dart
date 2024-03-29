@@ -2,10 +2,16 @@ import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:flutter/material.dart';
 
-class ForgotPassword extends StatelessWidget {
+class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
 
   @override
+  State<ForgotPassword> createState() => _ForgotPasswordState();
+}
+
+TextEditingController emailController = TextEditingController();
+
+class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +34,7 @@ class ForgotPassword extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             TextForm(
+              controller: emailController,
               icon: Icons.email,
               validator: (data) {
                 if (data == null || data.isEmpty) {
@@ -38,7 +45,6 @@ class ForgotPassword extends StatelessWidget {
                 }
                 return null;
               },
-              onchanged: (data) {},
               hinttext: 'Email',
             ),
             const SizedBox(height: 20),

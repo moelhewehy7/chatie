@@ -4,19 +4,20 @@ class TextForm extends StatelessWidget {
   const TextForm({
     super.key,
     this.validator,
-    this.onchanged,
     required this.hinttext,
     required this.icon,
+    required this.controller,
   });
   final String hinttext;
   final IconData icon;
   final String? Function(String?)? validator;
-  final Function(String?)? onchanged;
+
+  final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller,
       validator: validator,
-      onChanged: onchanged,
       onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
@@ -42,11 +43,11 @@ class PasswordField extends StatefulWidget {
   const PasswordField({
     super.key,
     this.validator,
-    this.onchanged,
+    required this.controller,
   });
   final String? Function(String?)? validator;
-  final Function(String?)? onchanged;
 
+  final TextEditingController controller;
   @override
   State<PasswordField> createState() => _PasswordFieldState();
 }
@@ -56,8 +57,8 @@ class _PasswordFieldState extends State<PasswordField> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: widget.controller,
       validator: widget.validator,
-      onChanged: widget.onchanged,
       onTapOutside: (event) {
         FocusManager.instance.primaryFocus!.unfocus();
       },
