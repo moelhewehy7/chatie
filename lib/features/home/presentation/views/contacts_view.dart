@@ -7,7 +7,7 @@ class ContactsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Chatie"),
+        title: const Text("Chatie"),
       ),
     );
   }

@@ -12,15 +12,15 @@ class ChatCard extends StatelessWidget {
       child: ListTile(
         splashColor: Colors.transparent,
         onTap: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => ChatViewBody()));
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => const ChatViewBody()));
         },
-        leading: CircleAvatar(),
-        title: Text("Name"),
-        subtitle: Text("Last message"),
+        leading: const CircleAvatar(),
+        title: const Text("Name"),
+        subtitle: const Text("Last message"),
         trailing: Column(
           children: [
-            Text("10:42 PM"),
+            const Text("10:42 PM"),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Badge(

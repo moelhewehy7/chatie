@@ -1,7 +1,6 @@
 import 'package:chatie/features/chat/presentation/views/widgets/chat_buble.dart';
 import 'package:chatie/features/chat/presentation/views/widgets/send_messeg.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class ChatViewBody extends StatelessWidget {
   const ChatViewBody({super.key});
@@ -17,10 +16,10 @@ class ChatViewBody extends StatelessWidget {
               style: Theme.of(context).textTheme.labelMedium)
         ]),
         actions: [
-          IconButton(onPressed: () {}, icon: Icon(Icons.content_copy)),
+          IconButton(onPressed: () {}, icon: const Icon(Icons.content_copy)),
           IconButton(
               onPressed: () {},
-              icon: Icon(
+              icon: const Icon(
                 Icons.delete_outlined,
                 size: 28,
               )),
@@ -35,14 +34,14 @@ class ChatViewBody extends StatelessWidget {
                 reverse: true,
                 itemCount: 6,
                 itemBuilder: (context, index) {
-                  return Row(
+                  return const Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [ChatBuble()],
                   );
                 },
               ),
             ),
-            SendMessege()
+            const SendMessege()
           ],
         ),
       ),

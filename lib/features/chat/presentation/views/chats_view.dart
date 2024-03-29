@@ -20,7 +20,7 @@ class _ChatViewState extends State<ChatView> {
               context: context,
               builder: (context) {
                 return Container(
-                  padding: EdgeInsets.all(24),
+                  padding: const EdgeInsets.all(24),
                   child: Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,14 +38,14 @@ class _ChatViewState extends State<ChatView> {
                 );
               });
         },
-        child: Icon(
+        child: const Icon(
           Icons.maps_ugc,
           size: 27,
         ),
       ),
       body: CustomScrollView(
         slivers: <Widget>[
-          SliverAppBar(
+          const SliverAppBar(
             elevation: 1,
             title: Text("Chatie"),
           ),
@@ -53,8 +53,8 @@ class _ChatViewState extends State<ChatView> {
               delegate: SliverChildBuilderDelegate(
             childCount: 16,
             (context, index) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
+              return const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 16),
                 child: ChatCard(),
               );
             },

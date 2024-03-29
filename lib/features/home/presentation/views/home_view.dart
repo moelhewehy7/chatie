@@ -28,7 +28,12 @@ class _HomeViewState extends State<HomeView> {
           });
         },
         //updates the currentindex variable to reflect the selectedIndex property
-        children: [ChatView(), GroupsView(), ContactsView(), SettingsView()],
+        children: const [
+          ChatView(),
+          GroupsView(),
+          ContactsView(),
+          SettingsView()
+        ],
       ),
       bottomNavigationBar: NavigationBar(
         elevation: 0,

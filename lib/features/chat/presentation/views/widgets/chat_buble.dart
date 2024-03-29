@@ -35,7 +35,7 @@ class ChatBuble extends StatelessWidget {
                     Text("6:20 PM",
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.surface)),
-                    SizedBox(
+                    const SizedBox(
                       width: 3,
                     ),
                     Icon(
@@ -77,7 +77,7 @@ class ChatBubleFriend extends StatelessWidget {
                   "jMasdasd asdsad",
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                Text(
+                const Text(
                   "6:20 PM",
                 )
               ],
