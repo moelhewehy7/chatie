@@ -1,11 +1,12 @@
-import 'package:chatie/features/chat/presentation/views/widgets/chats_view_body.dart';
+import 'package:chatie/features/chats/presentation/views/widgets/chats_view_body.dart';
 import 'package:flutter/material.dart';
 
 class ChatCard extends StatelessWidget {
   const ChatCard({
     super.key,
+    required this.text,
   });
-
+  final Text text;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -16,7 +17,7 @@ class ChatCard extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const ChatViewBody()));
         },
         leading: const CircleAvatar(),
-        title: const Text("Name"),
+        title: text,
         subtitle: const Text("Last message"),
         trailing: Column(
           children: [

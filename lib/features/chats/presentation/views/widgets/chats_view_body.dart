@@ -1,5 +1,5 @@
-import 'package:chatie/features/chat/presentation/views/widgets/chat_buble.dart';
-import 'package:chatie/features/chat/presentation/views/widgets/send_messeg.dart';
+import 'package:chatie/features/chats/presentation/views/widgets/chat_buble.dart';
+import 'package:chatie/features/chats/presentation/views/widgets/send_messeg.dart';
 import 'package:flutter/material.dart';
 
 class ChatViewBody extends StatelessWidget {

@@ -1,5 +1,5 @@
-import 'package:chatie/features/chat/presentation/views/chats_view.dart';
-import 'package:chatie/features/home/presentation/views/groups_view.dart';
+import 'package:chatie/features/chats/presentation/views/chats_view.dart';
+import 'package:chatie/features/groups/presentation/views/groups_view.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 
