@@ -1,7 +1,5 @@
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:iconly/iconly.dart';
 
 class CreateGroup extends StatelessWidget {
