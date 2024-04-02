@@ -7,21 +7,24 @@ class TextForm extends StatelessWidget {
     required this.hinttext,
     required this.icon,
     required this.controller,
+    this.autofocus = false,
   });
   final String hinttext;
   final IconData icon;
   final String? Function(String?)? validator;
+  final bool autofocus;
 
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      autofocus: autofocus,
       controller: controller,
       validator: validator,
       onTapOutside: (event) => FocusManager.instance.primaryFocus!.unfocus(),
       keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(15),
+        contentPadding: const EdgeInsets.all(12),
         filled: true,
         hintText: hinttext,
         prefixIcon: Icon(icon),
