@@ -1,9 +1,6 @@
-import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
-import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_card.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:iconly/iconly.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -18,7 +15,7 @@ class _ChatViewState extends State<ChatView> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showbottomsheet(context, emailController);
+          showbottomsheet(context, emailController, "Create chat");
         },
         child: const Icon(
           Icons.maps_ugc,

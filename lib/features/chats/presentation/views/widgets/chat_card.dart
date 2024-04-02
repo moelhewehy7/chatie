@@ -1,4 +1,4 @@
-import 'package:chatie/features/chats/presentation/views/widgets/chats_view_body.dart';
+import 'package:chatie/features/chats/presentation/views/widgets/chat_view_body.dart';
 import 'package:flutter/material.dart';
 
 class ChatCard extends StatelessWidget {

@@ -1,9 +1,9 @@
 import 'package:chatie/features/chats/presentation/views/chats_view.dart';
-import 'package:chatie/features/groups/presentation/views/groups_view.dart';
+import 'package:chatie/features/groups/presentation/views/groups_chat_view.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 
-import 'contacts_view.dart';
+import '../../../contacts/presentation/views/contacts_view.dart';
 import 'settings_view.dart';
 
 class HomeView extends StatefulWidget {
