@@ -19,8 +19,9 @@ PersistentBottomSheetController showbottomsheet(
                   "Enter friend email",
                   style: Theme.of(context).textTheme.titleLarge,
                 ),
-                Spacer(),
-                IconButton.filled(onPressed: () {}, icon: Icon(IconlyBold.scan))
+                const Spacer(),
+                IconButton.filled(
+                    onPressed: () {}, icon: const Icon(IconlyBold.scan))
               ],
             ),
           ),
