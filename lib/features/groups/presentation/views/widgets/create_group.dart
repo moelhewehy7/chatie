@@ -64,7 +64,7 @@ class CreateGroup extends StatelessWidget {
                 itemCount: 3,
                 itemBuilder: (BuildContext context, int index) {
                   return CheckboxListTile(
-                    checkboxShape: CircleBorder(),
+                    checkboxShape: const CircleBorder(),
                     value: true,
                     onChanged: (value) {},
                     title: const Text("Everyone"),

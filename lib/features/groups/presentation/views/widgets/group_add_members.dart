@@ -10,7 +10,7 @@ class GroupAddMembers extends StatelessWidget {
         title: const Text("Add Members"),
       ),
       body: ListView.builder(
-        padding: EdgeInsets.symmetric(horizontal: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: 6,
         itemBuilder: (BuildContext context, int index) {
           return CheckboxListTile(

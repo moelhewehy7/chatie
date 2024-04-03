@@ -16,7 +16,7 @@ class GroupChatViewBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 "Group name",
               ),
               Text("ahmed, mohamed, samy",

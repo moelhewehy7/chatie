@@ -1,7 +1,6 @@
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_add_members.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:iconly/iconly.dart';
 
 class GroupMembersView extends StatefulWidget {
@@ -22,7 +21,7 @@ class _GroupMembersViewState extends State<GroupMembersView> {
         icon: const Icon(Icons.check_circle),
       ),
       appBar: AppBar(
-        title: Text("Group info"),
+        title: const Text("Group info"),
         actions: [
           IconButton(
               onPressed: () {

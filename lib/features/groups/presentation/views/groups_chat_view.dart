@@ -12,7 +12,7 @@ class GroupsView extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CreateGroup()),
+                MaterialPageRoute(builder: (context) => const CreateGroup()),
               );
             },
             child: const Icon(
