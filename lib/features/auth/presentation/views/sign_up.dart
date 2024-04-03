@@ -35,6 +35,8 @@ class _SignUpState extends State<SignUp> {
             ),
             const SizedBox(height: 8),
             TextForm(
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.onSurface),
               controller: firstNameController,
               icon: Icons.person,
               hinttext: "First name",
@@ -53,6 +55,8 @@ class _SignUpState extends State<SignUp> {
             ),
             const SizedBox(height: 8),
             TextForm(
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.onSurface),
               controller: lastnameController,
               icon: Icons.person,
               hinttext: "Last name",
@@ -71,6 +75,8 @@ class _SignUpState extends State<SignUp> {
             ),
             const SizedBox(height: 8),
             TextForm(
+              borderSide:
+                  BorderSide(color: Theme.of(context).colorScheme.onSurface),
               controller: emailController,
               icon: Icons.email,
               hinttext: "Email",

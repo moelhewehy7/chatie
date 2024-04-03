@@ -39,7 +39,7 @@ class _ContactsViewState extends State<ContactsView> {
                   }
                   return null;
                 })
-            : const Text("Contacts"),
+            : const Text("My contacts"),
         actions: [
           searching
               ? Padding(

@@ -37,6 +37,8 @@ class _LoginViewState extends State<LoginView> {
                 height: 20,
               ),
               TextForm(
+                borderSide:
+                    BorderSide(color: Theme.of(context).colorScheme.onSurface),
                 controller: emailController,
                 icon: Icons.email,
                 hinttext: "Email",

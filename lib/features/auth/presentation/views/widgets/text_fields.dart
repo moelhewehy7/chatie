@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
 
 class TextForm extends StatelessWidget {
-  const TextForm({
-    super.key,
-    this.validator,
-    required this.hinttext,
-    required this.icon,
-    required this.controller,
-    this.autofocus = false,
-  });
+  const TextForm(
+      {super.key,
+      this.validator,
+      required this.hinttext,
+      required this.icon,
+      required this.controller,
+      this.autofocus = false,
+      this.borderSide = BorderSide.none});
   final String hinttext;
   final IconData icon;
   final String? Function(String?)? validator;
   final bool autofocus;
-
+  final BorderSide borderSide;
   final TextEditingController controller;
   @override
   Widget build(BuildContext context) {
@@ -34,9 +34,7 @@ class TextForm extends StatelessWidget {
           borderSide: BorderSide.none,
         ),
         focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15),
-            borderSide:
-                BorderSide(color: Theme.of(context).colorScheme.onSurface)),
+            borderRadius: BorderRadius.circular(15), borderSide: borderSide),
       ),
     );
   }
