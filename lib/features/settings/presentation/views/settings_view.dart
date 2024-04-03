@@ -1,4 +1,5 @@
 import 'package:chatie/features/settings/presentation/views/widgets/profile_view.dart';
+import 'package:chatie/features/settings/presentation/views/widgets/qr_code._view.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
@@ -33,7 +34,13 @@ class SettingsView extends StatelessWidget {
                 ],
               ),
               trailing: IconButton(
-                  onPressed: () {}, icon: const Icon(IconlyBold.scan)),
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const QrCodeView()));
+                  },
+                  icon: const Icon(IconlyBold.scan)),
             ),
             Card(
                 child: ListTile(
