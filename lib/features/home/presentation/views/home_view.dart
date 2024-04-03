@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 
 import '../../../contacts/presentation/views/contacts_view.dart';
-import 'settings_view.dart';
+import '../../../settings/presentation/views/settings_view.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
