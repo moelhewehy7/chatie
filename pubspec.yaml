@@ -38,6 +38,7 @@ dependencies:
   iconly: ^1.0.1
   flex_color_picker: ^3.4.1
   qr_flutter: ^4.1.0
+  firebase_core: ^2.28.0
 
 dev_dependencies:
   flutter_test:

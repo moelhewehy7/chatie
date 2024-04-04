@@ -1,7 +1,13 @@
-import 'package:chatie/features/home/presentation/views/home_view.dart';
+import 'package:chatie/features/auth/presentation/views/login.dart';
+import 'package:chatie/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(const Chatie());
 }
 
@@ -20,7 +26,7 @@ class Chatie extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
       ),
-      home: const HomeView(),
+      home: const LoginView(),
     );
   }
 }
