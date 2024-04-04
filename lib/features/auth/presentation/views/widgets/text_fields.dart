@@ -65,7 +65,7 @@ class _PasswordFieldState extends State<PasswordField> {
       },
       obscureText: ishiding,
       decoration: InputDecoration(
-        contentPadding: const EdgeInsets.all(15),
+        contentPadding: const EdgeInsets.all(12),
         filled: true,
         hintText: "Password",
         prefixIcon: const Icon(
