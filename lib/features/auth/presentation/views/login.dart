@@ -1,8 +1,10 @@
+import 'package:chatie/core/helper.dart';
 import 'package:chatie/features/auth/presentation/views/sign_up.dart';
 import 'package:chatie/core/app_logo.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/forgot_password.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import 'widgets/button.dart';
 
@@ -47,7 +49,7 @@ class _LoginViewState extends State<LoginView> {
                     return 'Please enter your email';
                   } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                       .hasMatch(data)) {
-                    return 'Invalid email format.';
+                    return 'Invalid email address.';
                   }
                   return null;
                 },
@@ -84,9 +86,12 @@ class _LoginViewState extends State<LoginView> {
               ),
               FillButton(
                 onPressed: () {
+                  showtoast(msg: "asdsadsdad", context: context);
                   if (formkey.currentState!.validate()) {}
                 },
-                text: 'Sign In',
+                child: Text(
+                  'Sign In',
+                ),
               ),
               const SizedBox(
                 height: 20,

@@ -35,7 +35,7 @@ PersistentBottomSheetController showbottomsheet(
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 12),
-                child: FillButton(onPressed: () {}, text: text),
+                child: FillButton(onPressed: () {}, child: Text(text)),
               ),
             ],
           )

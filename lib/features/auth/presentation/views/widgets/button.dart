@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 
 class FillButton extends StatelessWidget {
-  final VoidCallback onPressed;
-  final String text;
   const FillButton({
     super.key,
     required this.onPressed,
-    required this.text,
+    required this.child,
   });
+  final VoidCallback onPressed;
 
+  final Widget child;
   @override
   Widget build(BuildContext context) {
     return FilledButton(
@@ -18,9 +18,7 @@ class FillButton extends StatelessWidget {
           fixedSize: const Size.fromHeight(50),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
-      child: Text(
-        text,
-      ),
+      child: child,
     );
   }
 }

@@ -94,7 +94,7 @@ class _ProfileViewState extends State<ProfileView> {
             ),
             SizedBox(
                 width: double.infinity,
-                child: FillButton(onPressed: () {}, text: "Save"))
+                child: FillButton(onPressed: () {}, child: Text("Save")))
           ]),
         ),
       ),

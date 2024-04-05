@@ -56,7 +56,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               onPressed: () {
                 Navigator.pop(context);
               },
-              text: "Reset password"),
+              child: Text("Reset password")),
         ));
   }
 }
