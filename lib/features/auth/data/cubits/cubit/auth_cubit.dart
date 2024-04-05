@@ -8,7 +8,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signUp({required String email, required String password}) async {
     emit(AuthLoading());
-    // await Future.delayed(const Duration(seconds: 2));
+
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
@@ -20,11 +20,9 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthFailure('The password provided is too weak.'));
       } else if (e.code == 'email-already-in-use') {
         emit(AuthFailure('The account already exists for that email.'));
-      } else if (e.code == 'invalid-email') {
-        emit(AuthFailure('Invalid email address.'));
       }
     } catch (e) {
-      emit(AuthFailure('Oops , there is an error please try again later'));
+      emit(AuthFailure('Oops , there was an error please try again later'));
     }
   }
 
@@ -40,8 +38,6 @@ class AuthCubit extends Cubit<AuthState> {
         emit(AuthFailure('No user found for that email.'));
       } else if (e.code == 'wrong-password') {
         emit(AuthFailure('Wrong password provided for that user.'));
-      } else if (e.code == 'invalid-email') {
-        emit(AuthFailure('Invalid email address.'));
       }
     } catch (e) {
       emit(AuthFailure('Oops , there is an error please try again later'));
