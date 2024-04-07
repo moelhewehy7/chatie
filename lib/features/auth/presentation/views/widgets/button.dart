@@ -24,21 +24,21 @@ class FillButton extends StatelessWidget {
 }
 
 class FilledTonalButton extends StatelessWidget {
+  const FilledTonalButton(
+      {super.key,
+      required this.onPressed,
+      required this.text,
+      this.height = 50});
+  final double height;
   final VoidCallback onPressed;
   final String text;
-  const FilledTonalButton({
-    super.key,
-    required this.onPressed,
-    required this.text,
-  });
-
   @override
   Widget build(BuildContext context) {
     return FilledButton.tonal(
       onPressed: onPressed,
       style: FilledButton.styleFrom(
           elevation: 1,
-          fixedSize: const Size.fromHeight(50),
+          fixedSize: Size.fromHeight(height),
           shape:
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(14))),
       child: Text(
