@@ -27,7 +27,6 @@ showAlert(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         title: Text(
           title,
-          style: Theme.of(context).textTheme.titleLarge,
         ),
         content: Text(
           content,
@@ -70,6 +69,10 @@ void signoutdialog(context) {
                 await FirebaseAuth.instance.signOut();
                 if (context.mounted) {
                   Navigator.pop(context);
+                  showtoast(
+                      time: 1,
+                      msg: 'You have successfully signed out.',
+                      context: context);
                 }
               },
               child: const Text(

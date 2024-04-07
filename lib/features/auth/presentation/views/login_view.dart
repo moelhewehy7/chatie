@@ -34,7 +34,7 @@ class _LoginViewState extends State<LoginView> {
                 return const HomeView();
               }));
               showtoast(
-                  time: 2,
+                  time: 1,
                   msg: 'You have successfully signed in.',
                   context: context);
             } else if (state is LogInFailure) {
