@@ -1,6 +1,8 @@
 import 'package:chatie/features/auth/data/cubits/cubit/auth_cubit.dart';
 import 'package:chatie/features/auth/presentation/views/login_view.dart';
+import 'package:chatie/features/home/presentation/views/home_view.dart';
 import 'package:chatie/firebase_options.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +32,12 @@ class Chatie extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         ),
-        home: const LoginView(),
+        home: StreamBuilder(
+          stream: FirebaseAuth.instance.userChanges(),
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            return snapshot.hasData ? const HomeView() : const LoginView();
+          },
+        ),
       ),
     );
   }
