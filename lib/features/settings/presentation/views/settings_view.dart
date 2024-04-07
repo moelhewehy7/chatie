@@ -1,3 +1,4 @@
+import 'package:chatie/core/helper.dart';
 import 'package:chatie/features/settings/presentation/views/widgets/profile_view.dart';
 import 'package:chatie/features/settings/presentation/views/widgets/qr_code._view.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
@@ -90,7 +91,10 @@ class SettingsView extends StatelessWidget {
                 child: ListTile(
               title: const Text("Signout"),
               trailing: IconButton(
-                  onPressed: () {}, icon: const Icon(IconlyLight.logout)),
+                  onPressed: () {
+                    signoutdialog(context);
+                  },
+                  icon: const Icon(IconlyLight.logout)),
             ))
           ],
         ),

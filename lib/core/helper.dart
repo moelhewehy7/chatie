@@ -1,4 +1,6 @@
+import 'package:chatie/features/auth/presentation/views/login_view.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -42,4 +44,39 @@ showAlert(
       );
     },
   );
+}
+
+void signoutdialog(context) {
+  showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          title: const Text(
+            "Are you sure you want to sign out",
+          ),
+          actions: [
+            FilledTonalButton(
+              height: 30,
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              text: "Cancel",
+            ),
+            FillButton(
+              height: 30,
+              onPressed: () async {
+                await FirebaseAuth.instance.signOut();
+                if (context.mounted) {
+                  Navigator.pop(context);
+                }
+              },
+              child: const Text(
+                "Sign out",
+              ),
+            )
+          ],
+        );
+      });
 }
