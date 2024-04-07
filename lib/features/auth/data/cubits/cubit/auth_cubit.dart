@@ -7,40 +7,72 @@ class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
 
   Future<void> signUp({required String email, required String password}) async {
-    emit(AuthLoading());
+    emit(SignUpLoading());
 
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      emit(AuthSuccess());
+      emit(SignUpSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {
-        emit(AuthFailure('The password provided is too weak.'));
+        emit(SignUpFailure(errMessage: 'The password provided is too weak.'));
       } else if (e.code == 'email-already-in-use') {
-        emit(AuthFailure('The account already exists for that email.'));
+        emit(SignUpFailure(
+            errMessage: 'The account already exists for that email.'));
+      } else {
+        emit(SignUpFailure(
+            errMessage: 'Oops, something went wrong. Please try again later.'));
       }
     } catch (e) {
-      emit(AuthFailure('Oops , there was an error please try again later'));
+      emit(SignUpFailure(
+          errMessage: 'Oops, something went wrong. Please try again later.'));
     }
   }
 
   Future<void> logIn({required String email, required String password}) async {
-    emit(AuthLoading());
-    // await Future.delayed(const Duration(seconds: 2));
+    emit(LogInLoading());
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      emit(AuthSuccess());
+      emit(LogInSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        emit(AuthFailure('No user found for that email.'));
+        emit(LogInFailure(errMessage: 'No user found for that email.'));
       } else if (e.code == 'wrong-password') {
-        emit(AuthFailure('Wrong password provided for that user.'));
+        emit(
+            LogInFailure(errMessage: 'Wrong password provided for that user.'));
+      } else {
+        emit(LogInFailure(
+            errMessage: 'Oops, something went wrong. Please try again later.'));
       }
     } catch (e) {
-      emit(AuthFailure('Oops , there is an error please try again later'));
+      emit(LogInFailure(
+          errMessage: 'Oops, something went wrong. Please try again later.'));
+    }
+  }
+
+  Future<void> resetPassword({required String email}) async {
+    emit(ResetpasswordLoading());
+    try {
+      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
+      emit(ResetpasswordSuccess(
+        errMessage:
+            'A password reset email has been sent to $email. Please sign in again!',
+      ));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        emit(Resetpasswordfailure(
+          errMessage:
+              'There is no user record corresponding to this email. Please check the email address.',
+        ));
+      } else {
+        emit(Resetpasswordfailure(
+          errMessage:
+              'Failed to send password reset email. Please try again later.',
+        ));
+      }
     }
   }
 }
