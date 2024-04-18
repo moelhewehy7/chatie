@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -6,7 +7,11 @@ part 'auth_state.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitial());
 
-  Future<void> signUp({required String email, required String password}) async {
+  Future<void> signUp(
+      {required String email,
+      required String password,
+      required String firstName,
+      required String lastname}) async {
     emit(SignUpLoading());
 
     try {
@@ -14,6 +19,12 @@ class AuthCubit extends Cubit<AuthState> {
         email: email,
         password: password,
       );
+      await FirebaseFirestore.instance.collection("users").doc(email).set({
+        "Firstname": firstName,
+        "Lastname": lastname,
+        "Email": email,
+        "JoinedOn": DateTime.now()
+      });
       emit(SignUpSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'weak-password') {

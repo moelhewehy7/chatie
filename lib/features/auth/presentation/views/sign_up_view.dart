@@ -142,22 +142,15 @@ class _SignUpState extends State<SignUp> {
                       return FillButton(
                           onPressed: () async {
                             if (formkey.currentState!.validate()) {
-                              await FirebaseFirestore.instance
-                                  .collection("users")
-                                  .doc(emailController.text)
-                                  .set({
-                                "Firstname": firstNameController.text,
-                                "Lastname": lastnameController.text,
-                                "Email": emailController.text
-                              });
                               //check below
                               await BlocProvider.of<AuthCubit>(context).signUp(
-                                email: emailController.text,
-                                password: passwordController.text,
-                              );
+                                  email: emailController.text,
+                                  password: passwordController.text,
+                                  firstName: firstNameController.text,
+                                  lastname: lastnameController.text);
                             }
                           },
-                          child: Text("Sign Up"));
+                          child: const Text("Sign Up"));
                     }
                   },
                 )
