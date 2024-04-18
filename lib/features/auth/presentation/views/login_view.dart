@@ -30,7 +30,8 @@ class _LoginViewState extends State<LoginView> {
         child: BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is LogInSuccess) {
-              Navigator.push(context, MaterialPageRoute(builder: (context) {
+              Navigator.pushReplacement(context,
+                  MaterialPageRoute(builder: (context) {
                 return const HomeView();
               }));
               showtoast(

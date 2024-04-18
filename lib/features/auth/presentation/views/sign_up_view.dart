@@ -3,6 +3,7 @@ import 'package:chatie/features/auth/data/cubits/cubit/auth_cubit.dart';
 import 'package:chatie/features/auth/presentation/views/login_view.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -139,9 +140,18 @@ class _SignUpState extends State<SignUp> {
                           ));
                     } else {
                       return FillButton(
-                          onPressed: () {
+                          onPressed: () async {
                             if (formkey.currentState!.validate()) {
-                              BlocProvider.of<AuthCubit>(context).signUp(
+                              await FirebaseFirestore.instance
+                                  .collection("users")
+                                  .doc(emailController.text)
+                                  .set({
+                                "Firstname": firstNameController.text,
+                                "Lastname": lastnameController.text,
+                                "Email": emailController.text
+                              });
+                              //check below
+                              await BlocProvider.of<AuthCubit>(context).signUp(
                                 email: emailController.text,
                                 password: passwordController.text,
                               );
@@ -157,3 +167,9 @@ class _SignUpState extends State<SignUp> {
     );
   }
 }
+//set method to write data to a specific document in the "users" collection
+//using the email as the document ID.
+// This will either create a new document with the specified email
+// as the ID or update the existing document with the new data.
+
+// If we want Firestore to generate a unique ID for the document, you can use the add method instead.
