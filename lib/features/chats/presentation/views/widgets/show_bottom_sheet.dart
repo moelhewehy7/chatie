@@ -1,5 +1,6 @@
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
+import 'package:chatie/features/chats/data/create_room.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 
@@ -35,7 +36,11 @@ PersistentBottomSheetController showbottomsheet(
             children: [
               Padding(
                 padding: const EdgeInsets.only(top: 12),
-                child: FillButton(onPressed: () {}, child: Text(text)),
+                child: FillButton(
+                    onPressed: () {
+                      Room().create(email: emailController.text);
+                    },
+                    child: Text(text)),
               ),
             ],
           )
