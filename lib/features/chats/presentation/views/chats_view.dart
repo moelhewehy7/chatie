@@ -1,6 +1,9 @@
+import 'package:chatie/features/chats/data/create_room.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_card.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+
+import '../../../auth/presentation/views/widgets/button.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -10,12 +13,34 @@ class ChatView extends StatefulWidget {
 
 class _ChatViewState extends State<ChatView> {
   TextEditingController emailController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showbottomsheet(context, emailController, "Create chat");
+          showbottomsheet(
+            key: formKey,
+            context: context,
+            emailController: emailController,
+            validator: (String? data) {
+              if (data == null || data.isEmpty) {
+                return 'Please enter an email';
+              } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                  .hasMatch(data)) {
+                return 'Invalid email address.';
+              }
+              return null;
+            },
+            onpressed: () async {
+              if (formKey.currentState!.validate()) {
+                await Room()
+                    .create(email: emailController.text)
+                    .then((value) => emailController.clear());
+              }
+            },
+            buttonName: "Create Chat",
+          );
         },
         child: const Icon(
           Icons.maps_ugc,
