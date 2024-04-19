@@ -1,4 +1,3 @@
-import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';

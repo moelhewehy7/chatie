@@ -3,7 +3,6 @@ import 'package:chatie/features/auth/data/cubits/cubit/auth_cubit.dart';
 import 'package:chatie/features/auth/presentation/views/login_view.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
