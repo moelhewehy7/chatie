@@ -1,4 +1,3 @@
-import 'package:chatie/features/auth/presentation/views/login_view.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

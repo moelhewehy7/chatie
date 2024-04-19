@@ -3,8 +3,6 @@ import 'package:chatie/features/chats/presentation/views/widgets/chat_card.dart'
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 
-import '../../../auth/presentation/views/widgets/button.dart';
-
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
   @override
@@ -36,7 +34,8 @@ class _ChatViewState extends State<ChatView> {
               if (formKey.currentState!.validate()) {
                 await Room()
                     .create(email: emailController.text)
-                    .then((value) => emailController.clear());
+                    .then((value) => Navigator.pop(context));
+                emailController.clear();
               }
             },
             buttonName: "Create Chat",

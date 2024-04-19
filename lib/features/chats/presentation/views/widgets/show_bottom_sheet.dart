@@ -17,6 +17,7 @@ PersistentBottomSheetController showbottomsheet(
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
         child: Form(
+          //check below
           key: key,
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Padding(
@@ -56,3 +57,4 @@ PersistentBottomSheetController showbottomsheet(
     },
   );
 }
+//the Form needs to be a direct child of the Scaffold for the Form to work properly.
