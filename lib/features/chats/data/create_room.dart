@@ -37,3 +37,6 @@ class Room {
 //   // Handle the case where no user with the specified email was found
 //   print("No user found with email: $email");
 // }
+
+
+//In this case, the query is fetching documents from the "users" collection where the value of the "Email" field is equal to the provided email variable. Once the query is executed, the userQuery object contains the result, which is a list of documents (if any) that match the query criteria.The line String userEmail = userQuery.docs[0]["Email"]; extracts the value of the "Email" field from the first document in the query result (assuming there is at least one document in the result).
