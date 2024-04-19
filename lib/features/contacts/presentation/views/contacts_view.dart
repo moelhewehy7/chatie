@@ -1,3 +1,4 @@
+import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -14,17 +15,21 @@ class _ContactsViewState extends State<ContactsView> {
   bool searching = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController contactController = TextEditingController();
+  GlobalKey<FormState> formKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          showbottomsheet(context, emailController, "Add contact");
+          showbottomsheet(
+              key: formKey,
+              validator: (data) {},
+              context: context,
+              buttonName: "Add contact",
+              onpressed: () {},
+              emailController: emailController);
         },
-        child: const Icon(
-          Icons.person_add_alt_1,
-          size: 26,
-        ),
+        child: Icon(Icons.person_add_alt_1),
       ),
       appBar: AppBar(
         title: searching
