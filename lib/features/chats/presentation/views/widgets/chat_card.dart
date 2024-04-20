@@ -1,12 +1,16 @@
+import 'package:chatie/features/chats/data/models/chat_room_model.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_view_body.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ChatCard extends StatelessWidget {
   const ChatCard({
     super.key,
     required this.text,
+    required this.chatRoom,
   });
   final Text text;
+  final ChatRoomModel chatRoom;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -17,11 +21,12 @@ class ChatCard extends StatelessWidget {
               MaterialPageRoute(builder: (context) => const ChatViewBody()));
         },
         leading: const CircleAvatar(),
-        title: text,
+        title: Text(chatRoom.id ?? 'Friend'),
         subtitle: const Text("Last message"),
         trailing: Column(
           children: [
-            const Text("10:42 PM"),
+            Text(DateFormat('h:mm a')
+                .format(DateTime.parse(chatRoom.createdAt ?? ""))),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Badge(
