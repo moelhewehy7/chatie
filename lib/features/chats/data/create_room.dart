@@ -12,9 +12,10 @@ class Room {
     if (userQuery.docs.isNotEmpty) {
       String userEmail = userQuery.docs.first.id;
       final List members = [myEmail, userEmail]..sort(
-          (a, b) => a.compareTo(b),
+          (a, b) => a.compareTo(b), //to sort members in alphabetical order
         );
-      QuerySnapshot roomQuery = await FirebaseFirestore.instance
+      QuerySnapshot roomQuery = await FirebaseFirestore
+          .instance //to check if there is room for the members or not
           .collection("rooms")
           .where("members", isEqualTo: members)
           .get();
