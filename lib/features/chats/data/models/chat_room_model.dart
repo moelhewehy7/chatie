@@ -12,11 +12,11 @@ class ChatRoomModel {
     required this.id,
     required this.createdAt,
   });
-  factory ChatRoomModel.fromjson(jsonData) {
+  factory ChatRoomModel.fromJson(jsonData) {
     // the data is automatically decoded ,there's no need to manually decode it
     return ChatRoomModel(
       id: jsonData['id'],
-      createdAt: jsonData['created_at'],
+      createdAt: jsonData['createdAt'],
       members: jsonData['members'],
       lastMessage: jsonData['lastMessage'],
       lasteMessageTime: jsonData['lasteMessageTime'],
