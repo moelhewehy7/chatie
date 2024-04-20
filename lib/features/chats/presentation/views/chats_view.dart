@@ -1,7 +1,9 @@
 import 'package:chatie/features/chats/data/create_room.dart';
+import 'package:chatie/features/chats/data/cubits/fecth_chats_cubit/fetch_chats_cubit.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_card.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -12,6 +14,12 @@ class ChatView extends StatefulWidget {
 class _ChatViewState extends State<ChatView> {
   TextEditingController emailController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
+  List rooms = [];
+  void initState() {
+    super.initState();
+    BlocProvider.of<FetchChatsCubit>(context).fetchChats();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,18 +60,40 @@ class _ChatViewState extends State<ChatView> {
             elevation: 1,
             title: Text("Chatie"),
           ),
-          SliverList(
-              delegate: SliverChildBuilderDelegate(
-            childCount: 4,
-            (context, index) {
-              return const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16),
-                child: ChatCard(
-                  text: Text("Name"),
-                ),
-              );
+          BlocConsumer<FetchChatsCubit, FetchChatsState>(
+            listener: (context, state) {
+              if (state is FetchChatsSuccess) {
+                rooms = state.rooms
+                  ..sort(
+                    (a, b) =>
+                        b.lasteMessageTime!.compareTo(a.lasteMessageTime!),
+                  ); //to sort rooms in time order
+              }
             },
-          )),
+            builder: (context, state) {
+              if (state is FetchChatsSuccess) {
+                return SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                  childCount: rooms.length,
+                  (context, index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: ChatCard(
+                        chatRoom: rooms[index],
+                        text: const Text("Name"),
+                      ),
+                    );
+                  },
+                ));
+              } else if (state is FetchChatsInitial) {
+                return const SliverFillRemaining(
+                    child: Center(child: Text("No Chats")));
+              } else {
+                return const SliverFillRemaining(
+                    child: Center(child: CircularProgressIndicator()));
+              }
+            },
+          ),
         ],
       ),
     );
