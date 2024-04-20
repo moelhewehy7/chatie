@@ -1,6 +1,10 @@
+import 'package:flutter/material.dart';
+
 class UserModel {
   final String? id;
   final String? name;
+  final String? firstName;
+  final String? lastName;
   final String? bio;
   final String? email;
   final bool? lastSeen;
@@ -11,6 +15,8 @@ class UserModel {
 
   UserModel(
       {required this.id,
+      required this.firstName,
+      required this.lastName,
       required this.name,
       required this.bio,
       required this.email,
@@ -24,6 +30,8 @@ class UserModel {
     return UserModel(
         id: jsonData['id'],
         name: jsonData['name'],
+        firstName: jsonData['Firstname'],
+        lastName: jsonData['Lastname'],
         bio: jsonData['bio'],
         email: jsonData['email'],
         lastSeen: jsonData['last_seen'],
