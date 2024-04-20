@@ -3,15 +3,16 @@ import 'package:chatie/features/chats/presentation/views/widgets/send_messeg.dar
 import 'package:flutter/material.dart';
 
 class ChatViewBody extends StatelessWidget {
-  const ChatViewBody({super.key});
-
+  const ChatViewBody({super.key, required this.roomId, required this.userName});
+  final String roomId;
+  final String userName;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
         title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("Name", style: Theme.of(context).textTheme.titleMedium),
+          Text(userName, style: Theme.of(context).textTheme.titleMedium),
           Text("last seen today at 11:18",
               style: Theme.of(context).textTheme.labelMedium)
         ]),
