@@ -16,8 +16,9 @@ class _ChatViewState extends State<ChatView>
   TextEditingController emailController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
   List rooms = [];
+  // Implement AutomaticKeepAliveClientMixin in ChatViewState to maintain state
+  // across tab switches.
   @override
-  // TODO: implement wantKeepAlive
   bool get wantKeepAlive => true;
 
   @override
