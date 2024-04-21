@@ -123,7 +123,7 @@ class _LoginViewState extends State<LoginView> {
                             );
                           }
                         },
-                        child: Text(
+                        child: const Text(
                           'Sign In',
                         ),
                       );
