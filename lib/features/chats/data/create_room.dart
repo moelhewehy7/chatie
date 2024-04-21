@@ -1,10 +1,13 @@
+import 'package:chatie/core/helper.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/widgets.dart';
 
 class Room {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final String myEmail = FirebaseAuth.instance.currentUser!.email!;
-  Future<void> create({required String email}) async {
+  Future<void> create(
+      {required String email, required BuildContext context}) async {
     QuerySnapshot userQuery = await FirebaseFirestore.instance
         .collection("users")
         .where("Email", isEqualTo: email)
@@ -28,6 +31,10 @@ class Room {
           "createdAt": DateTime.now().toString()
         });
       }
+    } else {
+      if (!context.mounted) return;
+      showAlert(context,
+          title: "Error", content: "User Not Found", buttonText: "Ok");
     }
   }
 }
