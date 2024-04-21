@@ -1,3 +1,4 @@
+import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -21,14 +22,18 @@ class _ContactsViewState extends State<ContactsView> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showbottomsheet(
+              widget: FillButton(
+                  onPressed: () {}, child: const Text("Add contact")),
               key: formKey,
-              validator: (data) {},
+              validator: (data) {
+                if (data == null || data.isEmpty) {
+                  return 'Field is empty';
+                }
+              },
               context: context,
-              buttonName: "Add contact",
-              onpressed: () {},
               emailController: emailController);
         },
-        child: Icon(Icons.person_add_alt_1),
+        child: const Icon(Icons.person_add_alt_1),
       ),
       appBar: AppBar(
         title: searching
