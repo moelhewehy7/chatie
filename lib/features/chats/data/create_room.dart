@@ -38,7 +38,13 @@ class Room {
     }
   }
 }
-
+// if (myEmail == email) {
+//       if (!context.mounted) return;
+//       await showAlert(context,
+//           title: "Error",
+//           content: "Oops! you can't chat with yourself",
+//           buttonText: "Ok");
+//     }
 // if (userQuery.docs.isNotEmpty) {
 // 
 // } else {

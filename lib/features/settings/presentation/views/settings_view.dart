@@ -22,15 +22,15 @@ class SettingsView extends StatelessWidget {
           children: [
             ListTile(
               minVerticalPadding: 20,
-              title: Row(
+              title: const Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 40,
                   ),
                   Padding(
-                    padding: const EdgeInsets.only(left: 16),
-                    child: const Text("Name"),
+                    padding: EdgeInsets.only(left: 16),
+                    child: Text("Name"),
                   ),
                 ],
               ),
@@ -72,8 +72,8 @@ class SettingsView extends StatelessWidget {
                       );
                     });
               },
-              leading: Icon(IconlyBold.category),
-              title: Text("Themes"),
+              leading: const Icon(IconlyBold.category),
+              title: const Text("Themes"),
             )),
             const SizedBox(
               height: 4,
