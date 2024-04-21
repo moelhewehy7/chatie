@@ -1,9 +1,12 @@
-import 'package:chatie/features/chats/data/create_room.dart';
+import 'package:chatie/core/helper.dart';
+import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
+import 'package:chatie/features/chats/data/cubits/fecth_chats_cubit/create_chat_cubit/create_chat_cubit.dart';
 import 'package:chatie/features/chats/data/cubits/fecth_chats_cubit/fetch_chats_cubit.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_card.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class ChatView extends StatefulWidget {
   const ChatView({super.key});
@@ -28,6 +31,43 @@ class _ChatViewState extends State<ChatView>
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showbottomsheet(
+            widget: BlocProvider(
+              create: (context) => CreateChatCubit(),
+              child: BlocConsumer<CreateChatCubit, CreateChatState>(
+                listener: (context, state) {
+                  if (state is CreateChatSuccess) {
+                    Navigator.pop(context);
+                  } else if (state is CreateChatFailure) {
+                    showAlert(context,
+                        title: "Error",
+                        content: state.errMessage,
+                        buttonText: "Ok");
+                  }
+                },
+                builder: (context, state) {
+                  if (state is CreateChatLoading) {
+                    return FillButton(
+                      onPressed: () {},
+                      child: SpinKitFadingCircle(
+                        color: Theme.of(context).colorScheme.primaryContainer,
+                        size: 20.0,
+                      ),
+                    );
+                  } else {
+                    return FillButton(
+                      onPressed: () async {
+                        if (formKey.currentState!.validate()) {
+                          await BlocProvider.of<CreateChatCubit>(context)
+                              .showmodalBottomSheet(context, emailController);
+                          emailController.clear();
+                        }
+                      },
+                      child: const Text("Create Chat"),
+                    );
+                  }
+                },
+              ),
+            ),
             key: formKey,
             context: context,
             emailController: emailController,
@@ -40,15 +80,6 @@ class _ChatViewState extends State<ChatView>
               }
               return null;
             },
-            onpressed: () async {
-              if (formKey.currentState!.validate()) {
-                await Room()
-                    .create(email: emailController.text)
-                    .then((value) => Navigator.pop(context));
-                emailController.clear();
-              }
-            },
-            buttonName: "Create Chat",
           );
         },
         child: const Icon(
