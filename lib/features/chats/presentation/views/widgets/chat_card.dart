@@ -1,6 +1,6 @@
 import 'package:chatie/features/chats/data/models/chat_room_model.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_view_body.dart';
-import 'package:chatie/features/home/data/models/user_model.dart';
+import 'package:chatie/features/chats/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,10 +9,9 @@ import 'package:intl/intl.dart';
 class ChatCard extends StatelessWidget {
   const ChatCard({
     super.key,
-    required this.text,
     required this.chatRoom,
   });
-  final Text text;
+
   final ChatRoomModel chatRoom;
   @override
   Widget build(BuildContext context) {
@@ -26,7 +25,8 @@ class ChatCard extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            UserModel userModel = UserModel.fromjson(snapshot.data!.data());
+            UserModel userModel = UserModel.fromjson(
+                snapshot.data!.data()); //convert single document to model
             return Card(
               child: ListTile(
                 splashColor: Colors.transparent,
@@ -35,12 +35,12 @@ class ChatCard extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => ChatViewBody(
-                                userName: userModel.firstName!,
+                                userModel: userModel,
                                 roomId: chatRoom.id!,
                               )));
                 },
                 leading: const CircleAvatar(),
-                title: Text(userModel.firstName ?? 'Friend'),
+                title: Text(userModel.firstName!),
                 subtitle: Text(chatRoom.lastMessage != "lastMessage"
                     ? chatRoom.lastMessage!
                     : userModel.bio!),

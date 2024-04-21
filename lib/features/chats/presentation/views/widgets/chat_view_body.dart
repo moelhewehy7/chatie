@@ -1,18 +1,21 @@
 import 'package:chatie/features/chats/presentation/views/widgets/chat_buble.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/send_messeg.dart';
+import 'package:chatie/features/chats/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class ChatViewBody extends StatelessWidget {
-  const ChatViewBody({super.key, required this.roomId, required this.userName});
+  const ChatViewBody(
+      {super.key, required this.roomId, required this.userModel});
   final String roomId;
-  final String userName;
+  final UserModel userModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         elevation: 1,
         title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(userName, style: Theme.of(context).textTheme.titleMedium),
+          Text(userModel.firstName!,
+              style: Theme.of(context).textTheme.titleMedium),
           Text("last seen today at 11:18",
               style: Theme.of(context).textTheme.labelMedium)
         ]),
