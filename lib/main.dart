@@ -24,7 +24,7 @@ class Chatie extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
-        BlocProvider(create: (context) => FetchChatsCubit()),
+        BlocProvider(create: (context) => FetchChatsCubit()..fetchChats()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
