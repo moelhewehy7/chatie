@@ -11,17 +11,18 @@ class ChatView extends StatefulWidget {
   State<ChatView> createState() => _ChatViewState();
 }
 
-class _ChatViewState extends State<ChatView> {
+class _ChatViewState extends State<ChatView>
+    with AutomaticKeepAliveClientMixin {
   TextEditingController emailController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
   List rooms = [];
-  void initState() {
-    super.initState();
-    BlocProvider.of<FetchChatsCubit>(context).fetchChats();
-  }
+  @override
+  // TODO: implement wantKeepAlive
+  bool get wantKeepAlive => true;
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
