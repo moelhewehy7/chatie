@@ -1,6 +1,6 @@
 import 'package:chatie/core/helper.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
-import 'package:chatie/features/chats/data/cubits/fecth_chats_cubit/create_chat_cubit/create_chat_cubit.dart';
+import 'package:chatie/features/chats/data/cubits/create_chat_cubit/create_chat_cubit.dart';
 import 'package:chatie/features/chats/data/cubits/fecth_chats_cubit/fetch_chats_cubit.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_card.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
@@ -113,7 +113,6 @@ class _ChatViewState extends State<ChatView>
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: ChatCard(
                         chatRoom: rooms[index],
-                        text: const Text("Name"),
                       ),
                     );
                   },
