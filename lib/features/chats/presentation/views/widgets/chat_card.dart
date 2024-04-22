@@ -1,9 +1,11 @@
+import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatie/features/chats/data/models/chat_room_model.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_view_body.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class ChatCard extends StatelessWidget {
@@ -30,7 +32,10 @@ class ChatCard extends StatelessWidget {
             return Card(
               child: ListTile(
                 splashColor: Colors.transparent,
-                onTap: () {
+                onTap: () async {
+                  BlocProvider.of<ChatCubit>(context)
+                      .getMessage(roomId: chatRoom.id!);
+
                   Navigator.push(
                       context,
                       MaterialPageRoute(

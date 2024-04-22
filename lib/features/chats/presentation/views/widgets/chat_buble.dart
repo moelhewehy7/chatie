@@ -1,8 +1,10 @@
+import 'package:chatie/features/chats/data/models/message_model.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ChatBuble extends StatelessWidget {
-  const ChatBuble({super.key});
-
+  const ChatBuble({super.key, required this.messageModel});
+  final MessageModel messageModel;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -23,7 +25,7 @@ class ChatBuble extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Text(
-                  "wlasfasfsadjj asdasdasd dsad asda",
+                  messageModel.message!,
                   style: Theme.of(context)
                       .textTheme
                       .titleMedium!
@@ -32,7 +34,9 @@ class ChatBuble extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text("6:20 PM",
+                    Text(
+                        DateFormat('hh:mm a')
+                            .format(DateTime.parse(messageModel.createdAt!)),
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.surface)),
                     const SizedBox(
@@ -52,8 +56,8 @@ class ChatBuble extends StatelessWidget {
 }
 
 class ChatBubleFriend extends StatelessWidget {
-  const ChatBubleFriend({super.key});
-
+  const ChatBubleFriend({super.key, required this.messageModel});
+  final MessageModel messageModel;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -74,11 +78,12 @@ class ChatBubleFriend extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "jMasdasd asdsad",
+                  messageModel.message!,
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const Text(
-                  "6:20 PM",
+                Text(
+                  DateFormat('hh:mm a')
+                      .format(DateTime.parse(messageModel.createdAt!)),
                 )
               ],
             ),

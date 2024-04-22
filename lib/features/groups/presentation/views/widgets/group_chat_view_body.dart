@@ -49,7 +49,7 @@ class GroupChatViewBody extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return const Row(
                     mainAxisAlignment: MainAxisAlignment.end,
-                    children: [ChatBuble()],
+                    // children: [ChatBuble()],
                   );
                 },
               ),
