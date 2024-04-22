@@ -1,3 +1,4 @@
+import 'package:chatie/features/chats/data/models/message_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,10 @@ import 'package:uuid/uuid.dart';
 
 part 'chat_state.dart';
 
-final myEmail = FirebaseAuth.instance.currentUser!.email;
-
 class ChatCubit extends Cubit<ChatState> {
   ChatCubit() : super(ChatInitial());
+  final myEmail = FirebaseAuth.instance.currentUser!.email;
+  List<MessageModel> messages = [];
   Future sendMessage(
       {required String message,
       required String roomId,
@@ -18,7 +19,8 @@ class ChatCubit extends Cubit<ChatState> {
         .v1(); //t will generate a new, unique UUID based on the current time and the MAC address of the device.
     await FirebaseFirestore.instance
         .collection("rooms")
-        .doc(roomId)
+        .doc(
+            roomId) //so we can create messages in a specific room using the roomId
         .collection("messages")
         .doc(msgId)
         .set({
@@ -32,5 +34,25 @@ class ChatCubit extends Cubit<ChatState> {
     });
   }
 
-  void getMessage() {}
+  void getMessage({required String roomId}) {
+    FirebaseFirestore.instance
+        .collection('rooms')
+        .doc(roomId)
+        .collection('messages')
+        .orderBy('createdAt', descending: true)
+        .snapshots()
+        .listen((event) {
+      messages.clear();
+      if (event.docs.isNotEmpty) {
+        // Check if there are documents
+        for (var doc in event.docs) {
+          messages.add(MessageModel.fromjson(doc));
+        }
+        emit(ChatSuccess(messages: messages));
+      } else {
+        // Handle the case where there are no documents
+        emit(ChatNew()); // or emit an appropriate state
+      }
+    });
+  }
 }
