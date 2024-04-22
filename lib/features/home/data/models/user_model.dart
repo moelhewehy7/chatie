@@ -31,7 +31,7 @@ class UserModel {
         firstName: jsonData['Firstname'],
         lastName: jsonData['Lastname'],
         bio: jsonData['bio'],
-        email: jsonData['email'],
+        email: jsonData['Email'],
         lastSeen: jsonData['last_seen'],
         isOnline: jsonData['is_online'],
         createdAt: jsonData['created_at'],

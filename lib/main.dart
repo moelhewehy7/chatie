@@ -1,5 +1,6 @@
 import 'package:chatie/features/auth/data/cubits/cubit/auth_cubit.dart';
 import 'package:chatie/features/auth/presentation/views/login_view.dart';
+import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatie/features/chats/data/cubits/fecth_chats_cubit/fetch_chats_cubit.dart';
 import 'package:chatie/features/home/presentation/views/home_view.dart';
 import 'package:chatie/firebase_options.dart';
@@ -24,7 +25,12 @@ class Chatie extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
-        BlocProvider(create: (context) => FetchChatsCubit()..fetchChats()),
+        BlocProvider(
+          create: (context) => FetchChatsCubit()..fetchChats(),
+        ),
+        BlocProvider(
+          create: (context) => ChatCubit(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
