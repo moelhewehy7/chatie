@@ -12,6 +12,7 @@ class Room {
         .collection("users")
         .where("Email", isEqualTo: email)
         .get();
+
     if (userQuery.docs.isNotEmpty) {
       String userEmail = userQuery.docs.first.id;
       final List members = [myEmail, userEmail]..sort(

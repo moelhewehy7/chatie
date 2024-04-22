@@ -28,8 +28,6 @@ class _SendMessegeState extends State<SendMessege> {
               controller: messageCon,
               maxLines: 5,
               minLines: 1,
-              onTapOutside: (event) =>
-                  FocusManager.instance.primaryFocus!.unfocus(),
               decoration: InputDecoration(
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.all(16),
@@ -58,9 +56,9 @@ class _SendMessegeState extends State<SendMessege> {
                       message: messageCon.text,
                       roomId: widget.roomId,
                       userEmail: widget.userModel.email!);
-                }
 
-                messageCon.clear();
+                  messageCon.clear();
+                }
               },
               icon: const Icon(IconlyLight.send)),
         )

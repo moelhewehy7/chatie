@@ -2,6 +2,7 @@ import 'package:chatie/core/helper.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/chats/data/cubits/create_chat_cubit/create_chat_cubit.dart';
 import 'package:chatie/features/chats/data/cubits/fecth_chats_cubit/fetch_chats_cubit.dart';
+import 'package:chatie/features/chats/data/models/chat_room_model.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_card.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class _ChatViewState extends State<ChatView>
     with AutomaticKeepAliveClientMixin {
   TextEditingController emailController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
-  List rooms = [];
+  List<ChatRoomModel> rooms = [];
   // Implement AutomaticKeepAliveClientMixin in ChatViewState to maintain state
   // across tab switches.
   @override
