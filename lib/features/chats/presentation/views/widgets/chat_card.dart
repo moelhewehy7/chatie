@@ -1,6 +1,6 @@
 import 'package:chatie/features/chats/data/models/chat_room_model.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_view_body.dart';
-import 'package:chatie/features/chats/data/models/user_model.dart';
+import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -25,8 +25,8 @@ class ChatCard extends StatelessWidget {
             .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            UserModel userModel = UserModel.fromjson(
-                snapshot.data!.data()); //convert single document to model
+            UserModel userModel = UserModel.fromjson(snapshot.data!.data());
+            print(userModel.email); //convert single document to model
             return Card(
               child: ListTile(
                 splashColor: Colors.transparent,
