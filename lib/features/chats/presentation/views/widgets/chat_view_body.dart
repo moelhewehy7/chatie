@@ -1,6 +1,6 @@
 import 'package:chatie/features/chats/presentation/views/widgets/chat_buble.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/send_messeg.dart';
-import 'package:chatie/features/chats/data/models/user_model.dart';
+import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 
 class ChatViewBody extends StatelessWidget {
@@ -45,7 +45,7 @@ class ChatViewBody extends StatelessWidget {
                 },
               ),
             ),
-            const SendMessege()
+            SendMessege(roomId: roomId, userModel: userModel)
           ],
         ),
       ),
