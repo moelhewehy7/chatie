@@ -94,48 +94,8 @@ class SettingsView extends StatelessWidget {
                 child: ListTile(
               title: const Text("Signout"),
               trailing: IconButton(
-                  onPressed: () {
-                    showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10)),
-                            title: const Text(
-                              "Are you sure you want to sign out",
-                            ),
-                            actions: [
-                              FilledTonalButton(
-                                height: 30,
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                text: "Cancel",
-                              ),
-                              FillButton(
-                                height: 30,
-                                onPressed: () async {
-                                  await FirebaseAuth.instance
-                                      .signOut()
-                                      .then((value) {
-                                    Navigator.of(context).pushAndRemoveUntil(
-                                        MaterialPageRoute(
-                                            builder: (context) => LoginView()),
-                                        (route) => false);
-                                    showtoast(
-                                        time: 1,
-                                        msg:
-                                            'You have successfully signed out.',
-                                        context: context);
-                                  });
-                                },
-                                child: const Text(
-                                  "Sign out",
-                                ),
-                              )
-                            ],
-                          );
-                        });
+                  onPressed: () async {
+                    await signOutDialog(context);
                   },
                   icon: const Icon(IconlyLight.logout)),
             ))

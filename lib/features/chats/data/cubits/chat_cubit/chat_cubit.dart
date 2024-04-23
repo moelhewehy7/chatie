@@ -30,11 +30,12 @@ class ChatCubit extends Cubit<ChatState> {
       "read": "",
       "type": "text",
       "message": message,
-      "createdAt": DateTime.now().toString()
+      "createdAt": DateTime.now().millisecondsSinceEpoch.toString()
     });
   }
 
   void getMessage({required String roomId}) {
+    // Emit a loading state
     FirebaseFirestore.instance
         .collection('rooms')
         .doc(roomId)
@@ -48,10 +49,8 @@ class ChatCubit extends Cubit<ChatState> {
         for (var doc in event.docs) {
           messages.add(MessageModel.fromjson(doc));
         }
-        emit(ChatSuccess(messages: messages));
-      } else {
-        // Handle the case where there are no documents
-        emit(ChatNew()); // or emit an appropriate state
+
+        emit(ChatSuccess()); // Emit success state after fetching messages
       }
     });
   }

@@ -4,6 +4,7 @@ import 'package:chatie/features/auth/presentation/views/sign_up_view.dart';
 import 'package:chatie/core/app_logo.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/forgot_password.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
+import 'package:chatie/features/chats/data/cubits/fecth_chats_cubit/fetch_chats_cubit.dart';
 import 'package:chatie/features/home/presentation/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,6 +31,8 @@ class _LoginViewState extends State<LoginView> {
         child: BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is LogInSuccess) {
+              BlocProvider.of<FetchChatsCubit>(context)
+                  .fetchChats(email: emailController.text);
               Navigator.pushReplacement(context,
                   MaterialPageRoute(builder: (context) {
                 return const HomeView();

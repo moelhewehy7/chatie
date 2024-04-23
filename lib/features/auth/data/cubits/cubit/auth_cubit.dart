@@ -23,7 +23,7 @@ class AuthCubit extends Cubit<AuthState> {
         "Firstname": firstName,
         "Lastname": lastname,
         "Email": email,
-        "JoinedOn": DateTime.now()
+        "JoinedOn": DateTime.now().millisecondsSinceEpoch.toString()
       });
       emit(SignUpSuccess());
     } on FirebaseAuthException catch (e) {
