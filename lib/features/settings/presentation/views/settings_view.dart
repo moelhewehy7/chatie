@@ -1,6 +1,9 @@
 import 'package:chatie/core/helper.dart';
+import 'package:chatie/features/auth/presentation/views/login_view.dart';
+import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/settings/presentation/views/widgets/profile_view.dart';
 import 'package:chatie/features/settings/presentation/views/widgets/qr_code._view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
@@ -92,7 +95,47 @@ class SettingsView extends StatelessWidget {
               title: const Text("Signout"),
               trailing: IconButton(
                   onPressed: () {
-                    signoutdialog(context);
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10)),
+                            title: const Text(
+                              "Are you sure you want to sign out",
+                            ),
+                            actions: [
+                              FilledTonalButton(
+                                height: 30,
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                text: "Cancel",
+                              ),
+                              FillButton(
+                                height: 30,
+                                onPressed: () async {
+                                  await FirebaseAuth.instance
+                                      .signOut()
+                                      .then((value) {
+                                    Navigator.of(context).pushAndRemoveUntil(
+                                        MaterialPageRoute(
+                                            builder: (context) => LoginView()),
+                                        (route) => false);
+                                    showtoast(
+                                        time: 1,
+                                        msg:
+                                            'You have successfully signed out.',
+                                        context: context);
+                                  });
+                                },
+                                child: const Text(
+                                  "Sign out",
+                                ),
+                              )
+                            ],
+                          );
+                        });
                   },
                   icon: const Icon(IconlyLight.logout)),
             ))
