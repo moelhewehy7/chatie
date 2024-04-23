@@ -43,9 +43,13 @@ class Chatie extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         ),
         home: StreamBuilder(
-          stream: FirebaseAuth.instance.authStateChanges(),
+          stream: FirebaseAuth.instance.userChanges(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
-            return snapshot.hasData ? const HomeView() : const LoginView();
+            if (snapshot.hasData) {
+              return const HomeView();
+            } else {
+              return const LoginView();
+            }
           },
         ),
       ),
