@@ -18,6 +18,7 @@ class ChatViewBody extends StatefulWidget {
 }
 
 class _ChatViewBodyState extends State<ChatViewBody> {
+  List<MessageModel> messages = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,9 +47,10 @@ class _ChatViewBodyState extends State<ChatViewBody> {
             Expanded(
               child: BlocBuilder<ChatCubit, ChatState>(
                 builder: (context, state) {
-                  List<MessageModel> messages =
-                      BlocProvider.of<ChatCubit>(context).messages;
+                  print(
+                      "messages[index].fromId  FirebaseAuth.instance.currentUser!.email = ${FirebaseAuth.instance.currentUser!.email}");
                   if (state is ChatSuccess) {
+                    messages = BlocProvider.of<ChatCubit>(context).messages;
                     return ListView.builder(
                       reverse: true,
                       itemCount: messages.length,
@@ -73,8 +75,37 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                               );
                       },
                     );
+                  } else if (state is ChatEmpty) {
+                    return Center(
+                        child: GestureDetector(
+                      onTap: () {
+                        BlocProvider.of<ChatCubit>(context).sendMessage(
+                            message: "asalam alaykum 👋",
+                            roomId: widget.roomId,
+                            userEmail: widget.userModel.email!);
+                      },
+                      child: Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "👋",
+                                style: Theme.of(context).textTheme.displayLarge,
+                              ),
+                              SizedBox(
+                                height: 12,
+                              ),
+                              Text("Say asalam alaykum",
+                                  style: Theme.of(context).textTheme.bodyLarge),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ));
                   } else {
-                    return Center(child: Card(child: Text("Say hi")));
+                    return const Center(child: CircularProgressIndicator());
                   }
                 },
               ),

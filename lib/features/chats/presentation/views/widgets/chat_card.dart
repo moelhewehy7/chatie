@@ -19,7 +19,11 @@ class ChatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     String userEmail = chatRoom.members!
         .where((element) => element != FirebaseAuth.instance.currentUser!.email)
-        .first; // to get useremail from memebers list
+        .first;
+    print(
+        "FirebaseAuth.instance.currentUser!.email   = ${FirebaseAuth.instance.currentUser!.email}");
+    print(
+        "userEmail chatRoom.members! = $userEmail"); // to get useremail from memebers list
     return StreamBuilder(
         stream: FirebaseFirestore.instance
             .collection("users")
@@ -28,13 +32,14 @@ class ChatCard extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             UserModel userModel = UserModel.fromjson(snapshot.data!.data());
-            print(userModel.email); //convert single document to model
+            //convert single document to model
             return Card(
               child: ListTile(
                 splashColor: Colors.transparent,
                 onTap: () async {
-                  BlocProvider.of<ChatCubit>(context)
-                      .getMessage(roomId: chatRoom.id!);
+                  context.read<ChatCubit>().getMessage(roomId: chatRoom.id!);
+                  // BlocProvider.of<ChatCubit>(context)
+                  //     .getMessage(roomId: chatRoom.id!);
 
                   Navigator.push(
                       context,
