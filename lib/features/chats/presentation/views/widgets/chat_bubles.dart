@@ -17,26 +17,30 @@ class ChatBuble extends StatelessWidget {
         ),
         color: Theme.of(context).colorScheme.primary,
         child: Padding(
-          padding: const EdgeInsets.only(top: 8, bottom: 8, left: 10, right: 3),
+          padding: const EdgeInsets.only(top: 8, bottom: 8, left: 10, right: 5),
           child: Container(
             constraints:
                 BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width / 2),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  messageModel.message!,
-                  style: Theme.of(context)
-                      .textTheme
-                      .titleMedium!
-                      .copyWith(color: Theme.of(context).colorScheme.surface),
+                Padding(
+                  padding: const EdgeInsets.only(right: 5),
+                  child: Text(
+                    messageModel.message!,
+                    style: Theme.of(context)
+                        .textTheme
+                        .titleMedium!
+                        .copyWith(color: Theme.of(context).colorScheme.surface),
+                  ),
                 ),
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                        DateFormat('hh:mm a')
-                            .format(DateTime.parse(messageModel.createdAt!)),
+                        DateFormat('hh:mm a').format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                                int.parse(messageModel.createdAt!))),
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.surface)),
                     const SizedBox(
@@ -82,8 +86,9 @@ class ChatBubleFriend extends StatelessWidget {
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
                 Text(
-                  DateFormat('hh:mm a')
-                      .format(DateTime.parse(messageModel.createdAt!)),
+                  DateFormat('hh:mm a').format(
+                      DateTime.fromMillisecondsSinceEpoch(
+                          int.parse(messageModel.createdAt!))),
                 )
               ],
             ),
