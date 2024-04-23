@@ -1,3 +1,4 @@
+import 'package:chatie/features/auth/presentation/views/login_view.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -44,8 +45,8 @@ showAlert(
   );
 }
 
-void signoutdialog(context) {
-  showDialog(
+Future<dynamic> signOutDialog(BuildContext context) {
+  return showDialog(
       context: context,
       builder: (context) {
         return AlertDialog(
@@ -65,14 +66,15 @@ void signoutdialog(context) {
             FillButton(
               height: 30,
               onPressed: () async {
-                await FirebaseAuth.instance.signOut();
-                if (context.mounted) {
-                  Navigator.pop(context);
+                await FirebaseAuth.instance.signOut().then((value) {
+                  Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(builder: (context) => LoginView()),
+                      (route) => false);
                   showtoast(
                       time: 1,
                       msg: 'You have successfully signed out.',
                       context: context);
-                }
+                });
               },
               child: const Text(
                 "Sign out",
