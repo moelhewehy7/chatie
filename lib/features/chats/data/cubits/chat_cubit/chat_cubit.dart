@@ -9,12 +9,14 @@ part 'chat_state.dart';
 
 class ChatCubit extends Cubit<ChatState> {
   ChatCubit() : super(ChatInitial());
-  final myEmail = FirebaseAuth.instance.currentUser!.email;
+
   List<MessageModel> messages = [];
   Future sendMessage(
       {required String message,
       required String roomId,
       required String userEmail}) async {
+    final myEmail = FirebaseAuth.instance.currentUser!.email;
+    debugPrint("myEmail and useremail = $myEmail and $userEmail");
     String msgId = const Uuid()
         .v1(); //t will generate a new, unique UUID based on the current time and the MAC address of the device.
     await FirebaseFirestore.instance
@@ -35,23 +37,26 @@ class ChatCubit extends Cubit<ChatState> {
   }
 
   void getMessage({required String roomId}) {
-    // Emit a loading state
-    FirebaseFirestore.instance
-        .collection('rooms')
-        .doc(roomId)
-        .collection('messages')
-        .orderBy('createdAt', descending: true)
-        .snapshots()
-        .listen((event) {
-      messages.clear();
-      if (event.docs.isNotEmpty) {
-        // Check if there are documents
-        for (var doc in event.docs) {
-          messages.add(MessageModel.fromjson(doc));
+    try {
+      FirebaseFirestore.instance
+          .collection('rooms')
+          .doc(roomId)
+          .collection('messages')
+          .orderBy('createdAt', descending: true)
+          .snapshots()
+          .listen((event) {
+        messages.clear();
+        if (event.docs.isNotEmpty) {
+          for (var doc in event.docs) {
+            messages.add(MessageModel.fromjson(doc));
+          }
+          emit(ChatSuccess());
+        } else {
+          emit(ChatEmpty());
         }
-
-        emit(ChatSuccess()); // Emit success state after fetching messages
-      }
-    });
+      });
+    } catch (e) {
+      emit(ChatFailure());
+    }
   }
 }
