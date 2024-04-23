@@ -56,7 +56,7 @@ class _SendMessegeState extends State<SendMessege> {
                       message: messageCon.text,
                       roomId: widget.roomId,
                       userEmail: widget.userModel.email!);
-
+                  print("widget.userModel.email! ${widget.userModel.email!}");
                   messageCon.clear();
                 }
               },
