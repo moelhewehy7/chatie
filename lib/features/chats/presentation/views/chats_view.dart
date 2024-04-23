@@ -97,7 +97,7 @@ class _ChatViewState extends State<ChatView>
           BlocConsumer<FetchChatsCubit, FetchChatsState>(
             listener: (context, state) {
               if (state is FetchChatsSuccess) {
-                rooms = state.rooms
+                rooms = BlocProvider.of<FetchChatsCubit>(context).rooms
                   ..sort(
                     (a, b) =>
                         b.lasteMessageTime!.compareTo(a.lasteMessageTime!),

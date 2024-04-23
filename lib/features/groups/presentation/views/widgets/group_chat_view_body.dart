@@ -1,4 +1,4 @@
-import 'package:chatie/features/chats/presentation/views/widgets/chat_buble.dart';
+import 'package:chatie/features/chats/presentation/views/widgets/chat_bubles.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_members_view.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';

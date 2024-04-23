@@ -26,10 +26,10 @@ class Room {
       if (roomQuery.docs.isEmpty) {
         await firestore.collection("rooms").doc(members.toString()).set({
           "lastMessage": "lastMessage",
-          "lasteMessageTime": DateTime.now().toString(),
+          "lasteMessageTime": DateTime.now().millisecondsSinceEpoch.toString(),
           "members": members,
           "id": members.toString(),
-          "createdAt": DateTime.now().toString()
+          "createdAt": DateTime.now().millisecondsSinceEpoch.toString()
         });
       }
     } else {

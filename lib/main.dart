@@ -26,7 +26,7 @@ class Chatie extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(
-          create: (context) => FetchChatsCubit()..fetchChats(),
+          create: (context) => FetchChatsCubit(),
         ),
         BlocProvider(
           create: (context) => ChatCubit(),
@@ -43,7 +43,7 @@ class Chatie extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
         ),
         home: StreamBuilder(
-          stream: FirebaseAuth.instance.userChanges(),
+          stream: FirebaseAuth.instance.authStateChanges(),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             return snapshot.hasData ? const HomeView() : const LoginView();
           },
