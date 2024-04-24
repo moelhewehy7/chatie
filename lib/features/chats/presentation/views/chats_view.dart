@@ -98,10 +98,13 @@ class _ChatViewState extends State<ChatView>
             listener: (context, state) {
               if (state is FetchChatsSuccess) {
                 rooms = state.rooms
-                  ..sort(
-                    (a, b) =>
-                        b.lasteMessageTime!.compareTo(a.lasteMessageTime!),
-                  ); //to sort rooms in time order
+                  ..sort((a, b) {
+                    if (b.lasteMessageTime!.isEmpty) {
+                      return b.createdAt!.compareTo(a.createdAt!);
+                    } else {
+                      return b.lasteMessageTime!.compareTo(a.lasteMessageTime!);
+                    }
+                  }); //to sort rooms in time order
               }
             },
             builder: (context, state) {
