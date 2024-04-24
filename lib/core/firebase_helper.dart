@@ -1,8 +1,18 @@
 import 'dart:io';
 import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+Future readMessage({required String roomId, required String msgId}) async {
+  await FirebaseFirestore.instance
+      .collection("rooms")
+      .doc(roomId)
+      .collection("messages")
+      .doc(msgId)
+      .update({"read": DateTime.now().millisecondsSinceEpoch.toString()});
+}
 
 class FireStorage {
   final FirebaseStorage fireStorage = FirebaseStorage.instance;
