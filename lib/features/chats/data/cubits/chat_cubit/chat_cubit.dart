@@ -35,6 +35,10 @@ class ChatCubit extends Cubit<ChatState> {
       "message": message,
       "createdAt": DateTime.now().millisecondsSinceEpoch.toString()
     });
+    await FirebaseFirestore.instance.collection("rooms").doc(roomId).update({
+      "lastMessage": type ?? message,
+      "lasteMessageTime": DateTime.now().millisecondsSinceEpoch.toString()
+    }); //so we can create m
   }
 
   void getMessage({required String roomId}) {

@@ -26,7 +26,7 @@ class Room {
       if (roomQuery.docs.isEmpty) {
         await firestore.collection("rooms").doc(members.toString()).set({
           "lastMessage": "lastMessage",
-          "lasteMessageTime": DateTime.now().millisecondsSinceEpoch.toString(),
+          "lasteMessageTime": "",
           "members": members,
           "id": members.toString(),
           "createdAt": DateTime.now().millisecondsSinceEpoch.toString()

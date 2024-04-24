@@ -1,12 +1,19 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/chats/data/models/message_model.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ChatBuble extends StatelessWidget {
-  const ChatBuble({super.key, required this.messageModel});
+  const ChatBuble({
+    super.key,
+    required this.messageModel,
+  });
   final MessageModel messageModel;
+
+  @override
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.sizeOf(context).height;
@@ -21,14 +28,17 @@ class ChatBuble extends StatelessWidget {
         ),
         color: Theme.of(context).colorScheme.primary,
         child: Padding(
-          padding: const EdgeInsets.only(top: 8, bottom: 8, left: 10, right: 5),
+          padding:
+              const EdgeInsets.only(top: 10, bottom: 8, left: 10, right: 5),
           child: Container(
             constraints: BoxConstraints(maxWidth: width / 2),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(right: 5, top: 5),
+                  padding: const EdgeInsets.only(
+                    right: 6,
+                  ),
                   child: messageModel.type == "image"
                       ? Container(
                           height: height * 0.35,
@@ -82,7 +92,7 @@ class ChatBuble extends StatelessWidget {
                       width: 3,
                     ),
                     Icon(
-                      Icons.done_all_outlined,
+                      messageModel.read == "" ? Icons.done : Icons.done_all,
                       color: Theme.of(context).colorScheme.onPrimary,
                     )
                   ],
@@ -94,11 +104,34 @@ class ChatBuble extends StatelessWidget {
   }
 }
 
-class ChatBubleFriend extends StatelessWidget {
-  const ChatBubleFriend({super.key, required this.messageModel});
+class ChatBubleFriend extends StatefulWidget {
+  const ChatBubleFriend({
+    super.key,
+    required this.messageModel,
+    required this.roomId,
+  });
   final MessageModel messageModel;
+  final String roomId;
+
+  @override
+  State<ChatBubleFriend> createState() => _ChatBubleFriendState();
+}
+
+class _ChatBubleFriendState extends State<ChatBubleFriend> {
+  @override
+  void initState() {
+    if (widget.messageModel.toId == FirebaseAuth.instance.currentUser!.email) {
+      readMessage(msgId: widget.messageModel.id!, roomId: widget.roomId);
+    }
+    super.initState();
+  }
+  // the initState method in the ChatBubleFriend widget is used to p
+  //marke the message as read when the widget is first displayed,
+
   @override
   Widget build(BuildContext context) {
+    double height = MediaQuery.sizeOf(context).height;
+    double width = MediaQuery.sizeOf(context).width;
     return Card(
         elevation: 1,
         shape: const RoundedRectangleBorder(
@@ -116,14 +149,43 @@ class ChatBubleFriend extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  messageModel.message!,
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
+                widget.messageModel.type == "image"
+                    ? Container(
+                        height: height * 0.35,
+                        width: width * 0.5,
+                        padding: EdgeInsets.only(bottom: 3, top: 5),
+                        child: SizedBox(
+                          height: height * 0.35,
+                          width: width * 0.5,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: CachedNetworkImage(
+                              imageUrl: widget.messageModel.message!,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: const Color(0xFFE0E0E0),
+                                highlightColor: const Color(0xFFF5F5F5),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 200.0, // Adjust the height as needed
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => SizedBox(
+                                  height: height * 0.25,
+                                  width: width * 0.2,
+                                  child: Center(child: Icon(Icons.error))),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Text(
+                        widget.messageModel.message!,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
                 Text(
                   DateFormat('hh:mm a').format(
                       DateTime.fromMillisecondsSinceEpoch(
-                          int.parse(messageModel.createdAt!))),
+                          int.parse(widget.messageModel.createdAt!))),
                 )
               ],
             ),
