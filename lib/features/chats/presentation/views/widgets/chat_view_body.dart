@@ -47,7 +47,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
             Expanded(
               child: BlocBuilder<ChatCubit, ChatState>(
                 builder: (context, state) {
-                  print(
+                  debugPrint(
                       "messages[index].fromId  FirebaseAuth.instance.currentUser!.email = ${FirebaseAuth.instance.currentUser!.email}");
                   if (state is ChatSuccess) {
                     messages = BlocProvider.of<ChatCubit>(context).messages;
