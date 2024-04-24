@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +49,11 @@ class _SendMessegeState extends State<SendMessege> {
                             XFile? image = await imagePicker.pickImage(
                                 source: ImageSource.gallery);
                             if (image != null) {
-                              print("image.path ${image.path}");
+                              if (!context.mounted) return;
+                              FireStorage().sendImage(context,
+                                  userEmail: widget.userModel.email!,
+                                  file: File(image.path),
+                                  roomId: widget.roomId);
                             }
                           },
                           icon: const Icon(Icons.collections))
@@ -65,7 +72,8 @@ class _SendMessegeState extends State<SendMessege> {
                       message: messageCon.text,
                       roomId: widget.roomId,
                       userEmail: widget.userModel.email!);
-                  print("widget.userModel.email! ${widget.userModel.email!}");
+                  debugPrint(
+                      "widget.userModel.email! ${widget.userModel.email!}");
                   messageCon.clear();
                 }
               },
