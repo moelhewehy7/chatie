@@ -3,6 +3,7 @@ import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SendMessege extends StatefulWidget {
   const SendMessege({
@@ -40,7 +41,15 @@ class _SendMessegeState extends State<SendMessege> {
                           onPressed: () {},
                           icon: const Icon(Icons.emoji_emotions)),
                       IconButton(
-                          onPressed: () {}, icon: const Icon(IconlyBold.camera))
+                          onPressed: () async {
+                            ImagePicker imagePicker = ImagePicker();
+                            XFile? image = await imagePicker.pickImage(
+                                source: ImageSource.gallery);
+                            if (image != null) {
+                              print("image.path ${image.path}");
+                            }
+                          },
+                          icon: const Icon(Icons.collections))
                     ],
                   )),
             ),
