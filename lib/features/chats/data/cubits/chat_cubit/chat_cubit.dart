@@ -13,6 +13,7 @@ class ChatCubit extends Cubit<ChatState> {
   List<MessageModel> messages = [];
   Future sendMessage(
       {required String message,
+      String? type,
       required String roomId,
       required String userEmail}) async {
     final myEmail = FirebaseAuth.instance.currentUser!.email;
@@ -30,7 +31,7 @@ class ChatCubit extends Cubit<ChatState> {
       "fromId": myEmail,
       "toId": userEmail,
       "read": "",
-      "type": "text",
+      "type": type ?? "text",
       "message": message,
       "createdAt": DateTime.now().millisecondsSinceEpoch.toString()
     });
