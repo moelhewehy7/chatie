@@ -8,8 +8,8 @@ final class FetchChatsInitial extends FetchChatsState {}
 final class FetchChatsLoading extends FetchChatsState {}
 
 final class FetchChatsSuccess extends FetchChatsState {
-  // final List<ChatRoomModel> rooms;
-  // FetchChatsSuccess({required this.rooms});
+  final List<ChatRoomModel> rooms;
+  FetchChatsSuccess({required this.rooms});
 }
 
 final class FetchChatsFailure extends FetchChatsState {

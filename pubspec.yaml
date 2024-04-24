@@ -32,6 +32,7 @@ dependencies:
   cupertino_icons: ^1.0.6
   firebase_auth: ^4.19.0
   firebase_core: ^2.28.0
+  firebase_storage: ^11.7.3
   flex_color_picker: ^3.4.1
   flutter:
     sdk: flutter
