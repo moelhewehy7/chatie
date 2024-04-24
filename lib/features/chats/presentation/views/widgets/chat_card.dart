@@ -57,9 +57,12 @@ class ChatCard extends StatelessWidget {
                 trailing: Column(
                   children: [
                     Text(DateFormat('h:mm a').format(
-                        DateTime.fromMillisecondsSinceEpoch(
-                            int.parse(chatRoom.createdAt!)))),
+                        DateTime.fromMillisecondsSinceEpoch(int.parse(
+                            chatRoom.lasteMessageTime != ""
+                                ? chatRoom.lasteMessageTime!
+                                : chatRoom.createdAt!)))),
                     Padding(
+                      //lasteMessageTime
                       padding: const EdgeInsets.symmetric(vertical: 10),
                       child: Badge(
                         backgroundColor:
