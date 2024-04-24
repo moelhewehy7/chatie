@@ -70,6 +70,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                 children: [
                                   ChatBubleFriend(
                                     messageModel: messages[index],
+                                    roomId: widget.roomId,
                                   )
                                 ],
                               );
