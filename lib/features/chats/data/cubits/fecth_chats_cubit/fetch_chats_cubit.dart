@@ -17,11 +17,15 @@ class FetchChatsCubit extends Cubit<FetchChatsState> {
         .snapshots()
         .listen((event) {
       List<ChatRoomModel> rooms = [];
-      for (var doc in event.docs) {
-        //we are converting the list of query snapshot to a list of chatroommodel
-        rooms.add(ChatRoomModel.fromJson(doc.data()));
+      if (event.docs.isNotEmpty) {
+        for (var doc in event.docs) {
+          //we are converting the list of query snapshot to a list of chatroommodel
+          rooms.add(ChatRoomModel.fromJson(doc.data()));
+        }
+        emit(FetchChatsSuccess(rooms: rooms));
+      } else {
+        emit(FetchChatsEmpty());
       }
-      emit(FetchChatsSuccess(rooms: rooms));
     });
   }
 }

@@ -118,9 +118,11 @@ class _ChatViewState extends State<ChatView>
                     );
                   },
                 ));
-              } else if (state is FetchChatsInitial) {
+              } else if (state is FetchChatsEmpty) {
                 return const SliverFillRemaining(
-                    child: Center(child: Text("No Chats")));
+                    child: Center(
+                        child:
+                            Text("Start creating chats to chat with people!")));
               } else {
                 return const SliverFillRemaining(
                     child: Center(child: CircularProgressIndicator()));

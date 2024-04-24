@@ -37,6 +37,7 @@ class ChatCubit extends Cubit<ChatState> {
   }
 
   void getMessage({required String roomId}) {
+    // messages.clear(); // Clear the messages list before fetching messages for the new chat
     try {
       FirebaseFirestore.instance
           .collection('rooms')
@@ -45,7 +46,8 @@ class ChatCubit extends Cubit<ChatState> {
           .orderBy('createdAt', descending: true)
           .snapshots()
           .listen((event) {
-        messages.clear();
+        messages
+            .clear(); // to make sure to send just a new message not the whole list
         if (event.docs.isNotEmpty) {
           for (var doc in event.docs) {
             messages.add(MessageModel.fromjson(doc));
