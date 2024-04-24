@@ -20,9 +20,9 @@ class ChatCard extends StatelessWidget {
     String userEmail = chatRoom.members!
         .where((element) => element != FirebaseAuth.instance.currentUser!.email)
         .first;
-    print(
+    debugPrint(
         "FirebaseAuth.instance.currentUser!.email   = ${FirebaseAuth.instance.currentUser!.email}");
-    print(
+    debugPrint(
         "userEmail chatRoom.members! = $userEmail"); // to get useremail from memebers list
     return StreamBuilder(
         stream: FirebaseFirestore.instance
