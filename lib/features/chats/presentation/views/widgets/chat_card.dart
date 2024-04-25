@@ -1,5 +1,6 @@
 import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatie/features/chats/data/models/chat_room_model.dart';
+import 'package:chatie/features/chats/data/models/message_model.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_view_body.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -51,9 +52,12 @@ class ChatCard extends StatelessWidget {
                 },
                 leading: const CircleAvatar(),
                 title: Text(userModel.firstName!),
-                subtitle: Text(chatRoom.lastMessage != "lastMessage"
-                    ? chatRoom.lastMessage!
-                    : userModel.bio!),
+                subtitle: Text(
+                  chatRoom.lastMessage != "lastMessage"
+                      ? chatRoom.lastMessage!
+                      : userModel.bio!,
+                  overflow: TextOverflow.ellipsis,
+                ),
                 trailing: Column(
                   children: [
                     Text(DateFormat('h:mm a').format(
@@ -61,15 +65,43 @@ class ChatCard extends StatelessWidget {
                             chatRoom.lasteMessageTime != ""
                                 ? chatRoom.lasteMessageTime!
                                 : chatRoom.createdAt!)))),
-                    Padding(
-                      //lasteMessageTime
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      child: Badge(
-                        backgroundColor:
-                            Theme.of(context).colorScheme.primaryContainer,
-                        smallSize: 15,
-                      ),
-                    )
+                    const SizedBox(
+                      height: 3,
+                    ),
+                    StreamBuilder(
+                        stream: FirebaseFirestore.instance
+                            .collection("rooms")
+                            .doc(chatRoom.id)
+                            .collection("messages")
+                            .snapshots(),
+                        builder: (context, snapshot) {
+                          final List<MessageModel> unReadList = snapshot
+                                  .data?.docs
+                                  .map((e) => MessageModel.fromjson(e.data()))
+                                  .where((element) => element.read == "")
+                                  .where((element) =>
+                                      element.fromId !=
+                                      FirebaseAuth.instance.currentUser!.email)
+                                  .toList() ??
+                              []; //to get unRead messages for the other user
+                          return unReadList.isNotEmpty
+                              ? Badge(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10),
+                                  largeSize: 25,
+                                  backgroundColor: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
+                                  label: Text(
+                                    unReadList.length.toString(),
+                                    style: TextStyle(
+                                        color: Theme.of(context)
+                                            .colorScheme
+                                            .onSurfaceVariant),
+                                  ),
+                                )
+                              : const SizedBox();
+                        })
                   ],
                 ),
               ),
@@ -79,4 +111,5 @@ class ChatCard extends StatelessWidget {
           }
         });
   }
-}
+} // to get unRead messages
+                          
