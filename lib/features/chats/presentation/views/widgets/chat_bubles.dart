@@ -19,6 +19,7 @@ class ChatBuble extends StatelessWidget {
     double height = MediaQuery.sizeOf(context).height;
     double width = MediaQuery.sizeOf(context).width;
     return Card(
+        margin: EdgeInsets.zero,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(20),
@@ -28,8 +29,7 @@ class ChatBuble extends StatelessWidget {
         ),
         color: Theme.of(context).colorScheme.primary,
         child: Padding(
-          padding:
-              const EdgeInsets.only(top: 10, bottom: 8, left: 10, right: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
           child: Container(
             constraints: BoxConstraints(maxWidth: width / 2),
             child: Column(
@@ -133,6 +133,7 @@ class _ChatBubleFriendState extends State<ChatBubleFriend> {
     double height = MediaQuery.sizeOf(context).height;
     double width = MediaQuery.sizeOf(context).width;
     return Card(
+        margin: EdgeInsets.zero,
         elevation: 1,
         shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
@@ -142,7 +143,7 @@ class _ChatBubleFriendState extends State<ChatBubleFriend> {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Container(
             constraints:
                 BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width / 2),
