@@ -19,6 +19,8 @@ class ChatViewBody extends StatefulWidget {
 
 class _ChatViewBodyState extends State<ChatViewBody> {
   List<MessageModel> messages = [];
+
+  List selectedMessage = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,80 +42,167 @@ class _ChatViewBodyState extends State<ChatViewBody> {
               )),
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            Expanded(
-              child: BlocBuilder<ChatCubit, ChatState>(
-                builder: (context, state) {
-                  debugPrint(
-                      "messages[index].fromId  FirebaseAuth.instance.currentUser!.email = ${FirebaseAuth.instance.currentUser!.email}");
-                  if (state is ChatSuccess) {
-                    messages = BlocProvider.of<ChatCubit>(context).messages;
-                    return ListView.builder(
-                      reverse: true,
-                      itemCount: messages.length,
-                      itemBuilder: (context, index) {
-                        return messages[index].fromId ==
-                                FirebaseAuth.instance.currentUser!.email
-                            ? Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  ChatBuble(
-                                    messageModel: messages[index],
-                                  )
-                                ],
-                              )
-                            : Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  ChatBubleFriend(
-                                    messageModel: messages[index],
-                                    roomId: widget.roomId,
-                                  )
-                                ],
-                              );
-                      },
-                    );
-                  } else if (state is ChatEmpty) {
-                    return Center(
-                        child: GestureDetector(
-                      onTap: () {
-                        BlocProvider.of<ChatCubit>(context).sendMessage(
-                            message: "asalam alaykum 👋",
-                            roomId: widget.roomId,
-                            userEmail: widget.userModel.email!);
-                      },
-                      child: Card(
-                        child: Padding(
-                          padding: EdgeInsets.all(20),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "👋",
-                                style: Theme.of(context).textTheme.displayLarge,
+      body: Column(
+        children: [
+          Expanded(
+            child: BlocBuilder<ChatCubit, ChatState>(
+              builder: (context, state) {
+                if (state is ChatSuccess) {
+                  messages = BlocProvider.of<ChatCubit>(context).messages;
+                  return ListView.builder(
+                    padding: EdgeInsets.zero,
+                    reverse: true,
+                    itemCount: messages.length,
+                    itemBuilder: (context, index) {
+                      return messages[index].fromId ==
+                              FirebaseAuth.instance.currentUser!.email
+                          ? GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (selectedMessage.isNotEmpty &&
+                                      messages[index].type ==
+                                          "text") // Check if there is any message selected to be unselected or selected
+                                  {
+                                    selectedMessage.contains(messages[index]
+                                            .id) // Check if the selected message is already selected or not
+                                        ? selectedMessage.remove(messages[index]
+                                            .id) // if selected remove it
+                                        : selectedMessage.add(messages[index]
+                                            .id); //if not add it}
+                                  }
+                                });
+                              },
+                              onLongPress: () {
+                                setState(() {
+                                  if (messages[index].type == "text") {
+                                    selectedMessage.contains(messages[index]
+                                            .id) // Check if the selected message is already selected or not
+                                        ? selectedMessage.remove(messages[index]
+                                            .id) // if selected remove it
+                                        : selectedMessage.add(messages[index]
+                                            .id); //if not add it}
+                                  }
+                                });
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 3),
+                                padding: EdgeInsets.zero,
+                                decoration: BoxDecoration(
+                                  color: selectedMessage
+                                          .contains(messages[index].id)
+                                      ? Theme.of(context)
+                                          .colorScheme
+                                          .primaryContainer
+                                      : Colors.transparent,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    ChatBuble(
+                                      messageModel: messages[index],
+                                    ),
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                  ],
+                                ),
                               ),
-                              SizedBox(
-                                height: 12,
+                            )
+                          : GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  if (selectedMessage.isNotEmpty &&
+                                      messages[index].type == "text") {
+                                    selectedMessage.contains(messages[index]
+                                            .id) // Check if the selected message is already selected or not
+                                        ? selectedMessage.remove(messages[index]
+                                            .id) // if selected remove it
+                                        : selectedMessage.add(messages[index]
+                                            .id); //if not add it}
+                                  }
+                                });
+                              },
+                              onLongPress: () {
+                                setState(() {
+                                  if (messages[index].type == "text") {
+                                    selectedMessage.contains(messages[index]
+                                            .id) // Check if the selected message is already selected or not
+                                        ? selectedMessage.remove(messages[index]
+                                            .id) // if selected remove it
+                                        : selectedMessage.add(messages[index]
+                                            .id); //if not add it}
+                                  }
+                                });
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(top: 3),
+                                padding: EdgeInsets.zero,
+                                decoration: BoxDecoration(
+                                  color: selectedMessage
+                                          .contains(messages[index].id)
+                                      ? Theme.of(context)
+                                          .colorScheme
+                                          .primaryContainer
+                                      : Colors.transparent,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      width: 8,
+                                    ),
+                                    ChatBubleFriend(
+                                      messageModel: messages[index],
+                                      roomId: widget.roomId,
+                                    )
+                                  ],
+                                ),
                               ),
-                              Text("Say asalam alaykum",
-                                  style: Theme.of(context).textTheme.bodyLarge),
-                            ],
-                          ),
+                            );
+                    },
+                  );
+                } else if (state is ChatEmpty) {
+                  return Center(
+                      child: GestureDetector(
+                    onTap: () {
+                      BlocProvider.of<ChatCubit>(context).sendMessage(
+                          message: "asalam alaykum 👋",
+                          roomId: widget.roomId,
+                          userEmail: widget.userModel.email!);
+                    },
+                    child: Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "👋",
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
+                            const SizedBox(
+                              height: 12,
+                            ),
+                            Text("Say asalam alaykum",
+                                style: Theme.of(context).textTheme.bodyLarge),
+                          ],
                         ),
                       ),
-                    ));
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                },
-              ),
+                    ),
+                  ));
+                } else {
+                  return const Center(child: CircularProgressIndicator());
+                }
+              },
             ),
-            SendMessege(roomId: widget.roomId, userModel: widget.userModel)
-          ],
-        ),
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.only(bottom: 16, right: 10, left: 10, top: 5),
+            child:
+                SendMessege(roomId: widget.roomId, userModel: widget.userModel),
+          )
+        ],
       ),
     );
   }
