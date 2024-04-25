@@ -14,6 +14,18 @@ Future readMessage({required String roomId, required String msgId}) async {
       .update({"read": DateTime.now().millisecondsSinceEpoch.toString()});
 }
 
+Future deleteMessage(
+    {required String roomId, required List<String> selectedMessage}) async {
+  for (var msg in selectedMessage) {
+    await FirebaseFirestore.instance
+        .collection("rooms")
+        .doc(roomId)
+        .collection("messages")
+        .doc(msg)
+        .delete();
+  }
+}
+
 class FireStorage {
   final FirebaseStorage fireStorage = FirebaseStorage.instance;
   sendImage(BuildContext context,
