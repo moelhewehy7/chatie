@@ -22,6 +22,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
   List<MessageModel> messages = [];
 
   List<String> selectedMessage = [];
+  List<String> selectedCopyMessage = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,7 +37,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
         actions: [
           IconButton(
               onPressed: () {},
-              icon: selectedMessage.isNotEmpty
+              icon: selectedCopyMessage.isNotEmpty
                   ? const Icon(Icons.content_copy)
                   : const SizedBox()),
           IconButton(
@@ -70,28 +71,45 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                           ? GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  if (selectedMessage.isNotEmpty &&
-                                      messages[index].type ==
-                                          "text") // Check if there is any message selected to be unselected or selected
+                                  if (selectedMessage
+                                      .isNotEmpty) // Check if there is any message selected to be unselected or selected
                                   {
                                     selectedMessage.contains(messages[index]
                                             .id) // Check if the selected message is already selected or not
                                         ? selectedMessage.remove(messages[index]
                                             .id) // if selected remove it
                                         : selectedMessage.add(messages[index]
-                                            .id!); //if not add it}
+                                            .id!); //if not add it
+                                  }
+                                  if (selectedCopyMessage.isNotEmpty &&
+                                      messages[index].type == "text") {
+                                    //to select just texts
+                                    selectedCopyMessage
+                                            .contains(messages[index].message)
+                                        ? selectedCopyMessage
+                                            .remove(messages[index].message)
+                                        : selectedCopyMessage
+                                            .add(messages[index].message!);
                                   }
                                 });
                               },
                               onLongPress: () {
                                 setState(() {
+                                  selectedMessage.contains(messages[index]
+                                          .id) // Check if the selected message is already selected or not
+                                      ? selectedMessage.remove(messages[index]
+                                          .id) // if selected remove it
+                                      : selectedMessage.add(
+                                          messages[index].id!); //if not add it}
+
                                   if (messages[index].type == "text") {
-                                    selectedMessage.contains(messages[index]
-                                            .id) // Check if the selected message is already selected or not
-                                        ? selectedMessage.remove(messages[index]
-                                            .id) // if selected remove it
-                                        : selectedMessage.add(messages[index]
-                                            .id!); //if not add it}
+                                    //to select just texts
+                                    selectedCopyMessage
+                                            .contains(messages[index].message)
+                                        ? selectedCopyMessage
+                                            .remove(messages[index].message)
+                                        : selectedCopyMessage
+                                            .add(messages[index].message!);
                                   }
                                 });
                               },
@@ -122,8 +140,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                           : GestureDetector(
                               onTap: () {
                                 setState(() {
-                                  if (selectedMessage.isNotEmpty &&
-                                      messages[index].type == "text") {
+                                  if (selectedMessage.isNotEmpty) {
                                     selectedMessage.contains(messages[index]
                                             .id) // Check if the selected message is already selected or not
                                         ? selectedMessage.remove(messages[index]
@@ -131,17 +148,34 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                         : selectedMessage.add(messages[index]
                                             .id!); //if not add it}
                                   }
+                                  if (selectedCopyMessage.isNotEmpty &&
+                                      messages[index].type == "text") {
+                                    //to select just texts
+                                    selectedCopyMessage
+                                            .contains(messages[index].message)
+                                        ? selectedCopyMessage
+                                            .remove(messages[index].message)
+                                        : selectedCopyMessage
+                                            .add(messages[index].message!);
+                                  }
                                 });
                               },
                               onLongPress: () {
                                 setState(() {
+                                  selectedMessage.contains(messages[index]
+                                          .id) // Check if the selected message is already selected or not
+                                      ? selectedMessage.remove(messages[index]
+                                          .id) // if selected remove it
+                                      : selectedMessage.add(
+                                          messages[index].id!); //if not add it}
                                   if (messages[index].type == "text") {
-                                    selectedMessage.contains(messages[index]
-                                            .id) // Check if the selected message is already selected or not
-                                        ? selectedMessage.remove(messages[index]
-                                            .id) // if selected remove it
-                                        : selectedMessage.add(messages[index]
-                                            .id!); //if not add it}
+                                    //to select just texts
+                                    selectedCopyMessage
+                                            .contains(messages[index].message)
+                                        ? selectedCopyMessage
+                                            .remove(messages[index].message)
+                                        : selectedCopyMessage
+                                            .add(messages[index].message!);
                                   }
                                 });
                               },
