@@ -1,3 +1,4 @@
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatie/features/chats/data/models/message_model.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_bubles.dart';
@@ -20,7 +21,7 @@ class ChatViewBody extends StatefulWidget {
 class _ChatViewBodyState extends State<ChatViewBody> {
   List<MessageModel> messages = [];
 
-  List selectedMessage = [];
+  List<String> selectedMessage = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,13 +34,23 @@ class _ChatViewBodyState extends State<ChatViewBody> {
               style: Theme.of(context).textTheme.labelMedium)
         ]),
         actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.content_copy)),
           IconButton(
               onPressed: () {},
-              icon: const Icon(
-                Icons.delete_outlined,
-                size: 28,
-              )),
+              icon: selectedMessage.isNotEmpty
+                  ? const Icon(Icons.content_copy)
+                  : const SizedBox()),
+          IconButton(
+              onPressed: () async {
+                await deleteMessage(
+                    selectedMessage: selectedMessage, roomId: widget.roomId);
+                selectedMessage.clear();
+              },
+              icon: selectedMessage.isNotEmpty
+                  ? const Icon(
+                      Icons.delete_outlined,
+                      size: 28,
+                    )
+                  : const SizedBox()),
         ],
       ),
       body: Column(
@@ -68,7 +79,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                         ? selectedMessage.remove(messages[index]
                                             .id) // if selected remove it
                                         : selectedMessage.add(messages[index]
-                                            .id); //if not add it}
+                                            .id!); //if not add it}
                                   }
                                 });
                               },
@@ -80,7 +91,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                         ? selectedMessage.remove(messages[index]
                                             .id) // if selected remove it
                                         : selectedMessage.add(messages[index]
-                                            .id); //if not add it}
+                                            .id!); //if not add it}
                                   }
                                 });
                               },
@@ -102,7 +113,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                       messageModel: messages[index],
                                     ),
                                     const SizedBox(
-                                      width: 8,
+                                      width: 12,
                                     ),
                                   ],
                                 ),
@@ -118,7 +129,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                         ? selectedMessage.remove(messages[index]
                                             .id) // if selected remove it
                                         : selectedMessage.add(messages[index]
-                                            .id); //if not add it}
+                                            .id!); //if not add it}
                                   }
                                 });
                               },
@@ -130,7 +141,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                         ? selectedMessage.remove(messages[index]
                                             .id) // if selected remove it
                                         : selectedMessage.add(messages[index]
-                                            .id); //if not add it}
+                                            .id!); //if not add it}
                                   }
                                 });
                               },
@@ -149,7 +160,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     const SizedBox(
-                                      width: 8,
+                                      width: 12,
                                     ),
                                     ChatBubleFriend(
                                       messageModel: messages[index],
