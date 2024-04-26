@@ -6,6 +6,7 @@ import 'package:chatie/features/chats/presentation/views/widgets/send_messeg.dar
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatViewBody extends StatefulWidget {
@@ -36,7 +37,13 @@ class _ChatViewBodyState extends State<ChatViewBody> {
         ]),
         actions: [
           IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Clipboard.setData(
+                    ClipboardData(text: selectedCopyMessage.join('\n')));
+                selectedMessage.clear();
+                selectedCopyMessage.clear();
+                setState(() {});
+              },
               icon: selectedCopyMessage.isNotEmpty
                   ? const Icon(Icons.content_copy)
                   : const SizedBox()),
@@ -44,7 +51,9 @@ class _ChatViewBodyState extends State<ChatViewBody> {
               onPressed: () async {
                 await deleteMessage(
                     selectedMessage: selectedMessage, roomId: widget.roomId);
+                selectedCopyMessage.clear();
                 selectedMessage.clear();
+                setState(() {});
               },
               icon: selectedMessage.isNotEmpty
                   ? const Icon(
@@ -91,6 +100,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                         : selectedCopyMessage
                                             .add(messages[index].message!);
                                   }
+                                  debugPrint(selectedCopyMessage.toString());
                                 });
                               },
                               onLongPress: () {
@@ -111,6 +121,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                         : selectedCopyMessage
                                             .add(messages[index].message!);
                                   }
+                                  debugPrint(selectedCopyMessage.toString());
                                 });
                               },
                               child: Container(
@@ -158,6 +169,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                         : selectedCopyMessage
                                             .add(messages[index].message!);
                                   }
+                                  debugPrint(selectedCopyMessage.toString());
                                 });
                               },
                               onLongPress: () {
@@ -177,6 +189,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                         : selectedCopyMessage
                                             .add(messages[index].message!);
                                   }
+                                  debugPrint(selectedCopyMessage.toString());
                                 });
                               },
                               child: Container(
