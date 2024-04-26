@@ -38,8 +38,9 @@ class _ChatViewBodyState extends State<ChatViewBody> {
         actions: [
           IconButton(
               onPressed: () {
-                Clipboard.setData(
-                    ClipboardData(text: selectedCopyMessage.join('\n')));
+                Clipboard.setData(ClipboardData(
+                    text: selectedCopyMessage
+                        .join('\n'))); //Converts each element to a [String]
                 selectedMessage.clear();
                 selectedCopyMessage.clear();
                 setState(() {});
