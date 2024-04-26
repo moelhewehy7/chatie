@@ -36,19 +36,26 @@ class _ContactsViewState extends State<ContactsView> {
         child: const Icon(Icons.person_add_alt_1),
       ),
       appBar: AppBar(
+        titleSpacing: 5,
         title: searching
-            ? TextForm(
-                autofocus: true,
-                controller: contactController,
-                hinttext: "Search by name",
-                icon: Icons.search,
-                validator: (data) {
-                  if (data == null || data.isEmpty) {
-                    return 'Field is empty';
-                  }
-                  return null;
-                })
-            : const Text("My contacts"),
+            ? Padding(
+                padding: const EdgeInsets.only(left: 5),
+                child: TextForm(
+                    autofocus: true,
+                    controller: contactController,
+                    hinttext: "Search by name",
+                    icon: Icons.search,
+                    validator: (data) {
+                      if (data == null || data.isEmpty) {
+                        return 'Field is empty';
+                      }
+                      return null;
+                    }),
+              )
+            : Padding(
+                padding: const EdgeInsets.only(left: 10),
+                child: const Text("My contacts"),
+              ),
         actions: [
           searching
               ? Padding(
@@ -62,16 +69,18 @@ class _ContactsViewState extends State<ContactsView> {
                         "Cancel",
                       )),
                 )
-              : IconButton(
-                  padding: const EdgeInsets.only(right: 3),
-                  onPressed: () {
-                    searching = true;
-                    setState(() {});
-                  },
-                  icon: const Icon(
-                    Icons.person_search,
-                    size: 26,
-                  ))
+              : Padding(
+                  padding: const EdgeInsets.only(right: 6),
+                  child: IconButton(
+                      onPressed: () {
+                        searching = true;
+                        setState(() {});
+                      },
+                      icon: const Icon(
+                        Icons.person_search,
+                        size: 26,
+                      )),
+                )
         ],
       ),
       body: ListView.builder(
