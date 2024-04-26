@@ -1,9 +1,6 @@
 import 'package:chatie/core/helper.dart';
-import 'package:chatie/features/auth/presentation/views/login_view.dart';
-import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/settings/presentation/views/widgets/profile_view.dart';
 import 'package:chatie/features/settings/presentation/views/widgets/qr_code._view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
