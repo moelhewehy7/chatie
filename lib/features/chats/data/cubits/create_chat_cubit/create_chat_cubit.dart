@@ -33,6 +33,7 @@ class CreateChatCubit extends Cubit<CreateChatState> {
               .where("members", isEqualTo: members)
               .get();
           if (roomQuery.docs.isEmpty) {
+            // if there is no room
             await firestore.collection("rooms").doc(members.toString()).set({
               "lastMessage": "lastMessage",
               "lasteMessageTime": "",

@@ -36,9 +36,7 @@ class ChatBuble extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                    right: 6,
-                  ),
+                  padding: const EdgeInsets.only(right: 2, left: 2),
                   child: messageModel.type == "image"
                       ? Container(
                           height: height * 0.35,
