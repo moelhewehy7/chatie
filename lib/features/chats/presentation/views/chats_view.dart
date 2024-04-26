@@ -59,7 +59,9 @@ class _ChatViewState extends State<ChatView>
                       onPressed: () async {
                         if (formKey.currentState!.validate()) {
                           await BlocProvider.of<CreateChatCubit>(context)
-                              .showmodalBottomSheet(context, emailController);
+                              .create(
+                            email: emailController.text,
+                          );
                           emailController.clear();
                         }
                       },
