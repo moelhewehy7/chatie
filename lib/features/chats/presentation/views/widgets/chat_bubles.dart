@@ -43,7 +43,7 @@ class ChatBuble extends StatelessWidget {
                       ? Container(
                           height: height * 0.35,
                           width: width * 0.5,
-                          padding: EdgeInsets.only(bottom: 3),
+                          padding: const EdgeInsets.only(bottom: 3),
                           child: SizedBox(
                             height: height * 0.35,
                             width: width * 0.5,
@@ -65,7 +65,8 @@ class ChatBuble extends StatelessWidget {
                                 errorWidget: (context, url, error) => SizedBox(
                                     height: height * 0.25,
                                     width: width * 0.2,
-                                    child: Center(child: Icon(Icons.error))),
+                                    child:
+                                        const Center(child: Icon(Icons.error))),
                               ),
                             ),
                           ),
@@ -154,7 +155,7 @@ class _ChatBubleFriendState extends State<ChatBubleFriend> {
                     ? Container(
                         height: height * 0.35,
                         width: width * 0.5,
-                        padding: EdgeInsets.only(bottom: 3, top: 5),
+                        padding: const EdgeInsets.only(bottom: 3, top: 5),
                         child: SizedBox(
                           height: height * 0.35,
                           width: width * 0.5,
@@ -174,7 +175,8 @@ class _ChatBubleFriendState extends State<ChatBubleFriend> {
                               errorWidget: (context, url, error) => SizedBox(
                                   height: height * 0.25,
                                   width: width * 0.2,
-                                  child: Center(child: Icon(Icons.error))),
+                                  child:
+                                      const Center(child: Icon(Icons.error))),
                             ),
                           ),
                         ),

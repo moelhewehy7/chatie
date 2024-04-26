@@ -68,7 +68,8 @@ Future<dynamic> signOutDialog(BuildContext context) {
               onPressed: () async {
                 await FirebaseAuth.instance.signOut().then((value) {
                   Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(builder: (context) => LoginView()),
+                      MaterialPageRoute(
+                          builder: (context) => const LoginView()),
                       (route) => false);
                   showtoast(
                       time: 1,
