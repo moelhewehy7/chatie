@@ -57,6 +57,7 @@ class ChatCard extends StatelessWidget {
                       ? chatRoom.lastMessage!
                       : userModel.bio!,
                   overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
                 trailing: Column(
                   children: [
