@@ -52,9 +52,9 @@ class _ContactsViewState extends State<ContactsView> {
                       return null;
                     }),
               )
-            : Padding(
-                padding: const EdgeInsets.only(left: 10),
-                child: const Text("My contacts"),
+            : const Padding(
+                padding: EdgeInsets.only(left: 10),
+                child: Text("My contacts"),
               ),
         actions: [
           searching
