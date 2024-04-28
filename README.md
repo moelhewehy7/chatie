@@ -46,11 +46,11 @@ This project is still under development. I am actively working on it and making 
 - Contacts Screen: Implementing the contacts screen to access and manage contacts.
 - Settings Screen: Implementing the settings screen to customize app settings, including theme preference.
 
-## Implementation Details
+### Implementation Details
 State Management: Utilizes the Cubit package for state management.
 Message Stream: Uses StreamBuilder to display messages in real-time.
 
-## Firebase Integration
+### Firebase Integration
 
 This project integrates with Firebase for backend services. Firebase is used for:
 - Authentication: User authentication using Firebase Authentication.
