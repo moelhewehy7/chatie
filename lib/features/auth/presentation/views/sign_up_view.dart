@@ -17,6 +17,7 @@ class SignUp extends StatefulWidget {
 class _SignUpState extends State<SignUp> {
   TextEditingController firstNameController = TextEditingController();
   TextEditingController lastnameController = TextEditingController();
+  TextEditingController bioController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   GlobalKey<FormState> formkey = GlobalKey();
@@ -71,26 +72,6 @@ class _SignUpState extends State<SignUp> {
                 ),
                 const SizedBox(height: 12),
                 const Text(
-                  "Bio",
-                ),
-                const SizedBox(height: 8),
-                TextForm(
-                  borderSide: BorderSide(
-                      color: Theme.of(context).colorScheme.onSurface),
-                  controller: firstNameController,
-                  icon: Icons.person,
-                  hinttext: "Bio",
-                  validator: (data) {
-                    if (data == null || data.isEmpty) {
-                      return 'Please enter your bio ';
-                    } else if (data.length > 5) {
-                      return 'Bio name must be at most 8 characters';
-                    }
-                    return null;
-                  },
-                ),
-                const SizedBox(height: 12),
-                const Text(
                   "Last name",
                 ),
                 const SizedBox(height: 8),
@@ -106,6 +87,27 @@ class _SignUpState extends State<SignUp> {
                     } else if (data.length > 8) {
                       return 'Last name must be at most 8 characters';
                     }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  "Bio",
+                ),
+                const SizedBox(height: 8),
+                TextForm(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.onSurface),
+                  controller: bioController,
+                  icon: Icons.person,
+                  hinttext: "Bio",
+                  validator: (data) {
+                    if (data == null || data.isEmpty) {
+                      return 'Please enter your bio ';
+                    } else if (data.length < 5) {
+                      return 'Bio name must be at least 5 characters';
+                    }
+
                     return null;
                   },
                 ),
