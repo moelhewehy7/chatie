@@ -255,12 +255,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
               },
             ),
           ),
-          Padding(
-            padding:
-                const EdgeInsets.only(bottom: 16, right: 10, left: 10, top: 5),
-            child:
-                SendMessege(roomId: widget.roomId, userModel: widget.userModel),
-          )
+          SendMessege(roomId: widget.roomId, userModel: widget.userModel)
         ],
       ),
     );
