@@ -48,7 +48,7 @@ This project is still under development. I am actively working on it and making 
 
 ### Implementation Details
 State Management: Utilizes the Cubit package for state management.
-Message Stream: Uses StreamBuilder to display messages in real-time.
+Message Stream: Uses StreamBuilder to display data in real-time.
 
 ### Firebase Integration
 
