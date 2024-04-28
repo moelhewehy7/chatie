@@ -44,12 +44,12 @@ class _SignUpState extends State<SignUp> {
             child: ListView(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               children: [
-                const SizedBox(height: 16),
+                const SizedBox(height: 8),
                 Text(
                   "Create an Account",
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 const Text(
                   "First name",
                 ),
@@ -69,7 +69,27 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
+                const Text(
+                  "Bio",
+                ),
+                const SizedBox(height: 8),
+                TextForm(
+                  borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.onSurface),
+                  controller: firstNameController,
+                  icon: Icons.person,
+                  hinttext: "Bio",
+                  validator: (data) {
+                    if (data == null || data.isEmpty) {
+                      return 'Please enter your bio ';
+                    } else if (data.length > 5) {
+                      return 'Bio name must be at most 8 characters';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 12),
                 const Text(
                   "Last name",
                 ),
@@ -89,7 +109,7 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 const Text(
                   "Email",
                 ),
@@ -110,7 +130,7 @@ class _SignUpState extends State<SignUp> {
                     return null;
                   },
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 12),
                 const Text(
                   "Password",
                 ),
