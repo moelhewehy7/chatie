@@ -39,12 +39,8 @@ class ChatBuble extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 2, left: 2),
                   child: messageModel.type == "image"
                       ? Container(
-                          height: height * 0.35,
-                          width: width * 0.5,
                           padding: const EdgeInsets.only(bottom: 3),
                           child: SizedBox(
-                            height: height * 0.35,
-                            width: width * 0.5,
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(8),
                               child: CachedNetworkImage(
@@ -151,12 +147,8 @@ class _ChatBubleFriendState extends State<ChatBubleFriend> {
               children: [
                 widget.messageModel.type == "image"
                     ? Container(
-                        height: height * 0.35,
-                        width: width * 0.5,
                         padding: const EdgeInsets.only(bottom: 3, top: 5),
                         child: SizedBox(
-                          height: height * 0.35,
-                          width: width * 0.5,
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: CachedNetworkImage(
