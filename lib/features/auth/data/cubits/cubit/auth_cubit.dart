@@ -9,6 +9,7 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> signUp(
       {required String email,
+      required String bio,
       required String password,
       required String firstName,
       required String lastname}) async {
@@ -23,6 +24,7 @@ class AuthCubit extends Cubit<AuthState> {
         "Firstname": firstName,
         "Lastname": lastname,
         "Email": email,
+        "bio": bio,
         "JoinedOn": DateTime.now().millisecondsSinceEpoch.toString()
       });
       emit(SignUpSuccess());
