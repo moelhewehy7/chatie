@@ -62,6 +62,8 @@ class _SendMessegeState extends State<SendMessege> {
                               onPressed: () async {
                                 ImagePicker imagePicker = ImagePicker();
                                 XFile? image = await imagePicker.pickImage(
+                                    imageQuality: 50,
+                                    requestFullMetadata: false,
                                     source: ImageSource.gallery);
                                 if (image != null) {
                                   if (!context.mounted) return;
