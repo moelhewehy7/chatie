@@ -42,7 +42,8 @@ class ChatCubit extends Cubit<ChatState> {
   }
 
   void getMessage({required String roomId}) {
-    // messages.clear(); // Clear the messages list before fetching messages for the new chat
+    messages
+        .clear(); // Clear the messages list before fetching messages for the new chat
     try {
       FirebaseFirestore.instance
           .collection('rooms')

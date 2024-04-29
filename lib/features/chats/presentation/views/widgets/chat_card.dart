@@ -51,7 +51,7 @@ class ChatCard extends StatelessWidget {
                               )));
                 },
                 leading: const CircleAvatar(),
-                title: Text(userModel.firstName!),
+                title: Text("${userModel.firstName!} ${userModel.lastName!}"),
                 subtitle: Text(
                   chatRoom.lastMessage != "lastMessage"
                       ? chatRoom.lastMessage!
