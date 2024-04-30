@@ -117,7 +117,9 @@ class _ChatBubleFriendState extends State<ChatBubleFriend> {
   void initState() {
     if (widget.messageModel.toId == FirebaseAuth.instance.currentUser!.email) {
       readMessage(msgId: widget.messageModel.id!, roomId: widget.roomId);
-    }
+    } //if message to id == current user email we mark the message as read
+    // so when the other user open th chat it will be showing read
+
     super.initState();
   }
   // the initState method in the ChatBubleFriend widget is used to p
