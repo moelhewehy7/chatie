@@ -15,19 +15,18 @@ class AddContactCubit extends Cubit<AddContactState> {
       QuerySnapshot userQuery = await firestore
           .collection("users")
           .where("Email", isEqualTo: email)
-          .get();
-
+          .get(); //
       if (userQuery.docs.isNotEmpty) {
+        //to get the user email
         String userEmail = userQuery.docs.first.id;
         if (userEmail == myEmail) {
           emit(AddContactFailure(
               errMessage: "You can't add yourself as a contact"));
         } else {
-          QuerySnapshot contactQuery = await firestore
-              .collection("users")
-              .where("myUsers", isEqualTo: email)
-              .get();
-          if (contactQuery.docs.isEmpty) {
+          DocumentSnapshot contactQuery =
+              await firestore.collection("users").doc(myEmail).get();
+          if (contactQuery.get("myUsers").contains(userEmail) == false) {
+            //check if user is already added as a contact
             firestore.collection("users").doc(myEmail).update({
               "myUsers": FieldValue.arrayUnion([userEmail])
               // is a method by Firestore that is used to update
@@ -48,3 +47,7 @@ class AddContactCubit extends Cubit<AddContactState> {
     }
   }
 }
+//check if user exist
+//check if user is not the current user
+//check if user is already added as a contact
+//add user as a contact
