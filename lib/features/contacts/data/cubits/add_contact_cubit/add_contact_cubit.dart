@@ -9,15 +9,16 @@ class AddContactCubit extends Cubit<AddContactState> {
   AddContactCubit() : super(AddContactInitial());
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final String myEmail = FirebaseAuth.instance.currentUser!.email!;
-  Future add({required String email, required String roomId}) async {
+  Future add({required String email}) async {
     try {
       emit(AddContactLoading());
-      final userQuery = await firestore
+      QuerySnapshot userQuery = await firestore
           .collection("users")
           .where("Email", isEqualTo: email)
           .get();
-      String userEmail = userQuery.docs.first.id;
+
       if (userQuery.docs.isNotEmpty) {
+        String userEmail = userQuery.docs.first.id;
         if (userEmail == myEmail) {
           emit(AddContactFailure(
               errMessage: "You can't add yourself as a contact"));
@@ -27,7 +28,7 @@ class AddContactCubit extends Cubit<AddContactState> {
               .where("myUsers", isEqualTo: email)
               .get();
           if (contactQuery.docs.isEmpty) {
-            firestore.collection("users").doc(roomId).update({
+            firestore.collection("users").doc(myEmail).update({
               "myUsers": FieldValue.arrayUnion([userEmail])
               // is a method by Firestore that is used to update
               //an array field in a document by adding one or more elements
