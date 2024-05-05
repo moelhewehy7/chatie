@@ -1,9 +1,9 @@
 import 'package:chatie/core/helper.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
-import 'package:chatie/features/chats/data/models/chat_room_model.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:chatie/features/contacts/data/cubits/add_contact_cubit/add_contact_cubit.dart';
+import 'package:chatie/features/contacts/data/cubits/cubit/fetch_contacts_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -21,6 +21,7 @@ class _ContactsViewState extends State<ContactsView> {
   TextEditingController emailController = TextEditingController();
   TextEditingController contactController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,18 +127,35 @@ class _ContactsViewState extends State<ContactsView> {
                 )
         ],
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        itemCount: 6,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            child: ListTile(
-              title: const Text("Name"),
-              trailing: IconButton(
-                  onPressed: () {}, icon: const Icon(IconlyBold.chat)),
-            ),
-          );
-        },
+      body: BlocProvider(
+        create: (context) => FetchContactsCubit()..fetchContacts(),
+        child: BlocConsumer<FetchContactsCubit, FetchContactsState>(
+          listener: (context, state) {
+            if (state is FetchContactsEmpty) {
+              Center(child: Text(state.message));
+            }
+          },
+          builder: (context, state) {
+            if (state is FetchContactsSuccess) {
+              return ListView.builder(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                itemCount: state.userModel.myUsers.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    child: ListTile(
+                      title: Text("ju"),
+                      trailing: IconButton(
+                          onPressed: () {}, icon: const Icon(IconlyBold.chat)),
+                    ),
+                  );
+                },
+              );
+            } else {
+              return const SizedBox();
+            }
+          },
+        ),
       ),
     );
   }
