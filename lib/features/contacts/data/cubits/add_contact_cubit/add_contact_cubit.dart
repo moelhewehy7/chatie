@@ -25,6 +25,7 @@ class AddContactCubit extends Cubit<AddContactState> {
         } else {
           DocumentSnapshot contactQuery =
               await firestore.collection("users").doc(myEmail).get();
+          //check if user exist in the list of users
           if (contactQuery.get("myUsers").contains(userEmail) == false) {
             //check if user is already added as a contact
             firestore.collection("users").doc(myEmail).update({
