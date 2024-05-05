@@ -25,6 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
         "Lastname": lastname,
         "Email": email,
         "bio": bio,
+        "myUsers": [],
         "JoinedOn": DateTime.now().millisecondsSinceEpoch.toString()
       });
       emit(SignUpSuccess());
