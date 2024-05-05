@@ -84,12 +84,12 @@ class _SendMessegeState extends State<SendMessege> {
                     padding: const EdgeInsets.all(12),
                     onPressed: () async {
                       if (messageCon.text.isNotEmpty) {
-                        await BlocProvider.of<ChatCubit>(context)
-                            .sendMessage(
-                                message: messageCon.text,
-                                roomId: widget.roomId,
-                                userEmail: widget.userModel.email!)
-                            .then((value) => messageCon.clear());
+                        BlocProvider.of<ChatCubit>(context).sendMessage(
+                          message: messageCon.text,
+                          roomId: widget.roomId,
+                          userEmail: widget.userModel.email!,
+                        );
+                        messageCon.clear();
                       }
                     },
                     icon: const Icon(IconlyLight.send)),

@@ -261,3 +261,16 @@ class _ChatViewBodyState extends State<ChatViewBody> {
     );
   }
 }
+
+// 1-initialization: Two lists are initialized at the start of the widget's state:
+// selectedMessage: Stores the IDs of selected messages.
+// selectedCopyMessage: Stores the content of selected text messages.
+// 2-Selection Logic:
+// When a message is long-pressed, it toggles its selection status in selectedMessage and 
+//  adds or removes its content in selectedCopyMessage if it's a text message.
+// When a message is tapped, it toggles its selection status in selectedMessage.
+// Selected messages are visually highlighted in the UI.
+// 3-Action Buttons:
+// The "Copy" button copies the content of all selected text messages to the clipboard and clears both selectedMessage and selectedCopyMessage.
+// The "Delete" button deletes all selected messages by calling the deleteMessage method and then clears both selectedMessage and selectedCopyMessage.
+// UI Updates: The setState method is used to update the UI whenever selectedMessage or selectedCopyMessage changes.
