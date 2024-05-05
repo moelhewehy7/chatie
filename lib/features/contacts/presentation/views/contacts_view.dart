@@ -1,7 +1,12 @@
+import 'package:chatie/core/helper.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
+import 'package:chatie/features/chats/data/models/chat_room_model.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
+import 'package:chatie/features/contacts/data/cubits/add_contact_cubit/add_contact_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:iconly/iconly.dart';
 
 class ContactsView extends StatefulWidget {
@@ -22,13 +27,51 @@ class _ContactsViewState extends State<ContactsView> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showbottomsheet(
-              widget: FillButton(
-                  onPressed: () {}, child: const Text("Add contact")),
+              widget: BlocProvider(
+                create: (context) => AddContactCubit(),
+                child: BlocConsumer<AddContactCubit, AddContactState>(
+                  listener: (context, state) {
+                    if (state is AddContactSuccess) {
+                      Navigator.pop(context);
+                    } else if (state is AddContactFailure) {
+                      showAlert(context,
+                          title: "Error",
+                          content: state.errMessage,
+                          buttonText: "Ok");
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is AddContactLoading) {
+                      return FillButton(
+                          onPressed: () {},
+                          child: SpinKitFadingCircle(
+                            color:
+                                Theme.of(context).colorScheme.primaryContainer,
+                            size: 20.0,
+                          ));
+                    } else {
+                      return FillButton(
+                          onPressed: () {
+                            if (formKey.currentState!.validate()) {
+                              BlocProvider.of<AddContactCubit>(context)
+                                  .add(email: emailController.text);
+                              emailController.clear();
+                            }
+                          },
+                          child: const Text("Add contact"));
+                    }
+                  },
+                ),
+              ),
               key: formKey,
               validator: (data) {
                 if (data == null || data.isEmpty) {
-                  return 'Field is empty';
+                  return 'Please enter an email';
+                } else if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
+                    .hasMatch(data)) {
+                  return 'Invalid email address.';
                 }
+                return null;
               },
               context: context,
               emailController: emailController);

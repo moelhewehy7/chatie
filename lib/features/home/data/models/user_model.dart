@@ -10,9 +10,10 @@ class UserModel {
   final String? createdAt;
   final String? profilePic;
   final String? pushToken;
-
+  final List myUsers;
   UserModel(
       {required this.id,
+      required this.myUsers,
       required this.firstName,
       required this.lastName,
       required this.name,
@@ -36,7 +37,8 @@ class UserModel {
         isOnline: jsonData['is_online'],
         createdAt: jsonData['created_at'],
         profilePic: jsonData['profile_pic'],
-        pushToken: jsonData['push_token']);
+        pushToken: jsonData['push_token'],
+        myUsers: [jsonData['myUsers']]);
   }
 }
 //When you fetch data from Firebase, you receive a JSON representation of the data.

@@ -18,6 +18,7 @@ class CreateChatCubit extends Cubit<CreateChatState> {
           .where("Email", isEqualTo: email)
           .get();
       if (userQuery.docs.isNotEmpty) {
+        //check if user exists
         String userEmail = userQuery.docs.first.id;
         // Check if the queried email is the same as the signed-in user's email
         if (userEmail == myEmail) {
