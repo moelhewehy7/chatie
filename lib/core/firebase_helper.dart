@@ -17,6 +17,7 @@ Future readMessage({required String roomId, required String msgId}) async {
 Future deleteMessage(
     {required String roomId, required List<String> selectedMessage}) async {
   for (var msg in selectedMessage) {
+    //to delete list of docs
     await FirebaseFirestore.instance
         .collection("rooms")
         .doc(roomId)
