@@ -9,6 +9,7 @@ PersistentBottomSheetController showbottomsheet(
     required Key key,
     required Widget widget}) {
   return showBottomSheet(
+    enableDrag: true,
     context: context,
     builder: (BuildContext context) {
       return Container(
