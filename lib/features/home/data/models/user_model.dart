@@ -38,7 +38,7 @@ class UserModel {
         createdAt: jsonData['created_at'],
         profilePic: jsonData['profile_pic'],
         pushToken: jsonData['push_token'],
-        myUsers: [jsonData['myUsers']]);
+        myUsers: jsonData['myUsers']);
   }
 }
 //When you fetch data from Firebase, you receive a JSON representation of the data.
