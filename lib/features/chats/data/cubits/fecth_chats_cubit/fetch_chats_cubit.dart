@@ -19,7 +19,7 @@ class FetchChatsCubit extends Cubit<FetchChatsState> {
       if (event.docs.isNotEmpty) {
         for (var doc in event.docs) {
           //we are converting the list of query snapshot to a list of chatroommodel
-          rooms.add(ChatRoomModel.fromJson(doc.data()));
+          rooms.add(ChatRoomModel.fromJson(doc));
         }
         emit(FetchChatsSuccess(rooms: rooms));
       } else {
