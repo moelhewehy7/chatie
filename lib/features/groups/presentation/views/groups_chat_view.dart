@@ -9,6 +9,7 @@ class GroupsView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         floatingActionButton: FloatingActionButton(
+            heroTag: "btn2",
             onPressed: () {
               Navigator.push(
                 context,
