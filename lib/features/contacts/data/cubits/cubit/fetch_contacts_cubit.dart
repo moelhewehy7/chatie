@@ -16,8 +16,8 @@ class FetchContactsCubit extends Cubit<FetchContactsState> {
         .doc(FirebaseAuth.instance.currentUser!.email)
         .snapshots()
         .listen((event) {
-      final myUsers = event.data()?["myUsers"];
-      if (myUsers != null && myUsers.isNotEmpty) {
+      List myUsers = event.data()?["myUsers"]; //to get the list of contacts
+      if (myUsers.isNotEmpty) {
         UserModel userModel = UserModel.fromjson(event.data()!);
 
         emit(FetchContactsSuccess(userModel: userModel));
