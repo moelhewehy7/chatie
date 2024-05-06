@@ -16,14 +16,17 @@ class ContactsView extends StatefulWidget {
   State<ContactsView> createState() => _ContactsViewState();
 }
 
-class _ContactsViewState extends State<ContactsView> {
+class _ContactsViewState extends State<ContactsView>
+    with AutomaticKeepAliveClientMixin {
   bool searching = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController contactController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
-
+  @override
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -127,35 +130,35 @@ class _ContactsViewState extends State<ContactsView> {
                 )
         ],
       ),
-      body: BlocProvider(
-        create: (context) => FetchContactsCubit()..fetchContacts(),
-        child: BlocConsumer<FetchContactsCubit, FetchContactsState>(
-          listener: (context, state) {
-            if (state is FetchContactsEmpty) {
-              Center(child: Text(state.message));
-            }
-          },
-          builder: (context, state) {
-            if (state is FetchContactsSuccess) {
-              return ListView.builder(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                itemCount: state.userModel.myUsers.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    child: ListTile(
-                      title: Text("ju"),
-                      trailing: IconButton(
-                          onPressed: () {}, icon: const Icon(IconlyBold.chat)),
+      body: BlocBuilder<FetchContactsCubit, FetchContactsState>(
+        builder: (context, state) {
+          if (state is FetchContactsSuccess) {
+            return ListView.builder(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              itemCount: state.users.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  child: ListTile(
+                    leading: CircleAvatar(),
+                    title: Text(
+                        "${state.users[index].firstName!} ${state.users[index].lastName!}"),
+                    subtitle: Text(
+                      state.users[index].bio!,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                     ),
-                  );
-                },
-              );
-            } else {
-              return const SizedBox();
-            }
-          },
-        ),
+                    trailing: IconButton(
+                        onPressed: () {}, icon: const Icon(IconlyBold.chat)),
+                  ),
+                );
+              },
+            );
+          } else if (state is FetchContactsEmpty) {
+            return Center(child: Text(state.message));
+          } else {
+            return const SizedBox();
+          }
+        },
       ),
     );
   }

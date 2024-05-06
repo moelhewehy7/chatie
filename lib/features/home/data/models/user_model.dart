@@ -1,43 +1,38 @@
 class UserModel {
-  final String? id;
-  final String? name;
+  // final String? id;
+  // final String? name;
   final String? firstName;
   final String? lastName;
   final String? bio;
   final String? email;
-  final bool? lastSeen;
-  final bool? isOnline;
-  final String? createdAt;
-  final String? profilePic;
-  final String? pushToken;
+  // final bool? lastSeen;
+  // final bool? isOnline;
+  final String? joinedOn;
+  // final String? profilePic;
+  // final String? pushToken;
   final List myUsers;
-  UserModel(
-      {required this.id,
-      required this.myUsers,
-      required this.firstName,
-      required this.lastName,
-      required this.name,
-      required this.bio,
-      required this.email,
-      required this.lastSeen,
-      required this.isOnline,
-      required this.createdAt,
-      required this.profilePic,
-      required this.pushToken});
+  UserModel({
+    required this.myUsers,
+    required this.firstName,
+    required this.lastName,
+    required this.bio,
+    required this.email,
+    required this.joinedOn,
+  });
   factory UserModel.fromjson(jsonData) {
     // the data is automatically decoded ,there's no need to manually decode it
     return UserModel(
-        id: jsonData['id'],
-        name: jsonData['name'],
+        // id: jsonData['id'],
+        // name: jsonData['name'],
         firstName: jsonData['Firstname'],
         lastName: jsonData['Lastname'],
         bio: jsonData['bio'],
         email: jsonData['Email'],
-        lastSeen: jsonData['last_seen'],
-        isOnline: jsonData['is_online'],
-        createdAt: jsonData['created_at'],
-        profilePic: jsonData['profile_pic'],
-        pushToken: jsonData['push_token'],
+        // lastSeen: jsonData['last_seen'],
+        // isOnline: jsonData['is_online'],
+        joinedOn: jsonData['JoinedOn'],
+        // profilePic: jsonData['profile_pic'],
+        // pushToken: jsonData['push_token'],
         myUsers: jsonData['myUsers']);
   }
 }
