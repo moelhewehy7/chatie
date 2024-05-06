@@ -11,19 +11,39 @@ class FetchContactsCubit extends Cubit<FetchContactsState> {
 
   Future<void> fetchContacts() async {
     emit(FetchContactsLoading());
-    FirebaseFirestore.instance
-        .collection("users")
-        .doc(FirebaseAuth.instance.currentUser!.email)
-        .snapshots()
-        .listen((event) {
-      List myUsers = event.data()?["myUsers"]; //to get the list of contacts
-      if (myUsers.isNotEmpty) {
-        UserModel userModel = UserModel.fromjson(event.data()!);
+    try {
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(FirebaseAuth.instance.currentUser!.email)
+          .snapshots()
+          .listen((event) {
+        List myUsers = event.data()?["myUsers"]; //to get the list of contacts
 
-        emit(FetchContactsSuccess(userModel: userModel));
-      } else {
-        emit(FetchContactsEmpty(message: "No contacts found"));
-      }
-    });
+        if (myUsers.isNotEmpty) {
+          //search for each contact and get each doc of each one
+          FirebaseFirestore.instance
+              .collection("users")
+              .where("Email", whereIn: myUsers)
+              .snapshots()
+              .listen((event) {
+            //return query snapshot of each user and then convet it to list of user model
+            List<UserModel> userList = [];
+            for (var element in event.docs) {
+              userList.add(UserModel.fromjson(element));
+            }
+            emit(FetchContactsSuccess(users: userList));
+          });
+        } else {
+          emit(FetchContactsEmpty(message: "No contacts found"));
+        }
+      });
+    } catch (e) {
+      emit(FetchContactsFailure(
+          errMessage: "Oops something went wrong, try again later"));
+    }
   }
 }
+
+//get list of contacts from the current user
+// check if list is empty or not
+// If the list is not empty, it queries Firestore for user details based on the "myUsers" list.
