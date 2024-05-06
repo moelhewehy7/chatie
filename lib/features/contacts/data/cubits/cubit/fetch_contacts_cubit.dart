@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,7 +10,7 @@ part 'fetch_contacts_state.dart';
 
 class FetchContactsCubit extends Cubit<FetchContactsState> {
   FetchContactsCubit() : super(FetchContactsInitial());
-
+  late StreamSubscription<DocumentSnapshot> _subscription;
   Future<void> fetchContacts() async {
     emit(FetchContactsLoading());
     try {
@@ -41,6 +43,11 @@ class FetchContactsCubit extends Cubit<FetchContactsState> {
       emit(FetchContactsFailure(
           errMessage: "Oops something went wrong, try again later"));
     }
+    Future<void> close() {
+      _subscription.cancel();
+      return super.close();
+    } // the _subscription variable is used to store the subscription to the Firestore snapshot. The subscription is canceled in the close method of the cubit,
+    // ensuring that no new states are emitted after the cubit is closed.
   }
 }
 

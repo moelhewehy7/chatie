@@ -4,11 +4,13 @@ class TextForm extends StatelessWidget {
   const TextForm(
       {super.key,
       this.validator,
+      this.onchanged,
       required this.hinttext,
       required this.icon,
       required this.controller,
       this.autofocus = false,
       this.borderSide = BorderSide.none});
+  final Function(String)? onchanged;
   final String hinttext;
   final IconData icon;
   final String? Function(String?)? validator;
@@ -18,6 +20,7 @@ class TextForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      onChanged: onchanged,
       autofocus: autofocus,
       controller: controller,
       validator: validator,

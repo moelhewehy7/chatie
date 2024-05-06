@@ -4,6 +4,7 @@ import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:chatie/features/contacts/data/cubits/add_contact_cubit/add_contact_cubit.dart';
 import 'package:chatie/features/contacts/data/cubits/cubit/fetch_contacts_cubit.dart';
+import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -16,17 +17,15 @@ class ContactsView extends StatefulWidget {
   State<ContactsView> createState() => _ContactsViewState();
 }
 
-class _ContactsViewState extends State<ContactsView>
-    with AutomaticKeepAliveClientMixin {
+class _ContactsViewState extends State<ContactsView> {
   bool searching = false;
   TextEditingController emailController = TextEditingController();
-  TextEditingController contactController = TextEditingController();
+  TextEditingController searchController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
-  @override
-  bool get wantKeepAlive => true;
+  List<UserModel> users = [];
+
   @override
   Widget build(BuildContext context) {
-    super.build(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         heroTag: "btn3",
@@ -89,8 +88,13 @@ class _ContactsViewState extends State<ContactsView>
             ? Padding(
                 padding: const EdgeInsets.only(left: 5),
                 child: TextForm(
+                    onchanged: (data) {
+                      setState(() {
+                        searchController.text = data;
+                      });
+                    },
                     autofocus: true,
-                    controller: contactController,
+                    controller: searchController,
                     hinttext: "Search by name",
                     icon: Icons.search,
                     validator: (data) {
@@ -101,7 +105,7 @@ class _ContactsViewState extends State<ContactsView>
                     }),
               )
             : const Padding(
-                padding: EdgeInsets.only(left: 10),
+                padding: EdgeInsets.only(left: 11),
                 child: Text("My contacts"),
               ),
         actions: [
@@ -131,20 +135,27 @@ class _ContactsViewState extends State<ContactsView>
                 )
         ],
       ),
-      body: BlocBuilder<FetchContactsCubit, FetchContactsState>(
+      body: BlocConsumer<FetchContactsCubit, FetchContactsState>(
+        listener: (context, state) {},
         builder: (context, state) {
           if (state is FetchContactsSuccess) {
+            users = state.users
+              ..where((element) =>
+                  element.firstName!.startsWith(searchController.text)).toList()
+              ..sort((a, b) => a.firstName!.compareTo(b.firstName!));
             return ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-              itemCount: state.users.length,
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              itemCount: users.length,
               itemBuilder: (BuildContext context, int index) {
                 return Card(
                   child: ListTile(
                     leading: const CircleAvatar(),
                     title: Text(
-                        "${state.users[index].firstName!} ${state.users[index].lastName!}"),
+                        "${users[index].firstName!} ${users[index].lastName!}"),
                     subtitle: Text(
-                      state.users[index].bio!,
+                      users[index].bio!,
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
                     ),
