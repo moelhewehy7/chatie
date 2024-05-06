@@ -49,6 +49,6 @@ class AddContactCubit extends Cubit<AddContactState> {
   }
 }
 //check if user exist
-//check if user is not the current user
-//check if user is already added as a contact
+//check if user is not the current user 
+//check if user is already added as a contact //check if user exist in the list of users
 //add user as a contact
