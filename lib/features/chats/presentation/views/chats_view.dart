@@ -30,6 +30,7 @@ class _ChatViewState extends State<ChatView>
     super.build(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
+        heroTag: "btn1",
         onPressed: () {
           showbottomsheet(
             widget: BlocProvider(

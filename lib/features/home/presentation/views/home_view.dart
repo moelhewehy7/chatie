@@ -31,13 +31,13 @@ class _HomeViewState extends State<HomeView> {
         },
         //updates the currentindex variable to reflect the selectedIndex property
         children: [
-          ChatView(),
-          GroupsView(),
+          const ChatView(),
+          const GroupsView(),
           BlocProvider(
             create: (context) => FetchContactsCubit()..fetchContacts(),
-            child: ContactsView(),
+            child: const ContactsView(),
           ),
-          SettingsView()
+          const SettingsView()
         ],
       ),
       bottomNavigationBar: NavigationBar(
