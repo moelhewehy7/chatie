@@ -12,7 +12,12 @@ final class FetchContactsEmpty extends FetchContactsState {
   FetchContactsEmpty({required this.message});
 }
 
+final class FetchContactsFailure extends FetchContactsState {
+  final String errMessage;
+  FetchContactsFailure({required this.errMessage});
+}
+
 final class FetchContactsSuccess extends FetchContactsState {
-  final UserModel userModel;
-  FetchContactsSuccess({required this.userModel});
+  final List<UserModel> users;
+  FetchContactsSuccess({required this.users});
 }
