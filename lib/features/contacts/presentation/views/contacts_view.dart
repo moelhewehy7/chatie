@@ -139,7 +139,7 @@ class _ContactsViewState extends State<ContactsView>
               itemBuilder: (BuildContext context, int index) {
                 return Card(
                   child: ListTile(
-                    leading: CircleAvatar(),
+                    leading: const CircleAvatar(),
                     title: Text(
                         "${state.users[index].firstName!} ${state.users[index].lastName!}"),
                     subtitle: Text(
