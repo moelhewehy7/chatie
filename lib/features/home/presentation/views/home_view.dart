@@ -1,8 +1,6 @@
 import 'package:chatie/features/chats/presentation/views/chats_view.dart';
-import 'package:chatie/features/contacts/data/cubits/cubit/fetch_contacts_cubit.dart';
 import 'package:chatie/features/groups/presentation/views/groups_chat_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 
 import '../../../contacts/presentation/views/contacts_view.dart';
@@ -30,11 +28,11 @@ class _HomeViewState extends State<HomeView> {
           });
         },
         //updates the currentindex variable to reflect the selectedIndex property
-        children: [
-          const ChatView(),
-          const GroupsView(),
-          const ContactsView(),
-          const SettingsView()
+        children: const [
+          ChatView(),
+          GroupsView(),
+          ContactsView(),
+          SettingsView()
         ],
       ),
       bottomNavigationBar: NavigationBar(
