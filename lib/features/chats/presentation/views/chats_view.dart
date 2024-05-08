@@ -33,44 +33,40 @@ class _ChatViewState extends State<ChatView>
         heroTag: "btn1",
         onPressed: () {
           showbottomsheet(
-            widget: BlocProvider(
-              create: (context) => CreateChatCubit(),
-              child: BlocConsumer<CreateChatCubit, CreateChatState>(
-                listener: (context, state) {
-                  if (state is CreateChatSuccess) {
-                    Navigator.pop(context);
-                  } else if (state is CreateChatFailure) {
-                    showAlert(context,
-                        title: "Error",
-                        content: state.errMessage,
-                        buttonText: "Ok");
-                  }
-                },
-                builder: (context, state) {
-                  if (state is CreateChatLoading) {
-                    return FillButton(
-                      onPressed: () {},
-                      child: SpinKitFadingCircle(
-                        color: Theme.of(context).colorScheme.primaryContainer,
-                        size: 20.0,
-                      ),
-                    );
-                  } else {
-                    return FillButton(
-                      onPressed: () async {
-                        if (formKey.currentState!.validate()) {
-                          await BlocProvider.of<CreateChatCubit>(context)
-                              .create(
-                            email: emailController.text,
-                          );
-                          emailController.clear();
-                        }
-                      },
-                      child: const Text("Create Chat"),
-                    );
-                  }
-                },
-              ),
+            widget: BlocConsumer<CreateChatCubit, CreateChatState>(
+              listener: (context, state) {
+                if (state is CreateChatSuccess) {
+                  Navigator.pop(context);
+                } else if (state is CreateChatFailure) {
+                  showAlert(context,
+                      title: "Error",
+                      content: state.errMessage,
+                      buttonText: "Ok");
+                }
+              },
+              builder: (context, state) {
+                if (state is CreateChatLoading) {
+                  return FillButton(
+                    onPressed: () {},
+                    child: SpinKitFadingCircle(
+                      color: Theme.of(context).colorScheme.primaryContainer,
+                      size: 20.0,
+                    ),
+                  );
+                } else {
+                  return FillButton(
+                    onPressed: () async {
+                      if (formKey.currentState!.validate()) {
+                        await BlocProvider.of<CreateChatCubit>(context).create(
+                          email: emailController.text,
+                        );
+                        emailController.clear();
+                      }
+                    },
+                    child: const Text("Create Chat"),
+                  );
+                }
+              },
             ),
             key: formKey,
             context: context,
