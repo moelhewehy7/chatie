@@ -22,7 +22,6 @@ class _ContactsViewState extends State<ContactsView> {
   TextEditingController emailController = TextEditingController();
   TextEditingController searchController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
-  List<UserModel> users = [];
 
   @override
   Widget build(BuildContext context) {
@@ -135,43 +134,51 @@ class _ContactsViewState extends State<ContactsView> {
                 )
         ],
       ),
-      body: BlocConsumer<FetchContactsCubit, FetchContactsState>(
-        listener: (context, state) {},
-        builder: (context, state) {
-          if (state is FetchContactsSuccess) {
-            users = state.users
-              ..where((element) =>
-                  element.firstName!.startsWith(searchController.text)).toList()
-              ..sort((a, b) => a.firstName!.compareTo(b.firstName!));
-            return ListView.builder(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16,
-              ),
-              itemCount: users.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: ListTile(
-                    leading: const CircleAvatar(),
-                    title: Text(
-                        "${users[index].firstName!} ${users[index].lastName!}"),
-                    subtitle: Text(
-                      users[index].bio!,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
+      body: BlocProvider(
+        create: (context) => FetchContactsCubit()..fetchContacts(),
+        child: BlocBuilder<FetchContactsCubit, FetchContactsState>(
+          builder: (context, state) {
+            if (state is FetchContactsSuccess) {
+              List<UserModel> filteredUsers = state.users
+                  .where((user) => user.firstName!
+                      .toLowerCase()
+                      .startsWith(searchController.text.toLowerCase()))
+                  .toList()
+                ..sort((a, b) => a.firstName!.compareTo(b.firstName!));
+              return ListView.builder(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                ),
+                itemCount: filteredUsers.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return Card(
+                    child: ListTile(
+                      leading: const CircleAvatar(),
+                      title: Text(
+                          "${filteredUsers[index].firstName!} ${filteredUsers[index].lastName!}"),
+                      subtitle: Text(
+                        filteredUsers[index].bio!,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                      ),
+                      trailing: IconButton(
+                          onPressed: () {}, icon: const Icon(IconlyBold.chat)),
                     ),
-                    trailing: IconButton(
-                        onPressed: () {}, icon: const Icon(IconlyBold.chat)),
-                  ),
-                );
-              },
-            );
-          } else if (state is FetchContactsEmpty) {
-            return Center(child: Text(state.message));
-          } else {
-            return const SizedBox();
-          }
-        },
+                  );
+                },
+              );
+            } else if (state is FetchContactsEmpty) {
+              return Center(child: Text(state.message));
+            } else {
+              return const SizedBox();
+            }
+          },
+        ),
       ),
     );
   }
 }
+//           //   ..where((element) =>
+              //           element.firstName!.startsWith(searchController.text))
+              //       .toList()
+              //   ..sort((a, b) => a.firstName!.compareTo(b.firstName!));
