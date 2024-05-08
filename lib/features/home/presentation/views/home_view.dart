@@ -33,10 +33,7 @@ class _HomeViewState extends State<HomeView> {
         children: [
           const ChatView(),
           const GroupsView(),
-          BlocProvider(
-            create: (context) => FetchContactsCubit()..fetchContacts(),
-            child: const ContactsView(),
-          ),
+          const ContactsView(),
           const SettingsView()
         ],
       ),
