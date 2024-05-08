@@ -1,10 +1,15 @@
 import 'package:chatie/core/helper.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
+import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
+import 'package:chatie/features/chats/data/cubits/create_chat_cubit/create_chat_cubit.dart';
+import 'package:chatie/features/chats/presentation/views/widgets/chat_view_body.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:chatie/features/contacts/data/cubits/add_contact_cubit/add_contact_cubit.dart';
 import 'package:chatie/features/contacts/data/cubits/cubit/fetch_contacts_cubit.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,14 +22,17 @@ class ContactsView extends StatefulWidget {
   State<ContactsView> createState() => _ContactsViewState();
 }
 
-class _ContactsViewState extends State<ContactsView> {
+class _ContactsViewState extends State<ContactsView>
+    with AutomaticKeepAliveClientMixin {
   bool searching = false;
   TextEditingController emailController = TextEditingController();
   TextEditingController searchController = TextEditingController();
   GlobalKey<FormState> formKey = GlobalKey();
-
+  @override
+  bool get wantKeepAlive => true;
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         heroTag: "btn3",
@@ -162,7 +170,49 @@ class _ContactsViewState extends State<ContactsView> {
                         maxLines: 1,
                       ),
                       trailing: IconButton(
-                          onPressed: () {}, icon: const Icon(IconlyBold.chat)),
+                          onPressed: () async {
+                            List<String> members = [
+                              filteredUsers[index].email!,
+                              FirebaseAuth.instance.currentUser!.email!
+                            ]..sort((a, b) => a.compareTo(b));
+                            DocumentSnapshot docSnapshot =
+                                await FirebaseFirestore.instance
+                                    .collection("rooms")
+                                    .doc(members.toString())
+                                    .get();
+                            if (docSnapshot.exists) {
+                              if (!context.mounted) return;
+                              context.read<ChatCubit>().getMessage(
+                                    roomId: members.toString(),
+                                  );
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return ChatViewBody(
+                                  roomId: members.toString(),
+                                  userModel: filteredUsers[index],
+                                );
+                              }));
+                            } else {
+                              if (!context.mounted) return;
+                              await BlocProvider.of<CreateChatCubit>(context)
+                                  .create(
+                                email: filteredUsers[index].email!,
+                              )
+                                  .then((value) {
+                                context.read<ChatCubit>().getMessage(
+                                      roomId: members.toString(),
+                                    );
+                                Navigator.push(context,
+                                    MaterialPageRoute(builder: (context) {
+                                  return ChatViewBody(
+                                    roomId: members.toString(),
+                                    userModel: filteredUsers[index],
+                                  );
+                                }));
+                              });
+                            }
+                          },
+                          icon: const Icon(IconlyBold.chat)),
                     ),
                   );
                 },
@@ -178,7 +228,3 @@ class _ContactsViewState extends State<ContactsView> {
     );
   }
 }
-//           //   ..where((element) =>
-              //           element.firstName!.startsWith(searchController.text))
-              //       .toList()
-              //   ..sort((a, b) => a.firstName!.compareTo(b.firstName!));
