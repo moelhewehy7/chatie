@@ -1,10 +1,20 @@
+import 'package:chatie/features/groups/data/cubits/create_group_cubit/create_group_cubit.dart';
+import 'package:chatie/features/groups/data/cubits/fetch_group_cubit/fetch_groups_cubit.dart';
+import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/create_group.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_chat_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class GroupsView extends StatelessWidget {
+class GroupsView extends StatefulWidget {
   const GroupsView({super.key});
 
+  @override
+  State<GroupsView> createState() => _GroupsViewState();
+}
+
+class _GroupsViewState extends State<GroupsView> {
+  List<GroupModel> groups = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +23,11 @@ class GroupsView extends StatelessWidget {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => const CreateGroup()),
+                MaterialPageRoute(
+                    builder: (context) => BlocProvider(
+                          create: (context) => CreateGroupCubit(),
+                          child: const CreateGroup(),
+                        )),
               );
             },
             child: const Icon(
@@ -26,18 +40,38 @@ class GroupsView extends StatelessWidget {
               elevation: 1,
               title: Text("Chatie"),
             ),
-            SliverList(
-                delegate: SliverChildBuilderDelegate(
-              childCount: 3,
-              (context, index) {
-                return const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  child: GroupChatCard(
-                    text: Text("Group name"),
-                  ),
-                );
+            BlocBuilder<FetchGroupsCubit, FetchGroupsState>(
+              builder: (context, state) {
+                if (state is FetchGroupsSuccess) {
+                  groups = state.groups
+                    ..sort((a, b) => b.createdAt!.compareTo(a.createdAt!));
+                  return SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                    childCount: groups.length,
+                    (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: GroupChatCard(
+                          text: Text(groups[index].name!),
+                        ),
+                      );
+                    },
+                  ));
+                } else if (state is FetchGroupsEmpty) {
+                  return SliverFillRemaining(
+                    child: Center(
+                      child: Text(
+                        "No groups found",
+                      ),
+                    ),
+                  );
+                } else {
+                  return SliverToBoxAdapter(
+                    child: SizedBox(),
+                  );
+                }
               },
-            )),
+            ),
           ],
         ));
   }
