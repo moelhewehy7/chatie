@@ -10,7 +10,7 @@ part 'group_chats_state.dart';
 class GroupChatsCubit extends Cubit<GroupChatsState> {
   GroupChatsCubit() : super(GroupChatsInitial());
   List<MessageModel> messages = [];
-  Future sendMessege(
+  Future sendMessage(
       {required String message, String? type, required String groupId}) async {
     final myEmail = FirebaseAuth.instance.currentUser!.email;
     String gmsgId = const Uuid()
@@ -35,7 +35,7 @@ class GroupChatsCubit extends Cubit<GroupChatsState> {
     });
   }
 
-  getMessege({required String groupId}) async {
+  getMessage({required String groupId}) async {
     messages.clear();
     FirebaseFirestore.instance
         .collection("groups")
@@ -50,6 +50,7 @@ class GroupChatsCubit extends Cubit<GroupChatsState> {
         for (var doc in event.docs) {
           messages.add(MessageModel.fromjson(doc));
         }
+        print("message" + messages.toString());
         emit(GroupChatsSuccess());
       } else {
         emit(GroupChatsEmpty());
