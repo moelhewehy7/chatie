@@ -1,5 +1,6 @@
 import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,6 +14,8 @@ class FetchGroupsCubit extends Cubit<FetchGroupsState> {
     try {
       FirebaseFirestore.instance
           .collection("groups")
+          .where("members",
+              arrayContains: FirebaseAuth.instance.currentUser!.email)
           .snapshots()
           .listen((event) {
         if (event.docs.isNotEmpty) {
