@@ -12,6 +12,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'features/groups/data/cubits/group_chats_cubit/group_chats_cubit.dart';
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -33,6 +35,7 @@ class Chatie extends StatelessWidget {
             ..fetchChats(email: FirebaseAuth.instance.currentUser!.email!),
         ),
         BlocProvider(create: (context) => ChatCubit()),
+        BlocProvider(create: (context) => GroupChatsCubit()),
         BlocProvider(create: (context) => CreateChatCubit()),
         BlocProvider(
           create: (context) => FetchGroupsCubit()..fetchGroups(),

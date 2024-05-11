@@ -17,7 +17,7 @@ class ChatCubit extends Cubit<ChatState> {
       required String roomId,
       required String userEmail}) async {
     final myEmail = FirebaseAuth.instance.currentUser!.email;
-    debugPrint("myEmail and useremail = $myEmail and $userEmail");
+
     String msgId = const Uuid()
         .v1(); //t will generate a new, unique UUID based on the current time and the MAC address of the device.
     await FirebaseFirestore.instance

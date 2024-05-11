@@ -7,9 +7,6 @@ final class ChatInitial extends ChatState {}
 
 final class ChatEmpty extends ChatState {}
 
-final class ChatSuccess extends ChatState {
-  // final List<MessageModel> messages;
-  // ChatSuccess({required this.messages});
-}
+final class ChatSuccess extends ChatState {}
 
 final class ChatFailure extends ChatState {}
