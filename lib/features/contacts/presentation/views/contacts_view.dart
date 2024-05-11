@@ -6,7 +6,7 @@ import 'package:chatie/features/chats/data/cubits/create_chat_cubit/create_chat_
 import 'package:chatie/features/chats/presentation/views/widgets/chat_view_body.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/show_bottom_sheet.dart';
 import 'package:chatie/features/contacts/data/cubits/add_contact_cubit/add_contact_cubit.dart';
-import 'package:chatie/features/contacts/data/cubits/cubit/fetch_contacts_cubit.dart';
+import 'package:chatie/features/contacts/data/cubits/fetch_contacts_cubit/fetch_contacts_cubit.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -142,46 +142,61 @@ class _ContactsViewState extends State<ContactsView>
                 )
         ],
       ),
-      body: BlocProvider(
-        create: (context) => FetchContactsCubit()..fetchContacts(),
-        child: BlocBuilder<FetchContactsCubit, FetchContactsState>(
-          builder: (context, state) {
-            if (state is FetchContactsSuccess) {
-              List<UserModel> filteredUsers = state.users
-                  .where((user) => user.firstName!
-                      .toLowerCase()
-                      .startsWith(searchController.text.toLowerCase()))
-                  .toList()
-                ..sort((a, b) => a.firstName!.compareTo(b.firstName!));
-              return ListView.builder(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                ),
-                itemCount: filteredUsers.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return Card(
-                    child: ListTile(
-                      leading: const CircleAvatar(),
-                      title: Text(
-                          "${filteredUsers[index].firstName!} ${filteredUsers[index].lastName!}"),
-                      subtitle: Text(
-                        filteredUsers[index].bio!,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
-                      ),
-                      trailing: IconButton(
-                          onPressed: () async {
-                            List<String> members = [
-                              filteredUsers[index].email!,
-                              FirebaseAuth.instance.currentUser!.email!
-                            ]..sort((a, b) => a.compareTo(b));
-                            DocumentSnapshot docSnapshot =
-                                await FirebaseFirestore.instance
-                                    .collection("rooms")
-                                    .doc(members.toString())
-                                    .get();
-                            if (docSnapshot.exists) {
-                              if (!context.mounted) return;
+      body: BlocBuilder<FetchContactsCubit, FetchContactsState>(
+        builder: (context, state) {
+          if (state is FetchContactsSuccess) {
+            List<UserModel> filteredUsers = state.users
+                .where((user) => user.firstName!
+                    .toLowerCase()
+                    .startsWith(searchController.text.toLowerCase()))
+                .toList()
+              ..sort((a, b) => a.firstName!.compareTo(b.firstName!));
+            return ListView.builder(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+              ),
+              itemCount: filteredUsers.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Card(
+                  child: ListTile(
+                    leading: const CircleAvatar(),
+                    title: Text(
+                        "${filteredUsers[index].firstName!} ${filteredUsers[index].lastName!}"),
+                    subtitle: Text(
+                      filteredUsers[index].bio!,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                    trailing: IconButton(
+                        onPressed: () async {
+                          List<String> members = [
+                            filteredUsers[index].email!,
+                            FirebaseAuth.instance.currentUser!.email!
+                          ]..sort((a, b) => a.compareTo(b));
+                          DocumentSnapshot docSnapshot = await FirebaseFirestore
+                              .instance
+                              .collection("rooms")
+                              .doc(members.toString())
+                              .get();
+                          if (docSnapshot.exists) {
+                            if (!context.mounted) return;
+                            context.read<ChatCubit>().getMessage(
+                                  roomId: members.toString(),
+                                );
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return ChatViewBody(
+                                roomId: members.toString(),
+                                userModel: filteredUsers[index],
+                              );
+                            }));
+                          } else {
+                            if (!context.mounted) return;
+                            await BlocProvider.of<CreateChatCubit>(context)
+                                .create(
+                              email: filteredUsers[index].email!,
+                            )
+                                .then((value) {
                               context.read<ChatCubit>().getMessage(
                                     roomId: members.toString(),
                                   );
@@ -192,38 +207,20 @@ class _ContactsViewState extends State<ContactsView>
                                   userModel: filteredUsers[index],
                                 );
                               }));
-                            } else {
-                              if (!context.mounted) return;
-                              await BlocProvider.of<CreateChatCubit>(context)
-                                  .create(
-                                email: filteredUsers[index].email!,
-                              )
-                                  .then((value) {
-                                context.read<ChatCubit>().getMessage(
-                                      roomId: members.toString(),
-                                    );
-                                Navigator.push(context,
-                                    MaterialPageRoute(builder: (context) {
-                                  return ChatViewBody(
-                                    roomId: members.toString(),
-                                    userModel: filteredUsers[index],
-                                  );
-                                }));
-                              });
-                            }
-                          },
-                          icon: const Icon(IconlyBold.chat)),
-                    ),
-                  );
-                },
-              );
-            } else if (state is FetchContactsEmpty) {
-              return Center(child: Text(state.message));
-            } else {
-              return const SizedBox();
-            }
-          },
-        ),
+                            });
+                          }
+                        },
+                        icon: const Icon(IconlyBold.chat)),
+                  ),
+                );
+              },
+            );
+          } else if (state is FetchContactsEmpty) {
+            return Center(child: Text(state.message));
+          } else {
+            return const SizedBox();
+          }
+        },
       ),
     );
   }
