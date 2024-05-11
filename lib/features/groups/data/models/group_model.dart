@@ -1,12 +1,12 @@
 class GroupModel {
   final String? id;
   final String? name;
-  final String? joinedOn;
+  final String? createdAt;
   final String? image;
   final String? lastMessage;
   final String? lastMessageTime;
-  final List members;
-  final List admins;
+  final List? members;
+  final List? admins;
   GroupModel({
     required this.lastMessage,
     required this.lastMessageTime,
@@ -15,7 +15,7 @@ class GroupModel {
     required this.admins,
     required this.members,
     required this.id,
-    required this.joinedOn,
+    required this.createdAt,
   });
   factory GroupModel.fromjson(jsonData) {
     // the data is automatically decoded ,there's no need to manually decode it
@@ -25,7 +25,7 @@ class GroupModel {
         image: jsonData['image'],
         admins: jsonData['admins'],
         members: jsonData['members'],
-        joinedOn: jsonData['joinedOn'],
+        createdAt: jsonData['createdAt'],
         lastMessage: jsonData['lastMessage'],
         lastMessageTime: jsonData['lastMessageTime']);
   }
