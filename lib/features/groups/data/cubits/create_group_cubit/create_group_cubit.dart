@@ -15,7 +15,7 @@ class CreateGroupCubit extends Cubit<CreateGroupState> {
     members.add(myEmail);
     try {
       emit(CreateGroupLoading());
-      await FirebaseFirestore.instance.collection("groups").doc().set({
+      await FirebaseFirestore.instance.collection("groups").doc(groubId).set({
         "id": groubId,
         "name": groupName,
         "image": "",
