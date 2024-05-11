@@ -133,8 +133,3 @@ class _SendMessegeState extends State<SendMessege> {
     );
   }
 }
-// // bottomActionBarConfig: BottomActionBarConfig(
-// //             enabled: false,
-// //             backgroundColor: Theme.of(context).colorScheme.surfaceTint),
-//     searchViewConfig: SearchViewConfig(
-//             backgroundColor: Theme.of(context).colorScheme.onPrimary),
