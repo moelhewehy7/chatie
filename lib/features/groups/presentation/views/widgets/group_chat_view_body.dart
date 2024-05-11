@@ -1,10 +1,12 @@
+import 'package:chatie/features/chats/presentation/views/widgets/send_messeg.dart';
+import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_members_view.dart';
 import 'package:flutter/material.dart';
 import 'package:iconly/iconly.dart';
 
 class GroupChatViewBody extends StatelessWidget {
-  const GroupChatViewBody({super.key});
-
+  const GroupChatViewBody({super.key, required this.groupModel});
+  final GroupModel groupModel;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,10 +16,12 @@ class GroupChatViewBody extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                "Group name",
+              Text(
+                groupModel.name!,
               ),
-              Text("ahmed, mohamed, samy",
+              Text(groupModel.members!.toString(),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodyMedium)
             ]),
         actions: [

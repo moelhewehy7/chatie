@@ -1,5 +1,5 @@
 import 'package:chatie/features/groups/data/cubits/create_group_cubit/create_group_cubit.dart';
-import 'package:chatie/features/groups/data/cubits/fetch_group_cubit/fetch_groups_cubit.dart';
+import 'package:chatie/features/groups/data/cubits/fetch_groups_cubit/fetch_groups_cubit.dart';
 import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/create_group.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_chat_card.dart';
@@ -52,7 +52,7 @@ class _GroupsViewState extends State<GroupsView> {
                       return Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16),
                         child: GroupChatCard(
-                          text: Text(groups[index].name!),
+                          groupModel: groups[index],
                         ),
                       );
                     },
