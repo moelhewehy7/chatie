@@ -1,6 +1,8 @@
+import 'package:chatie/features/groups/data/cubits/group_chats_cubit/group_chats_cubit.dart';
 import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_chat_view_body.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 class GroupChatCard extends StatelessWidget {
@@ -16,6 +18,7 @@ class GroupChatCard extends StatelessWidget {
       child: ListTile(
         splashColor: Colors.transparent,
         onTap: () {
+          context.read<GroupChatsCubit>().getMessage(groupId: groupModel.id!);
           Navigator.push(
               context,
               MaterialPageRoute(

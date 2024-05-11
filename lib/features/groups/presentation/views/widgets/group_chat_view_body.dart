@@ -1,12 +1,24 @@
-import 'package:chatie/features/chats/presentation/views/widgets/send_messeg.dart';
+import 'package:chatie/features/chats/data/models/message_model.dart';
+import 'package:chatie/features/chats/presentation/views/widgets/chat_bubles.dart';
+import 'package:chatie/features/groups/data/cubits/group_chats_cubit/group_chats_cubit.dart';
 import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_members_view.dart';
+import 'package:chatie/features/groups/presentation/views/widgets/group_send_message_field.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 
-class GroupChatViewBody extends StatelessWidget {
+class GroupChatViewBody extends StatefulWidget {
   const GroupChatViewBody({super.key, required this.groupModel});
   final GroupModel groupModel;
+
+  @override
+  State<GroupChatViewBody> createState() => _GroupChatViewBodyState();
+}
+
+class _GroupChatViewBodyState extends State<GroupChatViewBody> {
+  List<MessageModel> messages = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -17,9 +29,9 @@ class GroupChatViewBody extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                groupModel.name!,
+                widget.groupModel.name!,
               ),
-              Text(groupModel.members!.toString(),
+              Text(widget.groupModel.members!.toString(),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodyMedium)
@@ -46,18 +58,61 @@ class GroupChatViewBody extends StatelessWidget {
         child: Column(
           children: [
             Expanded(
-              child: ListView.builder(
-                reverse: true,
-                itemCount: 6,
-                itemBuilder: (context, index) {
-                  return const Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    // children: [ChatBuble()],
-                  );
+              child: BlocBuilder<GroupChatsCubit, GroupChatsState>(
+                builder: (context, state) {
+                  if (state is GroupChatsSuccess) {
+                    messages =
+                        BlocProvider.of<GroupChatsCubit>(context).messages;
+                    return ListView.builder(
+                      reverse: true,
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        return Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ChatBuble(
+                              messageModel: messages[index],
+                            )
+                          ],
+                        );
+                      },
+                    );
+                  } else if (state is GroupChatsEmpty) {
+                    return Center(
+                        child: GestureDetector(
+                      onTap: () {
+                        BlocProvider.of<GroupChatsCubit>(context).sendMessage(
+                          message: "asalam alaykum 👋",
+                          groupId: widget.groupModel.id!,
+                        );
+                      },
+                      child: Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(20),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                "👋",
+                                style: Theme.of(context).textTheme.displayLarge,
+                              ),
+                              const SizedBox(
+                                height: 12,
+                              ),
+                              Text("Say asalam alaykum",
+                                  style: Theme.of(context).textTheme.bodyLarge),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ));
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
                 },
               ),
             ),
-            //  SendMessege(roomId: "",userModel:"" ,)
+            GroupSendMessege(groupModel: widget.groupModel),
           ],
         ),
       ),

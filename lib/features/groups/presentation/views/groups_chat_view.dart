@@ -1,10 +1,11 @@
 import 'package:chatie/features/groups/data/cubits/create_group_cubit/create_group_cubit.dart';
-import 'package:chatie/features/groups/data/cubits/fetch_groups_cubit/fetch_groups_cubit.dart';
 import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/create_group.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_chat_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../data/cubits/fetch_groups_cubit/fetch_groups_cubit.dart';
 
 class GroupsView extends StatefulWidget {
   const GroupsView({super.key});
@@ -50,7 +51,7 @@ class _GroupsViewState extends State<GroupsView> {
                     childCount: groups.length,
                     (context, index) {
                       return Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: GroupChatCard(
                           groupModel: groups[index],
                         ),
