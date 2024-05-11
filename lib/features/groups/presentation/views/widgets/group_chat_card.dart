@@ -1,12 +1,15 @@
+import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_chat_view_body.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class GroupChatCard extends StatelessWidget {
   const GroupChatCard({
     super.key,
-    required this.text,
+    required this.groupModel,
   });
-  final Text text;
+
+  final GroupModel groupModel;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -16,14 +19,31 @@ class GroupChatCard extends StatelessWidget {
           Navigator.push(
               context,
               MaterialPageRoute(
-                  builder: (context) => const GroupChatViewBody()));
+                  builder: (context) => GroupChatViewBody(
+                        groupModel: groupModel,
+                      )));
         },
-        leading: const CircleAvatar(),
-        title: text,
-        subtitle: const Text("Last message"),
+        leading: CircleAvatar(
+            child: Text(groupModel.name!.characters.first.toUpperCase())),
+        title: Text(
+          groupModel.name!,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
+        subtitle: Text(
+          groupModel.lastMessage! != ""
+              ? groupModel.lastMessage!
+              : "Send your first message",
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+        ),
         trailing: Column(
           children: [
-            const Text("10:42 PM"),
+            Text(DateFormat('h:mm a').format(
+                DateTime.fromMillisecondsSinceEpoch(int.parse(
+                    groupModel.lastMessageTime != ""
+                        ? groupModel.lastMessageTime!
+                        : groupModel.createdAt!)))),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 10),
               child: Badge(

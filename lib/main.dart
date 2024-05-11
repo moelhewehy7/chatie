@@ -3,6 +3,8 @@ import 'package:chatie/features/auth/presentation/views/login_view.dart';
 import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatie/features/chats/data/cubits/create_chat_cubit/create_chat_cubit.dart';
 import 'package:chatie/features/chats/data/cubits/fecth_chats_cubit/fetch_chats_cubit.dart';
+import 'package:chatie/features/contacts/data/cubits/fetch_contacts_cubit/fetch_contacts_cubit.dart';
+import 'package:chatie/features/groups/data/cubits/fetch_groups_cubit/fetch_groups_cubit.dart';
 import 'package:chatie/features/home/presentation/views/home_view.dart';
 import 'package:chatie/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,6 +34,12 @@ class Chatie extends StatelessWidget {
         ),
         BlocProvider(create: (context) => ChatCubit()),
         BlocProvider(create: (context) => CreateChatCubit()),
+        BlocProvider(
+          create: (context) => FetchGroupsCubit()..fetchGroups(),
+        ),
+        BlocProvider(
+          create: (context) => FetchContactsCubit()..fetchContacts(),
+        )
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
