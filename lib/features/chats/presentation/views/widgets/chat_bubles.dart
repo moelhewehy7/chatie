@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/chats/data/models/message_model.dart';
+import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -100,7 +101,7 @@ class ChatBuble extends StatelessWidget {
   }
 }
 
-class GroupChatBubleFriend extends StatelessWidget {
+class GroupChatBubleFriend extends StatefulWidget {
   const GroupChatBubleFriend({
     super.key,
     required this.messageModel,
@@ -108,6 +109,18 @@ class GroupChatBubleFriend extends StatelessWidget {
   final MessageModel messageModel;
 
   @override
+  State<GroupChatBubleFriend> createState() => _GroupChatBubleFriendState();
+}
+
+class _GroupChatBubleFriendState extends State<GroupChatBubleFriend> {
+  Stream<UserModel> getUsernameStream() {
+    return FirebaseFirestore.instance
+        .collection("users")
+        .doc(widget.messageModel.fromId)
+        .snapshots()
+        .map((doc) => UserModel.fromjson(doc.data()!));
+  }
+
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.sizeOf(context).height;
@@ -130,31 +143,17 @@ class GroupChatBubleFriend extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(messageModel.fromId)
-                        .snapshots(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        return Text(
-                            snapshot.data!["Firstname"] +
-                                " " +
-                                snapshot.data!["Lastname"],
-                            style: TextStyle(
-                                color: Theme.of(context).colorScheme.primary));
-                      } else {
-                        return const SizedBox();
-                      }
-                    }),
-                messageModel.type == "image"
+                Text(widget.messageModel.fromId!.split("@")[0],
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary)),
+                widget.messageModel.type == "image"
                     ? Container(
                         padding: const EdgeInsets.only(bottom: 3, top: 5),
                         child: SizedBox(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: CachedNetworkImage(
-                              imageUrl: messageModel.message!,
+                              imageUrl: widget.messageModel.message!,
                               placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: const Color(0xFFE0E0E0),
                                 highlightColor: const Color(0xFFF5F5F5),
@@ -174,13 +173,13 @@ class GroupChatBubleFriend extends StatelessWidget {
                         ),
                       )
                     : Text(
-                        messageModel.message!,
+                        widget.messageModel.message!,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                 Text(
                   DateFormat('hh:mm a').format(
                       DateTime.fromMillisecondsSinceEpoch(
-                          int.parse(messageModel.createdAt!))),
+                          int.parse(widget.messageModel.createdAt!))),
                 )
               ],
             ),

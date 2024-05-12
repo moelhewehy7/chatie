@@ -12,6 +12,7 @@ class GroupChatCard extends StatelessWidget {
   });
 
   final GroupModel groupModel;
+
   @override
   Widget build(BuildContext context) {
     return Card(
