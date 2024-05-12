@@ -4,6 +4,7 @@ import 'package:chatie/features/groups/data/cubits/group_chats_cubit/group_chats
 import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_members_view.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_send_message_field.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
@@ -67,14 +68,25 @@ class _GroupChatViewBodyState extends State<GroupChatViewBody> {
                       reverse: true,
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
-                        return Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            ChatBuble(
-                              messageModel: messages[index],
-                            )
-                          ],
-                        );
+                        if (messages[index].fromId ==
+                            FirebaseAuth.instance.currentUser!.email) {
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              ChatBuble(
+                                messageModel: messages[index],
+                              )
+                            ],
+                          );
+                        } else {
+                          return Row(
+                            children: [
+                              GroupChatBubleFriend(
+                                messageModel: messages[index],
+                              ),
+                            ],
+                          );
+                        }
                       },
                     );
                   } else if (state is GroupChatsEmpty) {
