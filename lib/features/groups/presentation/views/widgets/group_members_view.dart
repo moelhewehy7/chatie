@@ -1,6 +1,7 @@
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_add_members.dart';
+import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -82,16 +83,29 @@ class _GroupMembersViewState extends State<GroupMembersView> {
               child: StreamBuilder(
                   stream: FirebaseFirestore.instance
                       .collection("users")
-                      .where("Email", isEqualTo: widget.groupModel.members)
-                      .snapshots(),
+                      .where("Email", whereIn: widget.groupModel.members)
+                      .snapshots(), //
+                  // In summary, equal to is used for single condition filters, while whereIn is used for filters with multiple values.
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
+                      List<UserModel> members = snapshot.data!.docs
+                          .map((e) => UserModel.fromjson(e))
+                          .toList();
+
                       return ListView.builder(
-                        itemCount: widget.groupModel.members!.length,
+                        itemCount: members.length,
                         itemBuilder: (BuildContext context, int index) {
+                          bool admin = widget.groupModel.admins!
+                              .contains(members[index].email);
                           return ListTile(
-                            title: Text("Member $index"),
-                            subtitle: const Text("Admin"),
+                            title: Text(
+                                "${members[index].firstName!} ${members[index].lastName!}"),
+                            subtitle: admin
+                                ? Text(
+                                    "Admin",
+                                    style: TextStyle(color: Colors.blue),
+                                  )
+                                : const Text("Member"),
                             trailing: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
