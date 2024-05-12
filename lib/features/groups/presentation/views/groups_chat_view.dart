@@ -59,7 +59,7 @@ class _GroupsViewState extends State<GroupsView> {
                     },
                   ));
                 } else if (state is FetchGroupsEmpty) {
-                  return SliverFillRemaining(
+                  return const SliverFillRemaining(
                     child: Center(
                       child: Text(
                         "No groups found",
@@ -67,7 +67,7 @@ class _GroupsViewState extends State<GroupsView> {
                     ),
                   );
                 } else {
-                  return SliverToBoxAdapter(
+                  return const SliverToBoxAdapter(
                     child: SizedBox(),
                   );
                 }
