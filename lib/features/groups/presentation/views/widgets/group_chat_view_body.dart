@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:chatie/features/chats/data/models/message_model.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_bubles.dart';
 import 'package:chatie/features/groups/data/cubits/group_chats_cubit/group_chats_cubit.dart';
@@ -64,7 +66,10 @@ class _GroupChatViewBodyState extends State<GroupChatViewBody> {
             child: IconButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return const GroupMembersView();
+                    return GroupMembersView(
+                      groupModel: widget.groupModel,
+                      initialValue: widget.groupModel.name!,
+                    );
                   }));
                 },
                 icon: const Icon(

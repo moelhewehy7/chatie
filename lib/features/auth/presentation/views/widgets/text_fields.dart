@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 class TextForm extends StatelessWidget {
   const TextForm(
       {super.key,
+      this.initialValue,
       this.validator,
       this.onchanged,
       required this.hinttext,
@@ -17,9 +18,11 @@ class TextForm extends StatelessWidget {
   final bool autofocus;
   final BorderSide borderSide;
   final TextEditingController controller;
+  final String? initialValue;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: initialValue,
       onChanged: onchanged,
       autofocus: autofocus,
       controller: controller,
