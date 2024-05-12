@@ -50,7 +50,7 @@ class GroupChatsCubit extends Cubit<GroupChatsState> {
         for (var doc in event.docs) {
           messages.add(MessageModel.fromjson(doc));
         }
-        print("message" + messages.toString());
+
         emit(GroupChatsSuccess());
       } else {
         emit(GroupChatsEmpty());
