@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/chats/data/models/message_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -91,6 +92,95 @@ class ChatBuble extends StatelessWidget {
                       color: Theme.of(context).colorScheme.onPrimary,
                     )
                   ],
+                )
+              ],
+            ),
+          ),
+        ));
+  }
+}
+
+class GroupChatBubleFriend extends StatelessWidget {
+  const GroupChatBubleFriend({
+    super.key,
+    required this.messageModel,
+  });
+  final MessageModel messageModel;
+
+  @override
+  @override
+  Widget build(BuildContext context) {
+    double height = MediaQuery.sizeOf(context).height;
+    double width = MediaQuery.sizeOf(context).width;
+    return Card(
+        margin: EdgeInsets.zero,
+        elevation: 1,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(20),
+            topRight: Radius.circular(20),
+            bottomLeft: Radius.circular(20),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Container(
+            constraints:
+                BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width / 2),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(messageModel.fromId)
+                        .snapshots(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Text(
+                            snapshot.data!["Firstname"] +
+                                " " +
+                                snapshot.data!["Lastname"],
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.primary));
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
+                messageModel.type == "image"
+                    ? Container(
+                        padding: const EdgeInsets.only(bottom: 3, top: 5),
+                        child: SizedBox(
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: CachedNetworkImage(
+                              imageUrl: messageModel.message!,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: const Color(0xFFE0E0E0),
+                                highlightColor: const Color(0xFFF5F5F5),
+                                child: Container(
+                                  width: double.infinity,
+                                  height: 200.0, // Adjust the height as needed
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              errorWidget: (context, url, error) => SizedBox(
+                                  height: height * 0.25,
+                                  width: width * 0.2,
+                                  child:
+                                      const Center(child: Icon(Icons.error))),
+                            ),
+                          ),
+                        ),
+                      )
+                    : Text(
+                        messageModel.message!,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                Text(
+                  DateFormat('hh:mm a').format(
+                      DateTime.fromMillisecondsSinceEpoch(
+                          int.parse(messageModel.createdAt!))),
                 )
               ],
             ),
