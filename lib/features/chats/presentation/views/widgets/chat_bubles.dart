@@ -144,7 +144,7 @@ class GroupChatBubleFriend extends StatelessWidget {
                             style: TextStyle(
                                 color: Theme.of(context).colorScheme.primary));
                       } else {
-                        return SizedBox();
+                        return const SizedBox();
                       }
                     }),
                 messageModel.type == "image"
