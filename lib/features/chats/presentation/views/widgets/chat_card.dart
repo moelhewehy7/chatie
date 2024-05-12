@@ -35,6 +35,7 @@ class ChatCard extends StatelessWidget {
                 splashColor: Colors.transparent,
                 onTap: () async {
                   context.read<ChatCubit>().getMessage(roomId: chatRoom.id!);
+
                   // BlocProvider.of<ChatCubit>(context)
                   //     .getMessage(roomId: chatRoom.id!);
 

@@ -4,6 +4,7 @@ import 'package:chatie/features/groups/data/cubits/group_chats_cubit/group_chats
 import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_members_view.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_send_message_field.dart';
+import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class GroupChatViewBody extends StatefulWidget {
 
 class _GroupChatViewBodyState extends State<GroupChatViewBody> {
   List<MessageModel> messages = [];
+  List<UserModel> users = [];
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +45,7 @@ class _GroupChatViewBodyState extends State<GroupChatViewBody> {
                       List usersList = [];
                       for (var doc in snapshot.data!.docs) {
                         usersList.add(doc.data()[
-                            "Firstname"]); //populating a list called usersList with the values of the "Firstname"
+                            "Firstname"]); //we use this when ther is no index to loop //populating a list called usersList with the values of the "Firstname"
                       } //if we user list of usermodel it will be shown as instacne of usermodel
                       // because we need to loop againg and fetch the field that we want
                       return Text(usersList.join(", "),
@@ -82,6 +84,7 @@ class _GroupChatViewBodyState extends State<GroupChatViewBody> {
                   if (state is GroupChatsSuccess) {
                     messages =
                         BlocProvider.of<GroupChatsCubit>(context).messages;
+
                     return ListView.builder(
                       reverse: true,
                       itemCount: messages.length,
