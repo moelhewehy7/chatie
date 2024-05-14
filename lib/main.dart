@@ -5,6 +5,7 @@ import 'package:chatie/features/chats/data/cubits/create_chat_cubit/create_chat_
 import 'package:chatie/features/chats/data/cubits/fecth_chats_cubit/fetch_chats_cubit.dart';
 import 'package:chatie/features/contacts/data/cubits/fetch_contacts_cubit/fetch_contacts_cubit.dart';
 import 'package:chatie/features/groups/data/cubits/fetch_groups_cubit/fetch_groups_cubit.dart';
+import 'package:chatie/features/home/data/cubits/cubit/theme_cubit.dart';
 import 'package:chatie/features/home/presentation/views/home_view.dart';
 import 'package:chatie/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,6 +30,7 @@ class Chatie extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(
           create: (context) => FetchChatsCubit()
@@ -44,26 +46,26 @@ class Chatie extends StatelessWidget {
           create: (context) => FetchContactsCubit()..fetchContacts(),
         )
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        themeMode: ThemeMode.system,
-        darkTheme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-                seedColor: Colors.indigo, brightness: Brightness.dark),
-            useMaterial3: true),
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.indigo),
-        ),
-        home: StreamBuilder(
-          stream: FirebaseAuth.instance.userChanges(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (snapshot.hasData) {
-              return const HomeView();
-            } else {
-              return const LoginView();
-            }
-          },
-        ),
+      child: BlocBuilder<ThemeCubit, ThemeState>(
+        builder: (context, state) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+
+            theme: (state as dynamic).themeData,
+            //By casting state to dynamic, you're telling Dart to treat state as a dynamic type,
+            // which allows you to access any property without a compile-time type check.
+            home: StreamBuilder(
+              stream: FirebaseAuth.instance.userChanges(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return const HomeView();
+                } else {
+                  return const LoginView();
+                }
+              },
+            ),
+          );
+        },
       ),
     );
   }
