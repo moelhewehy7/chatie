@@ -45,9 +45,51 @@ class FireStorage {
   }
 }
 
-//pick image by using image picker   ImagePicker imagePicker = ImagePicker();      
+//pick image by using image picker   ImagePicker imagePicker = ImagePicker();
 // Initialize Firebase Storage.
 //get extintion of the pic
 // Specify Image Path.
 // Upload Image.
 // Get Image URL.
+
+Future addMember({required String groupId, required List members}) async {
+  await FirebaseFirestore.instance
+      .collection("groups")
+      .doc(groupId)
+      .update({"members": FieldValue.arrayUnion(members)});
+  // is a method by Firestore that is used to update
+  //an array field in a document by adding one or more elements
+}
+
+Future editGroup({
+  required String groupId,
+  required String name,
+}) async {
+  await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
+    "name": name,
+  });
+  // is a method by Firestore that is used to update
+  //an array field in a document by adding one or more elements
+}
+
+Future removeMember({required String groupId, required String member}) async {
+  await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
+    "members": FieldValue.arrayRemove([member])
+  });
+}
+
+Future promptAdmin({required String groupId, required String memberId}) async {
+  await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
+    "admins": FieldValue.arrayUnion([memberId])
+  });
+  // is a method by Firestore that is used to update
+  //an array field in a document by adding one or more elements
+}
+
+Future removeAdimn({required String groupId, required String memberId}) async {
+  await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
+    "admins": FieldValue.arrayRemove([memberId])
+  });
+  // is a method by Firestore that is used to update
+  //an array field in a document by adding one or more elements
+}
