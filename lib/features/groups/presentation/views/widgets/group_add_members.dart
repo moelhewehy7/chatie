@@ -1,6 +1,7 @@
 import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/contacts/data/cubits/fetch_contacts_cubit/fetch_contacts_cubit.dart';
 import 'package:chatie/features/groups/data/models/group_model.dart';
+import 'package:chatie/features/groups/presentation/views/widgets/group_chat_view_body.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
 
 import 'package:flutter/material.dart';
@@ -43,9 +44,11 @@ class _GroupAddMembersState extends State<GroupAddMembers> {
                           groupId: widget.groupModel.id!, members: addedMembers)
                       .then((value) {
                     setState(() {
+                      widget.groupModel.members!.addAll(addedMembers);
                       isLoading = false;
+                      Navigator.pop(context); // First pop
+                      Navigator.pop(context); //
                     });
-                    Navigator.of(context).pop();
                   });
                 },
                 label: const Text("Done"),
