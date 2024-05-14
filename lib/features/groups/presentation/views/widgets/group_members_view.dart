@@ -1,4 +1,4 @@
-import 'package:chatie/core/helper.dart';
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_add_members.dart';
@@ -115,7 +115,7 @@ class _GroupMembersViewState extends State<GroupMembersView> {
                     return ListView.builder(
                       itemCount: members.length,
                       itemBuilder: (BuildContext context, int index) {
-                        bool admin = widget.groupModel.admins!
+                        bool selectedUserIsAdmin = widget.groupModel.admins!
                             .contains(members[index].email);
                         return ListTile(
                           onTap: () {},
@@ -130,7 +130,7 @@ class _GroupMembersViewState extends State<GroupMembersView> {
                           ),
                           title: Text(
                               "${members[index].firstName!} ${members[index].lastName!}"),
-                          subtitle: admin
+                          subtitle: selectedUserIsAdmin
                               ? const Text(
                                   "Admin",
                                   style: TextStyle(color: Colors.blue),
@@ -139,11 +139,36 @@ class _GroupMembersViewState extends State<GroupMembersView> {
                           trailing: Row(
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              IconButton(
-                                  onPressed: () {},
-                                  icon: isAdmin
-                                      ? const Icon(Icons.admin_panel_settings)
-                                      : const SizedBox()),
+                              isAdmin && myEmail == members[index].email
+                                  ? const SizedBox()
+                                  : IconButton(
+                                      onPressed: () {
+                                        selectedUserIsAdmin
+                                            ? removeAdimn(
+                                                    groupId:
+                                                        widget.groupModel.id!,
+                                                    memberId:
+                                                        members[index].email!)
+                                                .then((value) => setState(() {
+                                                      widget.groupModel.admins!
+                                                          .remove(members[index]
+                                                              .email!);
+                                                    }))
+                                            : promptAdmin(
+                                                    groupId:
+                                                        widget.groupModel.id!,
+                                                    memberId:
+                                                        members[index].email!)
+                                                .then((value) => setState(() {
+                                                      widget.groupModel.admins!
+                                                          .add(members[index]
+                                                              .email!);
+                                                    }));
+                                      },
+                                      icon: isAdmin
+                                          ? const Icon(
+                                              Icons.admin_panel_settings)
+                                          : const SizedBox()),
                               isAdmin && myEmail == members[index].email
                                   ? const SizedBox()
                                   : IconButton(
