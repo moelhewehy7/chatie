@@ -32,7 +32,11 @@ class _GroupMembersViewState extends State<GroupMembersView> {
           await editGroup(
             groupId: widget.groupModel.id!,
             name: groupcontroller.text,
-          ).then((value) => Navigator.of(context).pop());
+          ).then((value) => setState(() {
+                widget.groupModel.name = groupcontroller.text;
+                Navigator.of(context).pop();
+                Navigator.of(context).pop();
+              }));
         },
         label: const Text("Done"),
         icon: const Icon(Icons.check_circle),

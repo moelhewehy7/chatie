@@ -1,6 +1,6 @@
 class GroupModel {
   final String? id;
-  final String? name;
+  String? name;
   final String? createdAt;
   final String? image;
   final String? lastMessage;
