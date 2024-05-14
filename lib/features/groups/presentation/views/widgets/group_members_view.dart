@@ -143,7 +143,7 @@ class _GroupMembersViewState extends State<GroupMembersView> {
                                   ? const SizedBox()
                                   : IconButton(
                                       onPressed: () {
-                                        selectedUserIsAdmin
+                                        selectedUserIsAdmin // if the selected user is an admin
                                             ? removeAdimn(
                                                     groupId:
                                                         widget.groupModel.id!,
