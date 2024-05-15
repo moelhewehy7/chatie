@@ -6,6 +6,7 @@ import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsView extends StatelessWidget {
   const SettingsView({super.key});
@@ -63,16 +64,27 @@ class SettingsView extends StatelessWidget {
             ),
             Card(
                 child: ListTile(
-              onTap: () {
+              onTap: () async {
+                final sharedPreferences = await SharedPreferences.getInstance();
+                if (!context.mounted) return;
                 showDialog(
                     context: context,
                     builder: (builder) {
                       return AlertDialog(
                         content: SingleChildScrollView(
-                          child: ColorPicker(onColorChanged: (value) {
-                            context.read<ThemeCubit>().setColor(
-                                value.value.toRadixString(16).toColor);
-                          }),
+                          child: ColorPicker(
+                              color: sharedPreferences
+                                  .getInt('color')!
+                                  .toRadixString(16)
+                                  .toColor,
+                              selectedPickerTypeColor: sharedPreferences
+                                  .getInt('color')!
+                                  .toRadixString(16)
+                                  .toColor,
+                              onColorChanged: (value) {
+                                context.read<ThemeCubit>().setColor(
+                                    value.value.toRadixString(16).toColor);
+                              }),
                         ),
                       );
                     });
