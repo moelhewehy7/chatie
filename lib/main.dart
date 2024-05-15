@@ -17,6 +17,7 @@ import 'features/groups/data/cubits/group_chats_cubit/group_chats_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
