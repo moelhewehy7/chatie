@@ -24,6 +24,7 @@ class AuthCubit extends Cubit<AuthState> {
         "Firstname": firstName,
         "Lastname": lastname,
         "Email": email,
+        "image": "",
         "bio": bio,
         "myUsers": [],
         "JoinedOn": DateTime.now().millisecondsSinceEpoch.toString()

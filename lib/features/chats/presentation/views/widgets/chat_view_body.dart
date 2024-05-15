@@ -190,7 +190,6 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                         : selectedCopyMessage
                                             .add(messages[index].message!);
                                   }
-                                  debugPrint(selectedCopyMessage.toString());
                                 });
                               },
                               child: Container(
