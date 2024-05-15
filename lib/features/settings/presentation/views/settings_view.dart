@@ -65,7 +65,7 @@ class SettingsView extends StatelessWidget {
             Card(
                 child: ListTile(
               onTap: () async {
-                final sharedPreferences = await SharedPreferences.getInstance();
+                final sharedprefs = await SharedPreferences.getInstance();
                 if (!context.mounted) return;
                 showDialog(
                     context: context,
@@ -73,14 +73,11 @@ class SettingsView extends StatelessWidget {
                       return AlertDialog(
                         content: SingleChildScrollView(
                           child: ColorPicker(
-                              color: sharedPreferences
-                                  .getInt('color')!
-                                  .toRadixString(16)
-                                  .toColor,
-                              selectedPickerTypeColor: sharedPreferences
-                                  .getInt('color')!
-                                  .toRadixString(16)
-                                  .toColor,
+                              color: Color(sharedprefs.getInt("color") ??
+                                  Colors.indigo.value),
+                              selectedPickerTypeColor: Color(
+                                  sharedprefs.getInt("color") ??
+                                      Colors.indigo.value),
                               onColorChanged: (value) {
                                 context.read<ThemeCubit>().setColor(
                                     value.value.toRadixString(16).toColor);
