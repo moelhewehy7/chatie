@@ -1,5 +1,7 @@
 import 'package:chatie/core/helper.dart';
-import 'package:chatie/features/home/data/cubits/cubit/theme_cubit.dart';
+import 'package:chatie/features/home/data/cubits/theme_cubit/theme_cubit.dart';
+import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
+import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:chatie/features/settings/presentation/views/widgets/profile_view.dart';
 import 'package:chatie/features/settings/presentation/views/widgets/qr_code._view.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
@@ -8,9 +10,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingsView extends StatelessWidget {
+class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
 
+  @override
+  State<SettingsView> createState() => _SettingsViewState();
+}
+
+class _SettingsViewState extends State<SettingsView> {
+  UserModel userModel = UserModel(
+      myUsers: [],
+      firstName: "firstName",
+      lastName: "lastName",
+      bio: "bio",
+      email: "email",
+      joinedOn: "joinedOn");
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +40,7 @@ class SettingsView extends StatelessWidget {
           children: [
             ListTile(
               minVerticalPadding: 20,
-              title: const Row(
+              title: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   CircleAvatar(
@@ -33,7 +48,16 @@ class SettingsView extends StatelessWidget {
                   ),
                   Padding(
                     padding: EdgeInsets.only(left: 16),
-                    child: Text("Name"),
+                    child: BlocBuilder<UserDataCubit, UserDataState>(
+                      builder: (context, state) {
+                        if (state is UserDataSuccess) {
+                          userModel = state.userModel;
+                          return Text(
+                              "${state.userModel.firstName!} ${state.userModel.lastName!}");
+                        }
+                        return Text("");
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -54,7 +78,9 @@ class SettingsView extends StatelessWidget {
                   onPressed: () {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
-                      return const ProfileView();
+                      return ProfileView(
+                        userModel: userModel,
+                      );
                     }));
                   },
                   icon: const Icon(IconlyLight.arrow_right)),

@@ -5,7 +5,8 @@ import 'package:chatie/features/chats/data/cubits/create_chat_cubit/create_chat_
 import 'package:chatie/features/chats/data/cubits/fecth_chats_cubit/fetch_chats_cubit.dart';
 import 'package:chatie/features/contacts/data/cubits/fetch_contacts_cubit/fetch_contacts_cubit.dart';
 import 'package:chatie/features/groups/data/cubits/fetch_groups_cubit/fetch_groups_cubit.dart';
-import 'package:chatie/features/home/data/cubits/cubit/theme_cubit.dart';
+import 'package:chatie/features/home/data/cubits/theme_cubit/theme_cubit.dart';
+import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
 import 'package:chatie/features/home/presentation/views/home_view.dart';
 import 'package:chatie/firebase_options.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,6 +33,7 @@ class Chatie extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => UserDataCubit()),
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(
           create: (context) => FetchChatsCubit()
