@@ -1,7 +1,6 @@
 import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/contacts/data/cubits/fetch_contacts_cubit/fetch_contacts_cubit.dart';
 import 'package:chatie/features/groups/data/models/group_model.dart';
-import 'package:chatie/features/groups/presentation/views/widgets/group_chat_view_body.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
 
 import 'package:flutter/material.dart';
