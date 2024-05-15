@@ -33,6 +33,7 @@ class ThemeCubit extends Cubit<ThemeState> {
 
   getsharedpref() async {
     final sharedprefs = await SharedPreferences.getInstance();
+
     color = Color(sharedprefs.getInt("color") ?? Colors.indigo.value);
     if (sharedprefs.getBool('theme') == true) {
       emit(DarkThemeState(color));
