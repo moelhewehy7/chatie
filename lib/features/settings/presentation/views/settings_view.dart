@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/core/helper.dart';
 import 'package:chatie/features/home/data/cubits/theme_cubit/theme_cubit.dart';
 import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
@@ -9,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shimmer/shimmer.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -19,13 +22,14 @@ class SettingsView extends StatefulWidget {
 
 class _SettingsViewState extends State<SettingsView> {
   UserModel userModel = UserModel(
+      profilePic: "",
       myUsers: [],
       firstName: "firstName",
       lastName: "lastName",
       bio: "bio",
       email: "email",
       joinedOn: "joinedOn");
-  @override
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,26 +44,79 @@ class _SettingsViewState extends State<SettingsView> {
           children: [
             ListTile(
               minVerticalPadding: 20,
-              title: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  CircleAvatar(
-                    radius: 40,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(left: 16),
-                    child: BlocBuilder<UserDataCubit, UserDataState>(
-                      builder: (context, state) {
-                        if (state is UserDataSuccess) {
-                          userModel = state.userModel;
-                          return Text(
-                              "${state.userModel.firstName!} ${state.userModel.lastName!}");
-                        }
-                        return Text("");
-                      },
-                    ),
-                  ),
-                ],
+              title: BlocBuilder<UserDataCubit, UserDataState>(
+                builder: (context, state) {
+                  if (state is UserDataSuccess) {
+                    userModel = state.userModel;
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        CircleAvatar(
+                          radius: 40,
+                          backgroundColor: Colors.grey[200],
+                          child: ClipOval(
+                            child: CachedNetworkImage(
+                              imageUrl: userModel.profilePic! !=
+                                      FireStorage().alternativeImage
+                                  ? userModel.profilePic!
+                                  : FireStorage().alternativeImage,
+                              placeholder: (context, url) => Shimmer.fromColors(
+                                baseColor: Colors.grey[300]!,
+                                highlightColor: Colors.grey[100]!,
+                                child: Container(
+                                  width: 80.0,
+                                  height: 80.0,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                              imageBuilder: (context, imageProvider) =>
+                                  CircleAvatar(
+                                radius: 40,
+                                backgroundImage: imageProvider,
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: Text(
+                              "${userModel.firstName!} ${userModel.lastName!}"),
+                        ),
+                      ],
+                    );
+                  } else {
+                    return Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey[300]!,
+                          highlightColor: Colors.grey[100]!,
+                          child: CircleAvatar(
+                            radius: 40,
+                            backgroundColor: Colors.grey[200],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16),
+                          child: Shimmer.fromColors(
+                            baseColor: Colors.grey[300]!,
+                            highlightColor: Colors.grey[100]!,
+                            child: Container(
+                              width: 100,
+                              height: 20,
+                              color: Colors.grey[200],
+                            ),
+                          ),
+                        ),
+                      ],
+                    );
+                  }
+                },
               ),
               trailing: IconButton(
                   onPressed: () {
@@ -69,6 +126,9 @@ class _SettingsViewState extends State<SettingsView> {
                             builder: (context) => const QrCodeView()));
                   },
                   icon: const Icon(IconlyBold.scan)),
+            ),
+            const SizedBox(
+              height: 20,
             ),
             Card(
                 child: ListTile(
@@ -86,7 +146,7 @@ class _SettingsViewState extends State<SettingsView> {
                   icon: const Icon(IconlyLight.arrow_right)),
             )),
             const SizedBox(
-              height: 4,
+              height: 10,
             ),
             Card(
                 child: ListTile(
@@ -116,7 +176,7 @@ class _SettingsViewState extends State<SettingsView> {
               title: const Text("Themes"),
             )),
             const SizedBox(
-              height: 4,
+              height: 10,
             ),
             Card(
                 child: ListTile(
@@ -137,7 +197,7 @@ class _SettingsViewState extends State<SettingsView> {
               ),
             )),
             const SizedBox(
-              height: 4,
+              height: 10,
             ),
             Card(
                 child: ListTile(
