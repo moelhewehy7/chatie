@@ -1,3 +1,7 @@
+import 'dart:js';
+
+import 'package:chatie/core/firebase_helper.dart';
+import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -24,7 +28,7 @@ class AuthCubit extends Cubit<AuthState> {
         "Firstname": firstName,
         "Lastname": lastname,
         "Email": email,
-        "image": "",
+        "image": FireStorage().alternativeImage,
         "bio": bio,
         "myUsers": [],
         "JoinedOn": DateTime.now().millisecondsSinceEpoch.toString()
@@ -51,6 +55,7 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+
       emit(LogInSuccess());
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

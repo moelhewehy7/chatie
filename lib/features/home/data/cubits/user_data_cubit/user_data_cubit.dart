@@ -8,12 +8,24 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'user_data_state.dart';
 
 class UserDataCubit extends Cubit<UserDataState> {
-  UserDataCubit() : super(UserDataInitial()) {
-    getUserData();
+  UserDataCubit() : super(UserDataInitial());
+  final myEmail = FirebaseAuth.instance.currentUser!.email;
+  Future<void> updateUserData(
+      {required String firstName,
+      required String lastName,
+      required String bio,
+      required String imageUrl}) async {
+    emit(UserDataLoading());
+    await Future.delayed(const Duration(seconds: 2));
+    await FirebaseFirestore.instance.collection("users").doc(myEmail).update({
+      "Firstname": firstName,
+      "Lastname": lastName,
+      "image": imageUrl,
+      "bio": bio
+    });
   }
 
   getUserData() {
-    String? myEmail = FirebaseAuth.instance.currentUser!.email;
     FirebaseFirestore.instance
         .collection("users")
         .doc(myEmail)
@@ -21,19 +33,5 @@ class UserDataCubit extends Cubit<UserDataState> {
         .listen((event) {
       emit(UserDataSuccess(userModel: UserModel.fromjson(event)));
     });
-  }
-
-  Future<void> updateUserData(
-      {required String firstName,
-      required String lastName,
-      required String imageUrl}) async {
-    emit(UserDataLoading());
-    String? myEmail = FirebaseAuth.instance.currentUser!.email;
-    await FirebaseFirestore.instance.collection("users").doc(myEmail).update({
-      "Firstname": firstName,
-      "Lastname": lastName,
-      "image": imageUrl,
-    });
-    emit(UserDataUpdating());
   }
 }

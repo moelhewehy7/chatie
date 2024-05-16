@@ -1,3 +1,4 @@
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatie/features/chats/data/models/chat_room_model.dart';
 import 'package:chatie/features/chats/data/models/message_model.dart';
@@ -48,8 +49,11 @@ class ChatCard extends StatelessWidget {
                               )));
                 },
                 leading: CircleAvatar(
-                    child: Text(
-                        userModel.firstName!.characters.first.toUpperCase())),
+                  backgroundImage: Image.network(userModel.profilePic! != ""
+                          ? userModel.profilePic!
+                          : FireStorage().alternativeImage)
+                      .image,
+                ),
                 title: Text("${userModel.firstName!} ${userModel.lastName!}"),
                 subtitle: Text(
                   chatRoom.lastMessage != "lastMessage"

@@ -28,7 +28,10 @@ Future deleteMessage(
 }
 
 class FireStorage {
+  final alternativeImage =
+      "http://as2.ftcdn.net/v2/jpg/03/31/69/91/1000_F_331699188_lRpvqxO5QRtwOM05gR50ImaaJgBx68vi.jpg";
   final FirebaseStorage fireStorage = FirebaseStorage.instance;
+
   sendImage(BuildContext context,
       {required String userEmail,
       required String roomId,
@@ -43,6 +46,11 @@ class FireStorage {
     BlocProvider.of<ChatCubit>(context).sendMessage(
         message: imageUrl, roomId: roomId, userEmail: userEmail, type: "image");
   }
+
+  updataProfilePic(BuildContext context,
+      {required File file,
+      required String firstName,
+      required String lastName}) async {}
 }
 
 //pick image by using image picker   ImagePicker imagePicker = ImagePicker();
