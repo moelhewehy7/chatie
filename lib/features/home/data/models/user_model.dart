@@ -4,6 +4,7 @@ class UserModel {
   final String? firstName;
   final String? lastName;
   final String? bio;
+  String? profilePic;
   final String? email;
   // final bool? lastSeen;
   // final bool? isOnline;
@@ -13,6 +14,7 @@ class UserModel {
   final List myUsers;
   UserModel({
     required this.myUsers,
+    required this.profilePic,
     required this.firstName,
     required this.lastName,
     required this.bio,
@@ -22,8 +24,6 @@ class UserModel {
   factory UserModel.fromjson(jsonData) {
     // the data is automatically decoded ,there's no need to manually decode it
     return UserModel(
-        // id: jsonData['id'],
-        // name: jsonData['name'],
         firstName: jsonData['Firstname'],
         lastName: jsonData['Lastname'],
         bio: jsonData['bio'],
@@ -33,7 +33,8 @@ class UserModel {
         joinedOn: jsonData['JoinedOn'],
         // profilePic: jsonData['profile_pic'],
         // pushToken: jsonData['push_token'],
-        myUsers: jsonData['myUsers']);
+        myUsers: jsonData['myUsers'],
+        profilePic: jsonData['image']);
   }
 }
 //When you fetch data from Firebase, you receive a JSON representation of the data.

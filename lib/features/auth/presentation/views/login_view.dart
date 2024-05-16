@@ -5,6 +5,7 @@ import 'package:chatie/core/app_logo.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/forgot_password.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:chatie/features/chats/data/cubits/fecth_chats_cubit/fetch_chats_cubit.dart';
+import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
 import 'package:chatie/features/home/presentation/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -120,6 +121,8 @@ class _LoginViewState extends State<LoginView> {
                       return FillButton(
                         onPressed: () {
                           if (formkey.currentState!.validate()) {
+                            BlocProvider.of<UserDataCubit>(context)
+                                .getUserData();
                             BlocProvider.of<AuthCubit>(context).logIn(
                               email: emailController.text,
                               password: passwordController.text,

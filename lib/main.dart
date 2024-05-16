@@ -33,7 +33,6 @@ class Chatie extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => ThemeCubit()),
-        BlocProvider(create: (context) => UserDataCubit()),
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(
           create: (context) => FetchChatsCubit()
@@ -42,6 +41,7 @@ class Chatie extends StatelessWidget {
         BlocProvider(create: (context) => ChatCubit()),
         BlocProvider(create: (context) => GroupChatsCubit()),
         BlocProvider(create: (context) => CreateChatCubit()),
+        BlocProvider(create: (context) => UserDataCubit()),
         BlocProvider(
           create: (context) => FetchGroupsCubit()..fetchGroups(),
         ),
