@@ -1,9 +1,7 @@
 import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/core/helper.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
+import 'package:chatie/features/chats/presentation/views/widgets/profile_pic.dart';
 import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -14,7 +12,6 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:iconly/iconly.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:shimmer/shimmer.dart';
 
 class ProfileView extends StatefulWidget {
   const ProfileView({required this.userModel, super.key});
@@ -63,34 +60,10 @@ class _ProfileViewState extends State<ProfileView> {
               child: Column(children: [
                 Stack(
                   children: [
-                    CircleAvatar(
-                      radius: 60,
-                      child: ClipOval(
-                          child: CachedNetworkImage(
-                        imageUrl: widget.userModel.profilePic! !=
-                                FireStorage().alternativeImage
-                            ? widget.userModel.profilePic!
-                            : FireStorage().alternativeImage,
-                        placeholder: (context, url) => Shimmer.fromColors(
-                          baseColor: Colors.grey[300]!,
-                          highlightColor: Colors.grey[100]!,
-                          child: Container(
-                            width: 120,
-                            height: 120,
-                            decoration: BoxDecoration(
-                              color: Colors.grey[200],
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
-                        errorWidget: (context, url, error) =>
-                            const Icon(Icons.error),
-                        imageBuilder: (context, imageProvider) => CircleAvatar(
-                          radius: 60,
-                          backgroundImage: imageProvider,
-                        ),
-                      )),
-                    ),
+                    ProfilePic(
+                        userModel: widget.userModel,
+                        radius: 60,
+                        doubleRadius: 120),
                     Positioned(
                         right: -10,
                         bottom: -10,
@@ -105,7 +78,7 @@ class _ProfileViewState extends State<ProfileView> {
                                     msg:
                                         "Profile picture is updating, please wait",
                                     context: context,
-                                    time: 3);
+                                    time: 4);
                                 imagePath = image.path;
                                 String ext =
                                     File(image.path).path.split('.').last;
