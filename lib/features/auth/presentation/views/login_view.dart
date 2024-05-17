@@ -119,11 +119,9 @@ class _LoginViewState extends State<LoginView> {
                           ));
                     } else {
                       return FillButton(
-                        onPressed: () {
+                        onPressed: () async {
                           if (formkey.currentState!.validate()) {
-                            BlocProvider.of<UserDataCubit>(context)
-                                .getUserData();
-                            BlocProvider.of<AuthCubit>(context).logIn(
+                            await BlocProvider.of<AuthCubit>(context).logIn(
                               email: emailController.text,
                               password: passwordController.text,
                             );
