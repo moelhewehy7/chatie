@@ -20,7 +20,7 @@ class UserDataCubit extends Cubit<UserDataState> {
       required String bio,
       required String imageUrl}) async {
     final myEmail = FirebaseAuth.instance.currentUser!.email;
-    print("${myEmail}this is my email");
+    debugPrint("${myEmail}this is my email");
     emit(UserDataLoading());
     await Future.delayed(const Duration(seconds: 2));
     await FirebaseFirestore.instance.collection("users").doc(myEmail).update({

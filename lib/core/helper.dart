@@ -1,9 +1,7 @@
 import 'package:chatie/features/auth/presentation/views/login_view.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
-import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void showtoast(

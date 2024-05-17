@@ -1,8 +1,6 @@
 import 'package:chatie/core/firebase_helper.dart';
-import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 part 'auth_state.dart';
