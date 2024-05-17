@@ -15,8 +15,14 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   int currentIndex = 0;
-  PageController pageController = PageController();
-  //is used to control the PageView and enable programmatic page navigation.
+  final PageController pageController = PageController();
+
+  @override
+  void dispose() {
+    pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,12 +33,11 @@ class _HomeViewState extends State<HomeView> {
             currentIndex = value;
           });
         },
-        //updates the currentindex variable to reflect the selectedIndex property
         children: const [
           ChatView(),
           GroupsView(),
           ContactsView(),
-          SettingsView()
+          SettingsView(),
         ],
       ),
       bottomNavigationBar: NavigationBar(
@@ -46,21 +51,25 @@ class _HomeViewState extends State<HomeView> {
         },
         destinations: const [
           NavigationDestination(
-              selectedIcon: Icon(IconlyBold.chat),
-              icon: Icon(IconlyLight.chat),
-              label: "Chats"),
+            selectedIcon: Icon(IconlyBold.chat),
+            icon: Icon(IconlyLight.chat),
+            label: "Chats",
+          ),
           NavigationDestination(
-              selectedIcon: Icon(IconlyBold.user_3, size: 26),
-              icon: Icon(IconlyLight.user_1, size: 26),
-              label: "Groups"),
+            selectedIcon: Icon(IconlyBold.user_3, size: 26),
+            icon: Icon(IconlyLight.user_1, size: 26),
+            label: "Groups",
+          ),
           NavigationDestination(
-              selectedIcon: Icon(Icons.contacts),
-              icon: Icon(Icons.contacts_outlined),
-              label: "Contacts"),
+            selectedIcon: Icon(Icons.contacts),
+            icon: Icon(Icons.contacts_outlined),
+            label: "Contacts",
+          ),
           NavigationDestination(
-              selectedIcon: Icon(IconlyBold.setting),
-              icon: Icon(IconlyLight.setting),
-              label: "Settings")
+            selectedIcon: Icon(IconlyBold.setting),
+            icon: Icon(IconlyLight.setting),
+            label: "Settings",
+          ),
         ],
       ),
     );
