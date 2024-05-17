@@ -1,8 +1,8 @@
-import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatie/features/chats/data/models/chat_room_model.dart';
 import 'package:chatie/features/chats/data/models/message_model.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_view_body.dart';
+import 'package:chatie/features/chats/presentation/views/widgets/profile_pic.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -48,12 +48,8 @@ class ChatCard extends StatelessWidget {
                                 roomId: chatRoom.id!,
                               )));
                 },
-                leading: CircleAvatar(
-                  backgroundImage: Image.network(userModel.profilePic! != ""
-                          ? userModel.profilePic!
-                          : FireStorage().alternativeImage)
-                      .image,
-                ),
+                leading: ProfilePic(
+                    radius: 25, doubleRadius: 50, userModel: userModel),
                 title: Text("${userModel.firstName!} ${userModel.lastName!}"),
                 subtitle: Text(
                   chatRoom.lastMessage != "lastMessage"
@@ -115,5 +111,4 @@ class ChatCard extends StatelessWidget {
           }
         });
   }
-} // to get unRead messages
-                          
+}

@@ -1,5 +1,6 @@
 import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
+import 'package:chatie/features/chats/presentation/views/widgets/profile_pic.dart';
 import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_add_members.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
@@ -125,12 +126,10 @@ class _GroupMembersViewState extends State<GroupMembersView> {
                           onTap: () {},
                           contentPadding:
                               const EdgeInsets.symmetric(horizontal: 24),
-                          leading: CircleAvatar(
-                            child: Text(members[index]
-                                .firstName!
-                                .toUpperCase()
-                                .characters
-                                .first),
+                          leading: ProfilePic(
+                            userModel: members[index],
+                            radius: 20,
+                            doubleRadius: 40,
                           ),
                           title: Text(
                               "${members[index].firstName!} ${members[index].lastName!}"),

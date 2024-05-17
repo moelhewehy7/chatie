@@ -1,6 +1,5 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/core/helper.dart';
+import 'package:chatie/features/chats/presentation/views/widgets/profile_pic.dart';
 import 'package:chatie/features/home/data/cubits/theme_cubit/theme_cubit.dart';
 import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
@@ -51,37 +50,8 @@ class _SettingsViewState extends State<SettingsView> {
                     return Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        CircleAvatar(
-                          radius: 40,
-                          backgroundColor: Colors.grey[200],
-                          child: ClipOval(
-                            child: CachedNetworkImage(
-                              imageUrl: userModel.profilePic! !=
-                                      FireStorage().alternativeImage
-                                  ? userModel.profilePic!
-                                  : FireStorage().alternativeImage,
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: Colors.grey[300]!,
-                                highlightColor: Colors.grey[100]!,
-                                child: Container(
-                                  width: 80.0,
-                                  height: 80.0,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    shape: BoxShape.circle,
-                                  ),
-                                ),
-                              ),
-                              errorWidget: (context, url, error) =>
-                                  const Icon(Icons.error),
-                              imageBuilder: (context, imageProvider) =>
-                                  CircleAvatar(
-                                radius: 40,
-                                backgroundImage: imageProvider,
-                              ),
-                            ),
-                          ),
-                        ),
+                        ProfilePic(
+                            userModel: userModel, radius: 40, doubleRadius: 80),
                         Padding(
                           padding: const EdgeInsets.only(left: 16),
                           child: Text(
