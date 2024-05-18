@@ -94,21 +94,27 @@ class _GroupChatViewBodyState extends State<GroupChatViewBody> {
                       itemBuilder: (context, index) {
                         if (messages[index].fromId ==
                             FirebaseAuth.instance.currentUser!.email) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ChatBuble(
-                                messageModel: messages[index],
-                              )
-                            ],
+                          return Container(
+                            margin: const EdgeInsets.only(top: 3),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                ChatBuble(
+                                  messageModel: messages[index],
+                                )
+                              ],
+                            ),
                           );
                         } else {
-                          return Row(
-                            children: [
-                              GroupChatBubleFriend(
-                                messageModel: messages[index],
-                              ),
-                            ],
+                          return Container(
+                            margin: const EdgeInsets.only(bottom: 3),
+                            child: Row(
+                              children: [
+                                GroupChatBubleFriend(
+                                  messageModel: messages[index],
+                                ),
+                              ],
+                            ),
                           );
                         }
                       },
