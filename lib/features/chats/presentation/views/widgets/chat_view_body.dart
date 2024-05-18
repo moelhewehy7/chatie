@@ -126,7 +126,9 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                 });
                               },
                               child: Container(
-                                margin: const EdgeInsets.only(top: 3),
+                                margin: const EdgeInsets.only(
+                                  top: 3,
+                                ),
                                 padding: EdgeInsets.zero,
                                 decoration: BoxDecoration(
                                   color: selectedMessage
@@ -193,7 +195,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                                 });
                               },
                               child: Container(
-                                margin: const EdgeInsets.only(top: 3),
+                                margin: const EdgeInsets.only(bottom: 3),
                                 padding: EdgeInsets.zero,
                                 decoration: BoxDecoration(
                                   color: selectedMessage
