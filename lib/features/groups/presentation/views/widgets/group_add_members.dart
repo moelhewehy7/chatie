@@ -64,37 +64,63 @@ class _GroupAddMembersState extends State<GroupAddMembers> {
                       !widget.groupModel.members!.contains(element.email))
                   .toList()
                 ..sort((a, b) => a.firstName!.compareTo(b.firstName!));
-              if (userModel.isNotEmpty) {
-                return ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  itemCount: userModel.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return CheckboxListTile(
-                      checkboxShape: const CircleBorder(),
-                      value: addedMembers.contains(userModel[index].email),
-                      onChanged: (value) {
-                        setState(() {
-                          if (value == true) {
-                            addedMembers.add(userModel[index].email!);
-                          } else {
-                            addedMembers.remove(userModel[index].email!);
-                          }
-                        });
-                      },
-                      title: Text(
-                          "${userModel[index].firstName} ${userModel[index].lastName}"),
-                    );
-                  },
-                );
-              } else {
-                return const Center(
-                  child: Text("No Users Found"),
-                );
-              }
+
+              return ListView.builder(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                itemCount: userModel.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return CheckboxListTile(
+                    checkboxShape: const CircleBorder(),
+                    value: addedMembers.contains(userModel[index].email),
+                    onChanged: (value) {
+                      setState(() {
+                        if (value == true) {
+                          addedMembers.add(userModel[index].email!);
+                        } else {
+                          addedMembers.remove(userModel[index].email!);
+                        }
+                      });
+                    },
+                    title: Text(
+                        "${userModel[index].firstName} ${userModel[index].lastName}"),
+                  );
+                },
+              );
+            } else if (state is FetchContactsEmpty) {
+              return const Center(
+                child: Text("No Users Found, Add Users"),
+              );
             } else {
-              return const SizedBox(); //CircularProgressIndicator();
+              return const SizedBox();
             }
           },
         ));
   }
 }
+  //  if (userModel.isNotEmpty) {
+  //               return ListView.builder(
+  //                 padding: const EdgeInsets.symmetric(horizontal: 16),
+  //                 itemCount: userModel.length,
+  //                 itemBuilder: (BuildContext context, int index) {
+  //                   return CheckboxListTile(
+  //                     checkboxShape: const CircleBorder(),
+  //                     value: addedMembers.contains(userModel[index].email),
+  //                     onChanged: (value) {
+  //                       setState(() {
+  //                         if (value == true) {
+  //                           addedMembers.add(userModel[index].email!);
+  //                         } else {
+  //                           addedMembers.remove(userModel[index].email!);
+  //                         }
+  //                       });
+  //                     },
+  //                     title: Text(
+  //                         "${userModel[index].firstName} ${userModel[index].lastName}"),
+  //                   );
+  //                 },
+  //               );
+  //             } else {
+  //               return const Center(
+  //                 child: Text("No Users Found"),
+  //               );
+  //             }
