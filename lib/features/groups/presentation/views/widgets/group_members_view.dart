@@ -1,12 +1,14 @@
 import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/text_fields.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/profile_pic.dart';
+import 'package:chatie/features/contacts/data/cubits/fetch_contacts_cubit/fetch_contacts_cubit.dart';
 import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/groups/presentation/views/widgets/group_add_members.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
 
 class GroupMembersView extends StatefulWidget {
@@ -82,6 +84,7 @@ class _GroupMembersViewState extends State<GroupMembersView> {
           const Divider(),
           ListTile(
             onTap: () async {
+              BlocProvider.of<FetchContactsCubit>(context).fetchContacts();
               Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => GroupAddMembers(
                         groupModel: widget.groupModel,
