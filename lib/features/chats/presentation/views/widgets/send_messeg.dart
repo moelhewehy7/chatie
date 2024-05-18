@@ -67,7 +67,7 @@ class _SendMessegeState extends State<SendMessege> {
                                     source: ImageSource.gallery);
                                 if (image != null) {
                                   if (!context.mounted) return;
-                                  FireStorage().sendImage(context,
+                                  FireStorage().sendChatImage(context,
                                       userEmail: widget.userModel.email!,
                                       file: File(image.path),
                                       roomId: widget.roomId);
