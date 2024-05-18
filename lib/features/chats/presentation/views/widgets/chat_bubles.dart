@@ -41,6 +41,8 @@ class ChatBuble extends StatelessWidget {
                   padding: const EdgeInsets.only(right: 2, left: 2),
                   child: messageModel.type == "image"
                       ? Container(
+                          width: double.infinity,
+                          height: 300,
                           padding: const EdgeInsets.only(bottom: 3),
                           child: SizedBox(
                             child: ClipRRect(
@@ -49,13 +51,14 @@ class ChatBuble extends StatelessWidget {
                                 imageUrl: messageModel.message!,
                                 placeholder: (context, url) =>
                                     Shimmer.fromColors(
-                                  baseColor: const Color(0xFFE0E0E0),
-                                  highlightColor: const Color(0xFFF5F5F5),
+                                  baseColor: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
+                                  highlightColor: const Color(0xFFEEEEEE),
                                   child: Container(
                                     width: double.infinity,
-                                    height:
-                                        200.0, // Adjust the height as needed
-                                    color: Colors.grey,
+                                    height: 300, // Adjust the height as needed
+                                    color: Colors.grey[200],
                                   ),
                                 ),
                                 errorWidget: (context, url, error) => SizedBox(
@@ -148,19 +151,23 @@ class _GroupChatBubleFriendState extends State<GroupChatBubleFriend> {
                         color: Theme.of(context).colorScheme.primary)),
                 widget.messageModel.type == "image"
                     ? Container(
-                        padding: const EdgeInsets.only(bottom: 3, top: 5),
+                        width: double.infinity,
+                        height: 300,
+                        padding: const EdgeInsets.only(bottom: 3),
                         child: SizedBox(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: CachedNetworkImage(
                               imageUrl: widget.messageModel.message!,
                               placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: const Color(0xFFE0E0E0),
-                                highlightColor: const Color(0xFFF5F5F5),
+                                baseColor: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                                highlightColor: const Color(0xFFEEEEEE),
                                 child: Container(
                                   width: double.infinity,
-                                  height: 200.0, // Adjust the height as needed
-                                  color: Colors.grey,
+                                  height: 300, // Adjust the height as needed
+                                  color: Colors.grey[200],
                                 ),
                               ),
                               errorWidget: (context, url, error) => SizedBox(
@@ -206,14 +213,13 @@ class _ChatBubleFriendState extends State<ChatBubleFriend> {
   void initState() {
     if (widget.messageModel.toId == FirebaseAuth.instance.currentUser!.email) {
       readMessage(msgId: widget.messageModel.id!, roomId: widget.roomId);
-    } //if message to id == current user email we mark the message as read
+    } //if message toId == current user email we mark the message as read
     // so when the other user open th chat it will be showing read
-
     super.initState();
   }
+
   // the initState method in the ChatBubleFriend widget is used to p
   //marke the message as read when the widget is first displayed,
-
   @override
   Widget build(BuildContext context) {
     double height = MediaQuery.sizeOf(context).height;
@@ -238,19 +244,23 @@ class _ChatBubleFriendState extends State<ChatBubleFriend> {
               children: [
                 widget.messageModel.type == "image"
                     ? Container(
-                        padding: const EdgeInsets.only(bottom: 3, top: 5),
+                        width: double.infinity,
+                        height: 300,
+                        padding: const EdgeInsets.only(bottom: 3),
                         child: SizedBox(
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: CachedNetworkImage(
                               imageUrl: widget.messageModel.message!,
                               placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: const Color(0xFFE0E0E0),
-                                highlightColor: const Color(0xFFF5F5F5),
+                                baseColor: Theme.of(context)
+                                    .colorScheme
+                                    .primaryContainer,
+                                highlightColor: const Color(0xFFEEEEEE),
                                 child: Container(
                                   width: double.infinity,
-                                  height: 200.0, // Adjust the height as needed
-                                  color: Colors.grey,
+                                  height: 300, // Adjust the height as needed
+                                  color: Colors.grey[200],
                                 ),
                               ),
                               errorWidget: (context, url, error) => SizedBox(
