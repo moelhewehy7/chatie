@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
+import 'package:chatie/features/groups/data/cubits/group_chats_cubit/group_chats_cubit.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +33,7 @@ class FireStorage {
       "http://as2.ftcdn.net/v2/jpg/03/31/69/91/1000_F_331699188_lRpvqxO5QRtwOM05gR50ImaaJgBx68vi.jpg";
   final FirebaseStorage fireStorage = FirebaseStorage.instance;
 
-  sendImage(BuildContext context,
+  sendChatImage(BuildContext context,
       {required String userEmail,
       required String roomId,
       required File file}) async {
@@ -47,10 +48,18 @@ class FireStorage {
         message: imageUrl, roomId: roomId, userEmail: userEmail, type: "image");
   }
 
-  updataProfilePic(BuildContext context,
-      {required File file,
-      required String firstName,
-      required String lastName}) async {}
+  sendGroupImage(BuildContext context,
+      {required String groupId, required File file}) async {
+    String ext = file.path.split('.').last;
+    String fileName =
+        "images/$groupId/${DateTime.now().microsecondsSinceEpoch}.$ext";
+    final ref = fireStorage.ref().child(fileName);
+    await ref.putFile(file);
+    String imageUrl = await ref.getDownloadURL();
+    if (!context.mounted) return;
+    BlocProvider.of<GroupChatsCubit>(context)
+        .sendMessage(message: imageUrl, groupId: groupId, type: "image");
+  }
 }
 
 //pick image by using image picker   ImagePicker imagePicker = ImagePicker();
