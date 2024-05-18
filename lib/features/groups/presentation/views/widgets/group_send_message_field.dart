@@ -1,11 +1,13 @@
 import 'dart:io';
 
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/groups/data/cubits/group_chats_cubit/group_chats_cubit.dart';
 import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:iconly/iconly.dart';
+import 'package:image_picker/image_picker.dart';
 
 class GroupSendMessege extends StatefulWidget {
   const GroupSendMessege({
@@ -57,18 +59,17 @@ class _GroupSendMessegeState extends State<GroupSendMessege> {
                               icon: const Icon(Icons.emoji_emotions)),
                           IconButton(
                               onPressed: () async {
-                                // ImagePicker imagePicker = ImagePicker();
-                                // XFile? image = await imagePicker.pickImage(
-                                //     imageQuality: 50,
-                                //     requestFullMetadata: false,
-                                //     source: ImageSource.gallery);
-                                // if (image != null) {
-                                //   if (!context.mounted) return;
-                                //   FireStorage().sendImage(context,
-                                //       userEmail: widget.userModel.email!,
-                                //       file: File(image.path),
-                                //       roomId: widget.roomId);
-                                // }
+                                ImagePicker imagePicker = ImagePicker();
+                                XFile? image = await imagePicker.pickImage(
+                                    imageQuality: 50,
+                                    requestFullMetadata: false,
+                                    source: ImageSource.gallery);
+                                if (image != null) {
+                                  if (!context.mounted) return;
+                                  FireStorage().sendGroupImage(context,
+                                      groupId: widget.groupModel.id!,
+                                      file: File(image.path));
+                                }
                               },
                               icon: const Icon(Icons.collections))
                         ],
