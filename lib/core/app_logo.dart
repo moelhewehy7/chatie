@@ -9,7 +9,7 @@ class AppLogo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Image.asset(
       "assets/images/shades_of_blue_logo.png",
-      scale: 2,
+      scale: 2.5,
     );
   }
 }

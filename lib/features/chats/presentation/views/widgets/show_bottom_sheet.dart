@@ -24,8 +24,8 @@ PersistentBottomSheetController showbottomsheet(
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             Divider(
               thickness: 3,
-              indent: 187,
-              endIndent: 187,
+              indent: MediaQuery.sizeOf(context).width / 2.6,
+              endIndent: MediaQuery.sizeOf(context).width / 2.6,
               color: Theme.of(context).colorScheme.onSurface,
             ),
             Padding(
