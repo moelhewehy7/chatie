@@ -27,7 +27,10 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.only(
+          left: 20,
+          right: 20,
+        ),
         child: BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is LogInSuccess) {
