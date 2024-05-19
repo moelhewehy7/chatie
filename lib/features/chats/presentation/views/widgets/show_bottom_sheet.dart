@@ -13,11 +13,21 @@ PersistentBottomSheetController showbottomsheet(
     context: context,
     builder: (BuildContext context) {
       return Container(
-        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+        padding: const EdgeInsets.only(
+          left: 24,
+          right: 24,
+          bottom: 16,
+        ),
         child: Form(
           //check below
           key: key,
           child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Divider(
+              thickness: 3,
+              indent: 187,
+              endIndent: 187,
+              color: Theme.of(context).colorScheme.onSurface,
+            ),
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Row(
