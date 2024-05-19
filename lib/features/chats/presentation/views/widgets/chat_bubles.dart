@@ -104,25 +104,12 @@ class ChatBuble extends StatelessWidget {
   }
 }
 
-class GroupChatBubleFriend extends StatefulWidget {
+class GroupChatBubleFriend extends StatelessWidget {
   const GroupChatBubleFriend({
     super.key,
     required this.messageModel,
   });
   final MessageModel messageModel;
-
-  @override
-  State<GroupChatBubleFriend> createState() => _GroupChatBubleFriendState();
-}
-
-class _GroupChatBubleFriendState extends State<GroupChatBubleFriend> {
-  Stream<UserModel> getUsernameStream() {
-    return FirebaseFirestore.instance
-        .collection("users")
-        .doc(widget.messageModel.fromId)
-        .snapshots()
-        .map((doc) => UserModel.fromjson(doc.data()!));
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -146,10 +133,10 @@ class _GroupChatBubleFriendState extends State<GroupChatBubleFriend> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.messageModel.fromId!.split("@")[0],
+                Text(messageModel.fromId!.split("@")[0],
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.primary)),
-                widget.messageModel.type == "image"
+                messageModel.type == "image"
                     ? Container(
                         width: double.infinity,
                         height: 300,
@@ -158,7 +145,7 @@ class _GroupChatBubleFriendState extends State<GroupChatBubleFriend> {
                           child: ClipRRect(
                             borderRadius: BorderRadius.circular(8),
                             child: CachedNetworkImage(
-                              imageUrl: widget.messageModel.message!,
+                              imageUrl: messageModel.message!,
                               placeholder: (context, url) => Shimmer.fromColors(
                                 baseColor: Theme.of(context)
                                     .colorScheme
@@ -180,13 +167,13 @@ class _GroupChatBubleFriendState extends State<GroupChatBubleFriend> {
                         ),
                       )
                     : Text(
-                        widget.messageModel.message!,
+                        messageModel.message!,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                 Text(
                   DateFormat('hh:mm a').format(
                       DateTime.fromMillisecondsSinceEpoch(
-                          int.parse(widget.messageModel.createdAt!))),
+                          int.parse(messageModel.createdAt!))),
                 )
               ],
             ),
