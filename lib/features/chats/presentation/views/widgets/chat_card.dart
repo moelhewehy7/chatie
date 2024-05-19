@@ -38,7 +38,7 @@ class ChatCard extends StatelessWidget {
                   context.read<ChatCubit>().getMessage(roomId: chatRoom.id!);
 
                   // BlocProvider.of<ChatCubit>(context)
-                  //     .getMessage(roomId: chatRoom.id!);
+                  //     .getMessage(roomId: chatRoom.id!); // down
 
                   Navigator.push(
                       context,
@@ -112,3 +112,10 @@ class ChatCard extends StatelessWidget {
         });
   }
 }
+
+// Both methods are valid for accessing the Cubit or Bloc instance from the context. Choosing between them 
+// depends on your specific use case, preference for code readability, 
+// and whether or not you expect the widget to rebuild when accessing the Cubit or Bloc. 
+// For most read-only operations where you don't expect a rebuild,
+//  context.read<ChatCubit>() is more concise and preferred. For a more general and explicit approach,
+//  BlocProvider.of<ChatCubit>(context) works well.
