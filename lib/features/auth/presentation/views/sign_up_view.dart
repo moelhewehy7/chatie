@@ -99,7 +99,7 @@ class _SignUpState extends State<SignUp> {
                   borderSide: BorderSide(
                       color: Theme.of(context).colorScheme.onSurface),
                   controller: bioController,
-                  icon: Icons.person,
+                  icon: Icons.self_improvement,
                   hinttext: "Bio",
                   validator: (data) {
                     if (data == null || data.isEmpty) {
