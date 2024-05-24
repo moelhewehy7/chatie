@@ -50,7 +50,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                   : const SizedBox()),
           IconButton(
               onPressed: () async {
-                await deleteMessage(
+                await FirebaseHelper().deleteMessage(
                     selectedMessage: selectedMessage, roomId: widget.roomId);
                 selectedCopyMessage.clear();
                 selectedMessage.clear();

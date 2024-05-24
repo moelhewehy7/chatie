@@ -39,7 +39,8 @@ class _GroupAddMembersState extends State<GroupAddMembers> {
 
                   // Simulate an asynchronous operation
 
-                  await addMember(
+                  await FirebaseHelper()
+                      .addMember(
                           groupId: widget.groupModel.id!, members: addedMembers)
                       .then((value) {
                     setState(() {

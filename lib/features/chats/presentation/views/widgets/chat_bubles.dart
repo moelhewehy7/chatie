@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/chats/data/models/message_model.dart';
-import 'package:chatie/features/home/data/models/user_model.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -199,7 +198,8 @@ class _ChatBubleFriendState extends State<ChatBubleFriend> {
   @override
   void initState() {
     if (widget.messageModel.toId == FirebaseAuth.instance.currentUser!.email) {
-      readMessage(msgId: widget.messageModel.id!, roomId: widget.roomId);
+      FirebaseHelper()
+          .readMessage(msgId: widget.messageModel.id!, roomId: widget.roomId);
     } //if message toId == current user email we mark the message as read
     // so when the other user open th chat it will be showing read
     super.initState();

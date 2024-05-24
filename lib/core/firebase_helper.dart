@@ -5,26 +5,73 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:http/http.dart' as http;
 
-Future readMessage({required String roomId, required String msgId}) async {
-  await FirebaseFirestore.instance
-      .collection("rooms")
-      .doc(roomId)
-      .collection("messages")
-      .doc(msgId)
-      .update({"read": DateTime.now().millisecondsSinceEpoch.toString()});
-}
-
-Future deleteMessage(
-    {required String roomId, required List<String> selectedMessage}) async {
-  for (var msg in selectedMessage) {
-    //to delete list of docs
+class FirebaseHelper {
+  Future readMessage({required String roomId, required String msgId}) async {
     await FirebaseFirestore.instance
         .collection("rooms")
         .doc(roomId)
         .collection("messages")
-        .doc(msg)
-        .delete();
+        .doc(msgId)
+        .update({"read": DateTime.now().millisecondsSinceEpoch.toString()});
+  }
+
+  Future deleteMessage(
+      {required String roomId, required List<String> selectedMessage}) async {
+    for (var msg in selectedMessage) {
+      //to delete list of docs
+      await FirebaseFirestore.instance
+          .collection("rooms")
+          .doc(roomId)
+          .collection("messages")
+          .doc(msg)
+          .delete();
+    }
+  }
+
+  Future addMember({required String groupId, required List members}) async {
+    await FirebaseFirestore.instance
+        .collection("groups")
+        .doc(groupId)
+        .update({"members": FieldValue.arrayUnion(members)});
+    // is a method by Firestore that is used to update
+    //an array field in a document by adding one or more elements
+  }
+
+  Future editGroup({
+    required String groupId,
+    required String name,
+  }) async {
+    await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
+      "name": name,
+    });
+    // is a method by Firestore that is used to update
+    //an array field in a document by adding one or more elements
+  }
+
+  Future removeMember({required String groupId, required String member}) async {
+    await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
+      "members": FieldValue.arrayRemove([member])
+    });
+  }
+
+  Future promptAdmin(
+      {required String groupId, required String memberId}) async {
+    await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
+      "admins": FieldValue.arrayUnion([memberId])
+    });
+    // is a method by Firestore that is used to update
+    //an array field in a document by adding one or more elements
+  }
+
+  Future removeAdimn(
+      {required String groupId, required String memberId}) async {
+    await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
+      "admins": FieldValue.arrayRemove([memberId])
+    });
+    // is a method by Firestore that is used to update
+    //an array field in a document by adding one or more elements
   }
 }
 
@@ -69,44 +116,5 @@ class FireStorage {
 // Upload Image.
 // Get Image URL.
 
-Future addMember({required String groupId, required List members}) async {
-  await FirebaseFirestore.instance
-      .collection("groups")
-      .doc(groupId)
-      .update({"members": FieldValue.arrayUnion(members)});
-  // is a method by Firestore that is used to update
-  //an array field in a document by adding one or more elements
-}
 
-Future editGroup({
-  required String groupId,
-  required String name,
-}) async {
-  await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
-    "name": name,
-  });
-  // is a method by Firestore that is used to update
-  //an array field in a document by adding one or more elements
-}
 
-Future removeMember({required String groupId, required String member}) async {
-  await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
-    "members": FieldValue.arrayRemove([member])
-  });
-}
-
-Future promptAdmin({required String groupId, required String memberId}) async {
-  await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
-    "admins": FieldValue.arrayUnion([memberId])
-  });
-  // is a method by Firestore that is used to update
-  //an array field in a document by adding one or more elements
-}
-
-Future removeAdimn({required String groupId, required String memberId}) async {
-  await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
-    "admins": FieldValue.arrayRemove([memberId])
-  });
-  // is a method by Firestore that is used to update
-  //an array field in a document by adding one or more elements
-}

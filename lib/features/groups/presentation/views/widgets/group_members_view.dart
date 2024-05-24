@@ -32,14 +32,16 @@ class _GroupMembersViewState extends State<GroupMembersView> {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          await editGroup(
-            groupId: widget.groupModel.id!,
-            name: groupcontroller.text,
-          ).then((value) => setState(() {
-                widget.groupModel.name = groupcontroller.text;
-                Navigator.of(context).pop();
-                Navigator.of(context).pop();
-              }));
+          await FirebaseHelper()
+              .editGroup(
+                groupId: widget.groupModel.id!,
+                name: groupcontroller.text,
+              )
+              .then((value) => setState(() {
+                    widget.groupModel.name = groupcontroller.text;
+                    Navigator.of(context).pop();
+                    Navigator.of(context).pop();
+                  }));
         },
         label: const Text("Done"),
         icon: const Icon(Icons.check_circle),
@@ -150,7 +152,8 @@ class _GroupMembersViewState extends State<GroupMembersView> {
                                   : IconButton(
                                       onPressed: () {
                                         selectedUserIsAdmin // if the selected user is an admin
-                                            ? removeAdimn(
+                                            ? FirebaseHelper()
+                                                .removeAdimn(
                                                     groupId:
                                                         widget.groupModel.id!,
                                                     memberId:
@@ -160,7 +163,8 @@ class _GroupMembersViewState extends State<GroupMembersView> {
                                                           .remove(members[index]
                                                               .email!);
                                                     }))
-                                            : promptAdmin(
+                                            : FirebaseHelper()
+                                                .promptAdmin(
                                                     groupId:
                                                         widget.groupModel.id!,
                                                     memberId:
@@ -179,7 +183,8 @@ class _GroupMembersViewState extends State<GroupMembersView> {
                                   ? const SizedBox()
                                   : IconButton(
                                       onPressed: () async {
-                                        await removeMember(
+                                        await FirebaseHelper()
+                                            .removeMember(
                                                 groupId: widget.groupModel.id!,
                                                 member: members[index].email!)
                                             .then((value) => setState(() {
