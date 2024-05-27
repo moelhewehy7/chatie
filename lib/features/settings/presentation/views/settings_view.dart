@@ -1,4 +1,3 @@
-import 'package:chatie/access_firebase_token.dart';
 import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/core/helper.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/profile_pic.dart';
