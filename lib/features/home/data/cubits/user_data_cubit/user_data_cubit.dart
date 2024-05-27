@@ -13,7 +13,7 @@ class UserDataCubit extends Cubit<UserDataState> {
   UserDataCubit() : super(UserDataInitial()) {
     getUserData();
   }
-
+  UserModel? userModel;
   Future<void> updateUserData(
       {required String firstName,
       required String lastName,
@@ -40,8 +40,8 @@ class UserDataCubit extends Cubit<UserDataState> {
             .doc(user.email)
             .snapshots()
             .listen((event) {
-          debugPrint("${user.email}this is my user.email");
-          emit(UserDataSuccess(userModel: UserModel.fromjson(event)));
+          userModel = UserModel.fromjson(event);
+          emit(UserDataSuccess(userModel: userModel!));
         });
       }
     });

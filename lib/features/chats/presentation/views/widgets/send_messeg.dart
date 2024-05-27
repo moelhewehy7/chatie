@@ -68,6 +68,7 @@ class _SendMessegeState extends State<SendMessege> {
                                 if (image != null) {
                                   if (!context.mounted) return;
                                   FireStorage().sendChatImage(context,
+                                      userModel: widget.userModel,
                                       userEmail: widget.userModel.email!,
                                       file: File(image.path),
                                       roomId: widget.roomId);
@@ -85,6 +86,8 @@ class _SendMessegeState extends State<SendMessege> {
                     onPressed: () async {
                       if (messageCon.text.isNotEmpty) {
                         BlocProvider.of<ChatCubit>(context).sendMessage(
+                          userModel: widget.userModel,
+                          context: context,
                           message: messageCon.text,
                           roomId: widget.roomId,
                           userEmail: widget.userModel.email!,

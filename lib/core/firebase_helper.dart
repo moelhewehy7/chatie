@@ -1,6 +1,10 @@
+import 'dart:convert';
 import 'dart:io';
+import 'package:chatie/access_firebase_token.dart';
 import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatie/features/groups/data/cubits/group_chats_cubit/group_chats_cubit.dart';
+import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
+import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -73,6 +77,38 @@ class FirebaseHelper {
     // is a method by Firestore that is used to update
     //an array field in a document by adding one or more elements
   }
+
+  Future<void> sendNotification({
+    required String message,
+    required UserModel userModel,
+    required BuildContext context,
+  }) async {
+    final accessTokenFirebase = AccessTokenFirebase();
+    final accessToken = await accessTokenFirebase.getAccessToken();
+
+    final header = {
+      "Content-Type": "application/json",
+      "Authorization":
+          "Bearer $accessToken", //where a bearer token is provided to access protected resources.
+    };
+    final body = {
+      "message": {
+        "token": userModel.pushToken,
+        "notification": {
+          "title": BlocProvider.of<UserDataCubit>(context).userModel!.firstName,
+          "body": message,
+        },
+      },
+    };
+    final response = await http.post(
+      Uri.parse(
+          "https://fcm.googleapis.com/v1/projects/chatie-e3450/messages:send"),
+      body: jsonEncode(body),
+      headers: header,
+    );
+    debugPrint("status code ${response.statusCode}");
+    //Uri.parse is used to ensure the URLs are correctly formed and we use post to send data to the server
+  }
 }
 
 class FireStorage {
@@ -82,6 +118,7 @@ class FireStorage {
 
   sendChatImage(BuildContext context,
       {required String userEmail,
+      required UserModel userModel,
       required String roomId,
       required File file}) async {
     String ext = file.path.split('.').last;
@@ -92,7 +129,12 @@ class FireStorage {
     String imageUrl = await ref.getDownloadURL();
     if (!context.mounted) return;
     BlocProvider.of<ChatCubit>(context).sendMessage(
-        message: imageUrl, roomId: roomId, userEmail: userEmail, type: "image");
+        userModel: userModel,
+        context: context,
+        message: imageUrl,
+        roomId: roomId,
+        userEmail: userEmail,
+        type: "image");
   }
 
   sendGroupImage(BuildContext context,
@@ -115,6 +157,3 @@ class FireStorage {
 // Specify Image Path.
 // Upload Image.
 // Get Image URL.
-
-
-

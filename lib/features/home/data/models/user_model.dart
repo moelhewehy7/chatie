@@ -9,10 +9,11 @@ class UserModel {
   // final bool? lastSeen;
   // final bool? isOnline;
   final String? joinedOn;
-  // final String? profilePic;
-  // final String? pushToken;
+
+  final String? pushToken;
   final List myUsers;
   UserModel({
+    required this.pushToken,
     required this.myUsers,
     required this.profilePic,
     required this.firstName,
@@ -28,11 +29,10 @@ class UserModel {
         lastName: jsonData['Lastname'],
         bio: jsonData['bio'],
         email: jsonData['Email'],
-        // lastSeen: jsonData['last_seen'],
-        // isOnline: jsonData['is_online'],
+        // lastSeen: jsonData['lastSeen'],
+        // isOnline: jsonData['isOnline'],
         joinedOn: jsonData['JoinedOn'],
-        // profilePic: jsonData['profile_pic'],
-        // pushToken: jsonData['push_token'],
+        pushToken: jsonData['pushToken'],
         myUsers: jsonData['myUsers'],
         profilePic: jsonData['image']);
   }

@@ -1,4 +1,6 @@
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/chats/data/models/message_model.dart';
+import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +15,8 @@ class ChatCubit extends Cubit<ChatState> {
   List<MessageModel> messages = [];
   Future sendMessage(
       {required String message,
+      required UserModel userModel,
+      required BuildContext context,
       String? type,
       required String roomId,
       required String userEmail}) async {
@@ -33,7 +37,8 @@ class ChatCubit extends Cubit<ChatState> {
       "type": type ?? "text",
       "message": message,
       "createdAt": DateTime.now().millisecondsSinceEpoch.toString()
-    });
+    }).then((value) => FirebaseHelper().sendNotification(
+            message: message, userModel: userModel, context: context));
     await FirebaseFirestore.instance.collection("rooms").doc(roomId).update({
       "lastMessage": type ?? message,
       "lasteMessageTime": DateTime.now().millisecondsSinceEpoch.toString()

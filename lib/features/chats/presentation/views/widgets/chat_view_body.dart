@@ -226,6 +226,8 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                       child: GestureDetector(
                     onTap: () {
                       BlocProvider.of<ChatCubit>(context).sendMessage(
+                          userModel: widget.userModel,
+                          context: context,
                           message: "asalam alaykum 👋",
                           roomId: widget.roomId,
                           userEmail: widget.userModel.email!);

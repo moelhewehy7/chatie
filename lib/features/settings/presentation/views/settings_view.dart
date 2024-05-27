@@ -1,3 +1,5 @@
+import 'package:chatie/access_firebase_token.dart';
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/core/helper.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/profile_pic.dart';
 import 'package:chatie/features/home/data/cubits/theme_cubit/theme_cubit.dart';
@@ -20,18 +22,19 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
-  UserModel userModel = UserModel(
-      profilePic: "",
-      myUsers: [],
-      firstName: "firstName",
-      lastName: "lastName",
-      bio: "bio",
-      email: "email",
-      joinedOn: "joinedOn");
+  UserModel? userModel;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () async {
+          FirebaseHelper().sendNotification(
+              message: "hey",
+              userModel: BlocProvider.of<UserDataCubit>(context).userModel!,
+              context: context);
+        },
+      ),
       appBar: AppBar(
         title: const Text("Settings"),
       ),
@@ -51,11 +54,13 @@ class _SettingsViewState extends State<SettingsView> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         ProfilePic(
-                            userModel: userModel, radius: 40, doubleRadius: 80),
+                            userModel: userModel!,
+                            radius: 40,
+                            doubleRadius: 80),
                         Padding(
                           padding: const EdgeInsets.only(left: 16),
                           child: Text(
-                              "${userModel.firstName!} ${userModel.lastName!}"),
+                              "${userModel!.firstName!} ${userModel!.lastName!}"),
                         ),
                       ],
                     );
@@ -109,7 +114,7 @@ class _SettingsViewState extends State<SettingsView> {
                     Navigator.push(context,
                         MaterialPageRoute(builder: (context) {
                       return ProfileView(
-                        userModel: userModel,
+                        userModel: userModel!,
                       );
                     }));
                   },
