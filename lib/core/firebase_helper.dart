@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:chatie/access_firebase_token.dart';
+import 'package:chatie/access_token_firebase.dart';
 import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatie/features/groups/data/cubits/group_chats_cubit/group_chats_cubit.dart';
 import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
