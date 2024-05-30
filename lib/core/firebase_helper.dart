@@ -76,7 +76,6 @@ class FirebaseHelper {
     });
     // is a method by Firestore that is used to update
     //an array field in a document by adding one or more elements
-<<<<<<< HEAD
   }
 
   Future<void> sendNotification(
@@ -107,8 +106,6 @@ class FirebaseHelper {
     );
     debugPrint("status code ${response.statusCode}");
     //Uri.parse is used to ensure the URLs are correctly formed and we use post to send data to the server
-=======
->>>>>>> c9a182045cd2c820946aae7721ecb4190c21e9bb
   }
 }
 
@@ -158,9 +155,3 @@ class FireStorage {
 // Specify Image Path.
 // Upload Image.
 // Get Image URL.
-<<<<<<< HEAD
-=======
-
-
-
->>>>>>> c9a182045cd2c820946aae7721ecb4190c21e9bb
