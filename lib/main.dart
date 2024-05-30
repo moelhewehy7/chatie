@@ -43,7 +43,7 @@ class Chatie extends StatelessWidget {
         BlocProvider(create: (context) => ChatCubit()),
         BlocProvider(create: (context) => GroupChatsCubit()),
         BlocProvider(create: (context) => CreateChatCubit()),
-        BlocProvider(create: (context) => UserDataCubit()),
+        BlocProvider(create: (context) => UserDataCubit()..getUserData()),
         BlocProvider(
           create: (context) => FetchGroupsCubit()..fetchGroups(),
         ),

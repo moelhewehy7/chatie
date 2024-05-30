@@ -42,11 +42,7 @@ dependencies:
   flutter_bloc: ^8.1.5
   flutter_spinkit: ^5.2.1
   fluttertoast: ^8.2.4
-<<<<<<< HEAD
-  
   googleapis_auth: ^1.6.0
-=======
->>>>>>> c9a182045cd2c820946aae7721ecb4190c21e9bb
   http: ^1.2.1
   iconly: ^1.0.1
   image_picker: ^1.1.0

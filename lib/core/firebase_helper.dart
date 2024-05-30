@@ -89,11 +89,12 @@ class FirebaseHelper {
       "Authorization":
           "Bearer $accessToken", //where a bearer token is provided to access protected resources.
     };
+    if (!context.mounted) return;
     final body = {
       "message": {
         "token": userModel.pushToken,
         "notification": {
-          "title": BlocProvider.of<UserDataCubit>(context).userModel!.firstName,
+          "title": userModel.firstName,
           "body": message,
         },
       },
