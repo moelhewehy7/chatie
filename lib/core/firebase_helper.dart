@@ -78,14 +78,12 @@ class FirebaseHelper {
     //an array field in a document by adding one or more elements
   }
 
-  Future<void> sendNotification({
-    required String message,
-    required UserModel userModel,
-    required BuildContext context,
-  }) async {
+  Future<void> sendNotification(
+      {required BuildContext context,
+      required String message,
+      required UserModel userModel}) async {
     final accessTokenFirebase = AccessTokenFirebase();
-    final accessToken = await accessTokenFirebase.getAccessToken();
-
+    final String accessToken = await accessTokenFirebase.getAccessToken();
     final header = {
       "Content-Type": "application/json",
       "Authorization":
