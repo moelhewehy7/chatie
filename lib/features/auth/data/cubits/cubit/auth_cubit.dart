@@ -15,7 +15,6 @@ class AuthCubit extends Cubit<AuthState> {
       required String firstName,
       required String lastname}) async {
     emit(SignUpLoading());
-
     try {
       await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: email,
@@ -28,6 +27,7 @@ class AuthCubit extends Cubit<AuthState> {
         "image": FireStorage().alternativeImage,
         "bio": bio,
         "myUsers": [],
+        "pushToken": "",
         "JoinedOn": DateTime.now().millisecondsSinceEpoch.toString()
       });
       emit(SignUpSuccess());
@@ -66,6 +66,7 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       emit(LogInFailure(
           errMessage: 'Oops, something went wrong. Please try again later.'));
+      print(e.toString());
     }
   }
 

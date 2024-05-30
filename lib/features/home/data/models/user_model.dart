@@ -1,6 +1,4 @@
 class UserModel {
-  // final String? id;
-  // final String? name;
   final String? firstName;
   final String? lastName;
   final String? bio;
@@ -10,7 +8,7 @@ class UserModel {
   // final bool? isOnline;
   final String? joinedOn;
 
-  final String? pushToken;
+  String? pushToken;
   final List myUsers;
   UserModel({
     required this.pushToken,

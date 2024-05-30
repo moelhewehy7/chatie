@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -39,8 +40,18 @@ class UserDataCubit extends Cubit<UserDataState> {
             .collection("users")
             .doc(user.email)
             .snapshots()
-            .listen((event) {
+            .listen((event) async {
           userModel = UserModel.fromjson(event);
+          await FirebaseMessaging.instance.requestPermission();
+          await FirebaseMessaging.instance.getToken().then((value) {
+            if (value != null) {
+              FirebaseFirestore.instance
+                  .collection("users")
+                  .doc(user.email)
+                  .update({"pushToken": value});
+              userModel!.pushToken = value;
+            }
+          });
           emit(UserDataSuccess(userModel: userModel!));
         });
       }

@@ -6,6 +6,8 @@ import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:chatie/features/settings/presentation/views/widgets/profile_view.dart';
 import 'package:chatie/features/settings/presentation/views/widgets/qr_code._view.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +30,8 @@ class _SettingsViewState extends State<SettingsView> {
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
+          FirebaseMessaging.instance.requestPermission();
+          FirebaseMessaging.instance.getToken().then((value) => print(value));
           FirebaseHelper().sendNotification(
               message: "hey",
               userModel: BlocProvider.of<UserDataCubit>(context).userModel!,

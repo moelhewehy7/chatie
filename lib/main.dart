@@ -43,7 +43,7 @@ class Chatie extends StatelessWidget {
         BlocProvider(create: (context) => ChatCubit()),
         BlocProvider(create: (context) => GroupChatsCubit()),
         BlocProvider(create: (context) => CreateChatCubit()),
-        BlocProvider(create: (context) => UserDataCubit()..getUserData()),
+        BlocProvider(create: (context) => UserDataCubit()),
         BlocProvider(
           create: (context) => FetchGroupsCubit()..fetchGroups(),
         ),
@@ -55,7 +55,6 @@ class Chatie extends StatelessWidget {
         builder: (context, state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-
             theme: (state as dynamic).themeData,
             //By casting state to dynamic, you're telling Dart to treat state as a dynamic type,
             // which allows you to access any property without a compile-time type check.
