@@ -3,9 +3,11 @@ import 'dart:io';
 import 'package:chatie/access_token_firebase.dart';
 import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatie/features/groups/data/cubits/group_chats_cubit/group_chats_cubit.dart';
+import 'package:chatie/features/groups/data/models/group_model.dart';
 import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -80,6 +82,7 @@ class FirebaseHelper {
 
   Future<void> sendNotification(
       {required BuildContext context,
+      String? groupname,
       required String message,
       required UserModel userModel}) async {
     final accessTokenFirebase = AccessTokenFirebase();
@@ -94,7 +97,9 @@ class FirebaseHelper {
       "message": {
         "token": userModel.pushToken,
         "notification": {
-          "title": userModel.firstName,
+          "title": groupname == null
+              ? BlocProvider.of<UserDataCubit>(context).userModel!.firstName
+              : "$groupname:${BlocProvider.of<UserDataCubit>(context).userModel!.firstName!}",
           "body": message,
         },
       },
@@ -107,6 +112,13 @@ class FirebaseHelper {
     );
     debugPrint("status code ${response.statusCode}");
     //Uri.parse is used to ensure the URLs are correctly formed and we use post to send data to the server
+  }
+
+  Future updateToken({required User user, required String token}) async {
+    FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.email)
+        .update({"pushToken": token});
   }
 }
 
@@ -127,17 +139,24 @@ class FireStorage {
     await ref.putFile(file);
     String imageUrl = await ref.getDownloadURL();
     if (!context.mounted) return;
-    BlocProvider.of<ChatCubit>(context).sendMessage(
-        userModel: userModel,
-        context: context,
-        message: imageUrl,
-        roomId: roomId,
-        userEmail: userEmail,
-        type: "image");
+    BlocProvider.of<ChatCubit>(context)
+        .sendMessage(
+            userModel: userModel,
+            context: context,
+            message: imageUrl,
+            roomId: roomId,
+            userEmail: userEmail,
+            type: "image")
+        .then((value) => FirebaseHelper().sendNotification(
+            context: context, message: "image", userModel: userModel));
   }
 
-  sendGroupImage(BuildContext context,
-      {required String groupId, required File file}) async {
+  sendGroupImage(
+    BuildContext context, {
+    required String groupId,
+    required GroupModel groupModel,
+    required File file,
+  }) async {
     String ext = file.path.split('.').last;
     String fileName =
         "images/$groupId/${DateTime.now().microsecondsSinceEpoch}.$ext";
@@ -145,8 +164,12 @@ class FireStorage {
     await ref.putFile(file);
     String imageUrl = await ref.getDownloadURL();
     if (!context.mounted) return;
-    BlocProvider.of<GroupChatsCubit>(context)
-        .sendMessage(message: imageUrl, groupId: groupId, type: "image");
+    BlocProvider.of<GroupChatsCubit>(context).sendMessage(
+        message: imageUrl,
+        groupId: groupId,
+        type: "image",
+        context: context,
+        groupModel: groupModel);
   }
 }
 

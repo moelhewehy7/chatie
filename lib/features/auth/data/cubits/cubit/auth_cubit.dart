@@ -66,7 +66,6 @@ class AuthCubit extends Cubit<AuthState> {
     } catch (e) {
       emit(LogInFailure(
           errMessage: 'Oops, something went wrong. Please try again later.'));
-      print(e.toString());
     }
   }
 

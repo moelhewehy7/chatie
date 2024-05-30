@@ -225,12 +225,17 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                   return Center(
                       child: GestureDetector(
                     onTap: () {
-                      BlocProvider.of<ChatCubit>(context).sendMessage(
-                          userModel: widget.userModel,
-                          context: context,
-                          message: "asalam alaykum 👋",
-                          roomId: widget.roomId,
-                          userEmail: widget.userModel.email!);
+                      BlocProvider.of<ChatCubit>(context)
+                          .sendMessage(
+                              userModel: widget.userModel,
+                              context: context,
+                              message: "asalam alaykum 👋",
+                              roomId: widget.roomId,
+                              userEmail: widget.userModel.email!)
+                          .then((value) => FirebaseHelper().sendNotification(
+                              context: context,
+                              message: "image",
+                              userModel: widget.userModel));
                     },
                     child: Card(
                       child: Padding(

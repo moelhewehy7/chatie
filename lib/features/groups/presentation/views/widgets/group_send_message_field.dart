@@ -67,6 +67,7 @@ class _GroupSendMessegeState extends State<GroupSendMessege> {
                                 if (image != null) {
                                   if (!context.mounted) return;
                                   FireStorage().sendGroupImage(context,
+                                      groupModel: widget.groupModel,
                                       groupId: widget.groupModel.id!,
                                       file: File(image.path));
                                 }
@@ -83,6 +84,8 @@ class _GroupSendMessegeState extends State<GroupSendMessege> {
                     onPressed: () async {
                       if (messageCon.text.isNotEmpty) {
                         BlocProvider.of<GroupChatsCubit>(context).sendMessage(
+                            context: context,
+                            groupModel: widget.groupModel,
                             message: messageCon.text,
                             groupId: widget.groupModel.id!);
                         messageCon.clear();

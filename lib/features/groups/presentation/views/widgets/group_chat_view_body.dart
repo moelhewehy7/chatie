@@ -124,6 +124,8 @@ class _GroupChatViewBodyState extends State<GroupChatViewBody> {
                         child: GestureDetector(
                       onTap: () {
                         BlocProvider.of<GroupChatsCubit>(context).sendMessage(
+                          context: context,
+                          groupModel: widget.groupModel,
                           message: "asalam alaykum 👋",
                           groupId: widget.groupModel.id!,
                         );

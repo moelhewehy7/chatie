@@ -5,7 +5,7 @@ class GroupModel {
   final String? image;
   final String? lastMessage;
   final String? lastMessageTime;
-  final List? members;
+  List? members;
   final List? admins;
   GroupModel({
     required this.lastMessage,

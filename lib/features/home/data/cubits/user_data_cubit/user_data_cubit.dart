@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -45,10 +46,7 @@ class UserDataCubit extends Cubit<UserDataState> {
           await FirebaseMessaging.instance.requestPermission();
           await FirebaseMessaging.instance.getToken().then((value) {
             if (value != null) {
-              FirebaseFirestore.instance
-                  .collection("users")
-                  .doc(user.email)
-                  .update({"pushToken": value});
+              FirebaseHelper().updateToken(user: user, token: value);
               userModel!.pushToken = value;
             }
           });
