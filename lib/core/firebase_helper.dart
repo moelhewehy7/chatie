@@ -83,7 +83,7 @@ class FirebaseHelper {
       required String message,
       required UserModel userModel}) async {
     final accessTokenFirebase = AccessTokenFirebase();
-    final String accessToken = await accessTokenFirebase.getAccessToken();
+    final accessToken = await accessTokenFirebase.getAccessToken();
     final header = {
       "Content-Type": "application/json",
       "Authorization":
