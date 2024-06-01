@@ -4,13 +4,15 @@ class UserModel {
   final String? bio;
   String? profilePic;
   final String? email;
-  // final bool? lastSeen;
-  // final bool? isOnline;
+  final String? lastSeen;
+  final bool? isOnline;
   final String? joinedOn;
 
   String? pushToken;
   final List myUsers;
   UserModel({
+    required this.lastSeen,
+    required this.isOnline,
     required this.pushToken,
     required this.myUsers,
     required this.profilePic,
@@ -27,8 +29,8 @@ class UserModel {
         lastName: jsonData['Lastname'],
         bio: jsonData['bio'],
         email: jsonData['Email'],
-        // lastSeen: jsonData['lastSeen'],
-        // isOnline: jsonData['isOnline'],
+        lastSeen: jsonData['lastSeen'],
+        isOnline: jsonData['Online'],
         joinedOn: jsonData['JoinedOn'],
         pushToken: jsonData['pushToken'],
         myUsers: jsonData['myUsers'],
