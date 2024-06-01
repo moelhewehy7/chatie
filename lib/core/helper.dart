@@ -1,6 +1,7 @@
 import 'package:chatie/features/auth/presentation/views/login_view.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -45,7 +46,9 @@ showAlert(
   );
 }
 
-Future<dynamic> signOutDialog(BuildContext context) {
+Future<dynamic> signOutDialog(
+  BuildContext context,
+) {
   return showDialog(
       context: context,
       builder: (context) {
@@ -66,6 +69,14 @@ Future<dynamic> signOutDialog(BuildContext context) {
             FillButton(
               height: 30,
               onPressed: () async {
+                // await FirebaseFirestore.instance
+                //     .collection("users")
+                //     .doc(userModel.email)
+                //     .update({"pushToken": ""}).then((value) {
+                //   // Print debug information to confirm the update operation
+                //   debugPrint("Push token cleared for user: ${userModel.email}");
+                // });
+                await FirebaseMessaging.instance.deleteToken();
                 await FirebaseAuth.instance.signOut().then((value) async {
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
