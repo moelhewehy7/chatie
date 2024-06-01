@@ -85,6 +85,7 @@ class FirebaseHelper {
       String? groupname,
       required String message,
       required UserModel userModel}) async {
+    final currentUser = BlocProvider.of<UserDataCubit>(context).userModel!;
     final accessTokenFirebase = AccessTokenFirebase();
     final accessToken = await accessTokenFirebase.getAccessToken();
     final header = {
@@ -98,8 +99,8 @@ class FirebaseHelper {
         "token": userModel.pushToken,
         "notification": {
           "title": groupname == null
-              ? BlocProvider.of<UserDataCubit>(context).userModel!.firstName
-              : "$groupname:${BlocProvider.of<UserDataCubit>(context).userModel!.firstName!}",
+              ? "${currentUser.firstName!} ${currentUser.lastName!}"
+              : "$groupname : ${currentUser.firstName!} ${currentUser.lastName!}",
           "body": message,
         },
       },
@@ -110,6 +111,9 @@ class FirebaseHelper {
       body: jsonEncode(body),
       headers: header,
     );
+    debugPrint("pushToken  ${userModel.pushToken}");
+    debugPrint("pushToken  ${userModel.firstName}");
+    debugPrint("pushToken  ${userModel.lastName}");
     debugPrint("status code ${response.statusCode}");
     //Uri.parse is used to ensure the URLs are correctly formed and we use post to send data to the server
   }

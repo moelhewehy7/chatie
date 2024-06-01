@@ -13,26 +13,31 @@ part 'group_chats_state.dart';
 class GroupChatsCubit extends Cubit<GroupChatsState> {
   GroupChatsCubit() : super(GroupChatsInitial());
   List<MessageModel> messages = [];
-  Future sendMessage(
-      {required String message,
-      String? type,
-      required String groupId,
-      required BuildContext context,
-      required GroupModel groupModel}) async {
+  Future<void> sendMessage({
+    required String message,
+    String? type,
+    required String groupId,
+    required BuildContext context,
+    required GroupModel groupModel,
+  }) async {
     List<UserModel> users = [];
     List members = groupModel.members!
         .where((element) => element != FirebaseAuth.instance.currentUser!.email)
         .toList();
-    FirebaseFirestore.instance
+
+    QuerySnapshot userSnapshots = await FirebaseFirestore.instance
         .collection("users")
-        .where("email", whereIn: members)
-        .get()
-        .then((value) {
-      users.addAll(value.docs.map((e) => UserModel.fromjson(e)));
-    });
+        .where("Email", whereIn: members)
+        .get();
+
+    users = userSnapshots.docs
+        .map((doc) => UserModel.fromjson(doc.data() as Map<String, dynamic>))
+        .toList();
+
     final myEmail = FirebaseAuth.instance.currentUser!.email;
-    String gmsgId = const Uuid()
-        .v1(); //t will generate a new, unique UUID based on the current time and the MAC address of the device.
+    String gmsgId = const Uuid().v1(); // Generates a unique UUID
+
+    // Save message to Firestore
     await FirebaseFirestore.instance
         .collection("groups")
         .doc(groupId)
@@ -45,21 +50,23 @@ class GroupChatsCubit extends Cubit<GroupChatsState> {
       "read": "",
       "message": message,
       "type": type ?? "text",
-      "createdAt": DateTime.now().millisecondsSinceEpoch.toString()
+      "createdAt": DateTime.now().millisecondsSinceEpoch.toString(),
     }).then((value) {
       for (UserModel user in users) {
         FirebaseHelper().sendNotification(
-            groupname: groupModel.name,
-            message: message,
-            context: context,
-            userModel: user);
-        print("done");
+          groupname: groupModel.name,
+          message: message,
+          context: context,
+          userModel: user,
+        );
+        debugPrint("Notification sent to ${user.email}");
       }
+      users.clear();
     });
-    users.clear();
+
     await FirebaseFirestore.instance.collection("groups").doc(groupId).update({
       "lastMessage": type ?? message,
-      "lasteMessageTime": DateTime.now().millisecondsSinceEpoch.toString()
+      "lasteMessageTime": DateTime.now().millisecondsSinceEpoch.toString(),
     });
   }
 

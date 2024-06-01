@@ -12,7 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'user_data_state.dart';
 
 class UserDataCubit extends Cubit<UserDataState> {
-  UserDataCubit() : super(UserDataInitial());
+  UserDataCubit() : super(UserDataInitial()) {
+    getUserData();
+  }
   UserModel? userModel;
   Future<void> updateUserData(
       {required String firstName,
@@ -42,9 +44,9 @@ class UserDataCubit extends Cubit<UserDataState> {
             .listen((event) async {
           userModel = UserModel.fromjson(event);
           await FirebaseMessaging.instance.requestPermission();
-          await FirebaseMessaging.instance.getToken().then((value) {
+          await FirebaseMessaging.instance.getToken().then((value) async {
             if (value != null) {
-              FirebaseHelper().updateToken(user: user, token: value);
+              await FirebaseHelper().updateToken(user: user, token: value);
               userModel!.pushToken = value;
             }
           });

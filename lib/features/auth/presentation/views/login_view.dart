@@ -129,8 +129,9 @@ class _LoginViewState extends State<LoginView> {
                                   email: emailController.text,
                                   password: passwordController.text,
                                 )
-                                .then((value) =>
-                                    BlocProvider.of<UserDataCubit>(context)
+                                .then((value) async =>
+                                    await BlocProvider.of<UserDataCubit>(
+                                            context)
                                         .getUserData());
                           }
                         },
