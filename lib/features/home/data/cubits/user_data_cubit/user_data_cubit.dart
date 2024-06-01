@@ -12,9 +12,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 part 'user_data_state.dart';
 
 class UserDataCubit extends Cubit<UserDataState> {
-  UserDataCubit() : super(UserDataInitial()) {
-    getUserData();
-  }
+  UserDataCubit() : super(UserDataInitial());
   UserModel? userModel;
   Future<void> updateUserData(
       {required String firstName,

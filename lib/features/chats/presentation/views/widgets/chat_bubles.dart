@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatie/core/firebase_helper.dart';
+import 'package:chatie/core/photo_viewer.dart';
 import 'package:chatie/features/chats/data/models/message_model.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:shimmer/shimmer.dart';
 
 class ChatBuble extends StatelessWidget {
@@ -39,32 +41,43 @@ class ChatBuble extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(right: 2, left: 2),
                   child: messageModel.type == "image"
-                      ? Container(
-                          width: double.infinity,
-                          height: 300,
-                          padding: const EdgeInsets.only(bottom: 3),
-                          child: SizedBox(
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(8),
-                              child: CachedNetworkImage(
-                                imageUrl: messageModel.message!,
-                                placeholder: (context, url) =>
-                                    Shimmer.fromColors(
-                                  baseColor: Theme.of(context)
-                                      .colorScheme
-                                      .primaryContainer,
-                                  highlightColor: const Color(0xFFEEEEEE),
-                                  child: Container(
-                                    width: double.infinity,
-                                    height: 300, // Adjust the height as needed
-                                    color: Colors.grey[200],
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => PhotoViewer(
+                                        imageUrl: messageModel.message!)));
+                          },
+                          child: Container(
+                            width: double.infinity,
+                            height: 300,
+                            padding: const EdgeInsets.only(bottom: 3),
+                            child: SizedBox(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(8),
+                                child: CachedNetworkImage(
+                                  imageUrl: messageModel.message!,
+                                  placeholder: (context, url) =>
+                                      Shimmer.fromColors(
+                                    baseColor: Theme.of(context)
+                                        .colorScheme
+                                        .primaryContainer,
+                                    highlightColor: const Color(0xFFEEEEEE),
+                                    child: Container(
+                                      width: double.infinity,
+                                      height:
+                                          300, // Adjust the height as needed
+                                      color: Colors.grey[200],
+                                    ),
                                   ),
+                                  errorWidget: (context, url, error) =>
+                                      SizedBox(
+                                          height: height * 0.25,
+                                          width: width * 0.2,
+                                          child: const Center(
+                                              child: Icon(Icons.error))),
                                 ),
-                                errorWidget: (context, url, error) => SizedBox(
-                                    height: height * 0.25,
-                                    width: width * 0.2,
-                                    child:
-                                        const Center(child: Icon(Icons.error))),
                               ),
                             ),
                           ),
@@ -136,31 +149,41 @@ class GroupChatBubleFriend extends StatelessWidget {
                     style: TextStyle(
                         color: Theme.of(context).colorScheme.primary)),
                 messageModel.type == "image"
-                    ? Container(
-                        width: double.infinity,
-                        height: 300,
-                        padding: const EdgeInsets.only(bottom: 3),
-                        child: SizedBox(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: CachedNetworkImage(
-                              imageUrl: messageModel.message!,
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
-                                highlightColor: const Color(0xFFEEEEEE),
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 300, // Adjust the height as needed
-                                  color: Colors.grey[200],
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PhotoViewer(
+                                      imageUrl: messageModel.message!)));
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 300,
+                          padding: const EdgeInsets.only(bottom: 3),
+                          child: SizedBox(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: CachedNetworkImage(
+                                imageUrl: messageModel.message!,
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
+                                  highlightColor: const Color(0xFFEEEEEE),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 300, // Adjust the height as needed
+                                    color: Colors.grey[200],
+                                  ),
                                 ),
+                                errorWidget: (context, url, error) => SizedBox(
+                                    height: height * 0.25,
+                                    width: width * 0.2,
+                                    child:
+                                        const Center(child: Icon(Icons.error))),
                               ),
-                              errorWidget: (context, url, error) => SizedBox(
-                                  height: height * 0.25,
-                                  width: width * 0.2,
-                                  child:
-                                      const Center(child: Icon(Icons.error))),
                             ),
                           ),
                         ),
@@ -230,31 +253,41 @@ class _ChatBubleFriendState extends State<ChatBubleFriend> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 widget.messageModel.type == "image"
-                    ? Container(
-                        width: double.infinity,
-                        height: 300,
-                        padding: const EdgeInsets.only(bottom: 3),
-                        child: SizedBox(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(8),
-                            child: CachedNetworkImage(
-                              imageUrl: widget.messageModel.message!,
-                              placeholder: (context, url) => Shimmer.fromColors(
-                                baseColor: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
-                                highlightColor: const Color(0xFFEEEEEE),
-                                child: Container(
-                                  width: double.infinity,
-                                  height: 300, // Adjust the height as needed
-                                  color: Colors.grey[200],
+                    ? GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => PhotoViewer(
+                                      imageUrl: widget.messageModel.message!)));
+                        },
+                        child: Container(
+                          width: double.infinity,
+                          height: 300,
+                          padding: const EdgeInsets.only(bottom: 3),
+                          child: SizedBox(
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: CachedNetworkImage(
+                                imageUrl: widget.messageModel.message!,
+                                placeholder: (context, url) =>
+                                    Shimmer.fromColors(
+                                  baseColor: Theme.of(context)
+                                      .colorScheme
+                                      .primaryContainer,
+                                  highlightColor: const Color(0xFFEEEEEE),
+                                  child: Container(
+                                    width: double.infinity,
+                                    height: 300, // Adjust the height as needed
+                                    color: Colors.grey[200],
+                                  ),
                                 ),
+                                errorWidget: (context, url, error) => SizedBox(
+                                    height: height * 0.25,
+                                    width: width * 0.2,
+                                    child:
+                                        const Center(child: Icon(Icons.error))),
                               ),
-                              errorWidget: (context, url, error) => SizedBox(
-                                  height: height * 0.25,
-                                  width: width * 0.2,
-                                  child:
-                                      const Center(child: Icon(Icons.error))),
                             ),
                           ),
                         ),

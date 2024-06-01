@@ -1,3 +1,4 @@
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/core/helper.dart';
 import 'package:chatie/features/auth/data/cubits/cubit/auth_cubit.dart';
 import 'package:chatie/features/auth/presentation/views/sign_up_view.dart';
@@ -126,13 +127,16 @@ class _LoginViewState extends State<LoginView> {
                           if (formkey.currentState!.validate()) {
                             await BlocProvider.of<AuthCubit>(context)
                                 .logIn(
-                                  email: emailController.text,
-                                  password: passwordController.text,
-                                )
-                                .then((value) async =>
-                                    await BlocProvider.of<UserDataCubit>(
-                                            context)
-                                        .getUserData());
+                              email: emailController.text,
+                              password: passwordController.text,
+                            )
+                                .then((value) {
+                              FirebaseHelper().updateStatus(online: true);
+                              BlocProvider.of<UserDataCubit>(context)
+                                  .getUserData();
+                              BlocProvider.of<FetchChatsCubit>(context)
+                                  .fetchChats(email: emailController.text);
+                            });
                           }
                         },
                         child: const Text(

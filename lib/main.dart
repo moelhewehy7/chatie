@@ -37,9 +37,8 @@ class Chatie extends StatelessWidget {
         BlocProvider(create: (context) => ThemeCubit()),
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(
-          create: (context) => FetchChatsCubit()
-            ..fetchChats(email: FirebaseAuth.instance.currentUser!.email!),
-        ),
+            create: (context) => FetchChatsCubit()
+              ..fetchChats(email: FirebaseAuth.instance.currentUser!.email!)),
         BlocProvider(create: (context) => ChatCubit()),
         BlocProvider(create: (context) => GroupChatsCubit()),
         BlocProvider(create: (context) => CreateChatCubit()),

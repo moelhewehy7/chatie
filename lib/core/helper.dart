@@ -1,5 +1,7 @@
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/auth/presentation/views/login_view.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -69,15 +71,19 @@ Future<dynamic> signOutDialog(
             FillButton(
               height: 30,
               onPressed: () async {
-                // await FirebaseFirestore.instance
-                //     .collection("users")
-                //     .doc(userModel.email)
-                //     .update({"pushToken": ""}).then((value) {
-                //   // Print debug information to confirm the update operation
-                //   debugPrint("Push token cleared for user: ${userModel.email}");
-                // });
-                await FirebaseMessaging.instance.deleteToken();
+                String? email = FirebaseAuth.instance.currentUser?.email;
+
+                // If the email is not null, update the push token to an empty string in Firestore
+                await FirebaseHelper().updateStatus(online: false);
                 await FirebaseAuth.instance.signOut().then((value) async {
+                  FirebaseMessaging.instance.deleteToken();
+                  if (email != null) {
+                    FirebaseFirestore.instance
+                        .collection("users")
+                        .doc(email)
+                        .update({"pushToken": ""});
+                  }
+
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                           builder: (context) => const LoginView()),

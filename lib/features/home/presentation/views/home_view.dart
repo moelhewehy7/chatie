@@ -1,6 +1,9 @@
+import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/chats/presentation/views/chats_view.dart';
 import 'package:chatie/features/groups/presentation/views/groups_chat_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:iconly/iconly.dart';
 
 import '../../../contacts/presentation/views/contacts_view.dart';
@@ -18,9 +21,19 @@ class _HomeViewState extends State<HomeView> {
   final PageController pageController = PageController();
 
   @override
-  void dispose() {
-    pageController.dispose();
-    super.dispose();
+  @override
+  void initState() {
+    super.initState();
+    SystemChannels.lifecycle.setMessageHandler((message) async {
+      if (message == AppLifecycleState.resumed.toString()) {
+        await FirebaseHelper().updateStatus(online: true);
+      } else if (message == AppLifecycleState.paused.toString() ||
+          message == AppLifecycleState.inactive.toString()) {
+        await FirebaseHelper().updateStatus(online: false);
+      }
+
+      return message;
+    });
   }
 
   @override
