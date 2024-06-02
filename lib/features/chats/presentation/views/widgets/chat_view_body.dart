@@ -2,13 +2,14 @@ import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/chats/data/cubits/chat_cubit/chat_cubit.dart';
 import 'package:chatie/features/chats/data/models/message_model.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/chat_bubles.dart';
+import 'package:chatie/features/chats/presentation/views/widgets/profile_pic.dart';
 import 'package:chatie/features/chats/presentation/views/widgets/send_messeg.dart';
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
@@ -31,28 +32,44 @@ class _ChatViewBodyState extends State<ChatViewBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 1,
-        title: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text("${widget.userModel.firstName!} ${widget.userModel.lastName!}",
-              style: Theme.of(context).textTheme.titleMedium),
-          StreamBuilder(
-              stream: FirebaseFirestore.instance
-                  .collection("users")
-                  .doc(widget.userModel.email)
-                  .snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Text(
-                      snapshot.data!.data()!["Online"] == true
-                          ? "online"
-                          : 'Last seen ${formatLastSeen(snapshot.data!.data()!["lastSeen"])}'
-                              .toLowerCase(),
-                      style: Theme.of(context).textTheme.labelMedium);
-                } else {
-                  return const SizedBox();
-                }
-              })
-        ]),
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 5),
+          child: BackButton(onPressed: () {
+            Navigator.pop(context);
+          }),
+        ),
+        leadingWidth: MediaQuery.of(context).size.width * 0.08,
+        title: Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 7),
+              child: ProfilePic(
+                  radius: 20, doubleRadius: 40, userModel: widget.userModel),
+            ),
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text(
+                  "${widget.userModel.firstName!} ${widget.userModel.lastName!}",
+                  style: Theme.of(context).textTheme.titleMedium),
+              StreamBuilder(
+                  stream: FirebaseFirestore.instance
+                      .collection("users")
+                      .doc(widget.userModel.email)
+                      .snapshots(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return Text(
+                          snapshot.data!.data()!["Online"] == true
+                              ? "online"
+                              : 'Last seen ${formatLastSeen(snapshot.data!.data()!["lastSeen"])}'
+                                  .toLowerCase(),
+                          style: Theme.of(context).textTheme.labelMedium);
+                    } else {
+                      return const SizedBox();
+                    }
+                  })
+            ]),
+          ],
+        ),
         actions: [
           IconButton(
               onPressed: () {
