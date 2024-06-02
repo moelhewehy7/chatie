@@ -6,6 +6,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 
 void showtoast(
     {required String msg, required BuildContext context, required int time}) {
@@ -101,4 +102,32 @@ Future<dynamic> signOutDialog(
           ],
         );
       });
+}
+
+class MessageTime {
+  String format(dynamic lastSeenTimestamp) {
+    try {
+      final dateTime = DateTime.fromMillisecondsSinceEpoch(
+          int.parse(lastSeenTimestamp.toString()));
+      final now = DateTime.now();
+      final difference = now.difference(dateTime).inDays; // Difference in days
+      String formattedDay;
+
+      if (difference == 0) {
+        formattedDay = '';
+      } else if (difference == 1) {
+        formattedDay = 'Yesterday';
+      } else if (difference <= 7) {
+        formattedDay = DateFormat('EEEE').format(dateTime);
+      } else {
+        formattedDay =
+            DateFormat('yy/MM/dd').format(dateTime); // Day of the week
+      }
+
+      final formattedTime = DateFormat('hh:mm a').format(dateTime);
+      return '$formattedDay $formattedTime';
+    } catch (e) {
+      return 'Unknown';
+    }
+  }
 }

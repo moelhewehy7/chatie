@@ -1,12 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chatie/core/firebase_helper.dart';
+import 'package:chatie/core/helper.dart';
 import 'package:chatie/core/photo_viewer.dart';
 import 'package:chatie/features/chats/data/models/message_model.dart';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:photo_view/photo_view.dart';
+
 import 'package:shimmer/shimmer.dart';
 
 class ChatBuble extends StatelessWidget {
@@ -94,10 +94,7 @@ class ChatBuble extends StatelessWidget {
                 Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                        DateFormat('hh:mm a').format(
-                            DateTime.fromMillisecondsSinceEpoch(
-                                int.parse(messageModel.createdAt!))),
+                    Text(MessageTime().format(messageModel.createdAt!),
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.surface)),
                     const SizedBox(
@@ -192,11 +189,7 @@ class GroupChatBubleFriend extends StatelessWidget {
                         messageModel.message!,
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
-                Text(
-                  DateFormat('hh:mm a').format(
-                      DateTime.fromMillisecondsSinceEpoch(
-                          int.parse(messageModel.createdAt!))),
-                )
+                Text(MessageTime().format(messageModel.createdAt!))
               ],
             ),
           ),
@@ -292,15 +285,14 @@ class _ChatBubleFriendState extends State<ChatBubleFriend> {
                           ),
                         ),
                       )
-                    : Text(
-                        widget.messageModel.message!,
-                        style: Theme.of(context).textTheme.titleMedium,
+                    : Padding(
+                        padding: const EdgeInsets.only(left: 4, bottom: 2),
+                        child: Text(
+                          widget.messageModel.message!,
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
                       ),
-                Text(
-                  DateFormat('hh:mm a').format(
-                      DateTime.fromMillisecondsSinceEpoch(
-                          int.parse(widget.messageModel.createdAt!))),
-                )
+                Text(MessageTime().format(widget.messageModel.createdAt!))
               ],
             ),
           ),
