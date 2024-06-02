@@ -5,6 +5,7 @@ import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit
 import 'package:chatie/features/home/data/models/user_model.dart';
 import 'package:chatie/features/settings/presentation/views/widgets/profile_view.dart';
 import 'package:chatie/features/settings/presentation/views/widgets/qr_code._view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flex_color_picker/flex_color_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -169,7 +170,9 @@ class _SettingsViewState extends State<SettingsView> {
               title: const Text("Signout"),
               trailing: IconButton(
                   onPressed: () async {
-                    await signOutDialog(context, userModel: userModel!);
+                    await signOutDialog(context,
+                        email: userModel?.email ??
+                            FirebaseAuth.instance.currentUser!.email!);
                   },
                   icon: const Icon(IconlyLight.logout)),
             ))

@@ -52,8 +52,7 @@ showAlert(
   );
 }
 
-Future<dynamic> signOutDialog(BuildContext context,
-    {required UserModel userModel}) {
+Future<dynamic> signOutDialog(BuildContext context, {required String email}) {
   return showDialog(
       context: context,
       builder: (context) {
@@ -76,7 +75,7 @@ Future<dynamic> signOutDialog(BuildContext context,
               onPressed: () async {
                 // If the email is not null, update the push token to an empty string in Firestore
                 await BlocProvider.of<UserDataCubit>(context)
-                    .updateT(token: "", email: userModel.email!);
+                    .updateT(token: "", email: email);
                 await FirebaseHelper().updateStatus(online: false);
                 await FirebaseAuth.instance.signOut().then((value) async {
                   FirebaseMessaging.instance.deleteToken();

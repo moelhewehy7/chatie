@@ -53,7 +53,6 @@ class UserDataCubit extends Cubit<UserDataState> {
     await FirebaseMessaging.instance.getToken().then((value) async {
       if (value != null) {
         await FirebaseHelper().updateToken(email: email, token: token ?? value);
-        userModel!.pushToken = value;
       }
     });
   }
