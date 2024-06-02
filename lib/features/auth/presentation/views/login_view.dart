@@ -135,6 +135,8 @@ class _LoginViewState extends State<LoginView> {
                               FirebaseHelper().updateStatus(online: true);
                               BlocProvider.of<UserDataCubit>(context)
                                   .getUserData();
+                              BlocProvider.of<UserDataCubit>(context)
+                                  .updateT(email: emailController.text);
                               BlocProvider.of<FetchChatsCubit>(context)
                                   .fetchChats(
                                       email: emailController.text,

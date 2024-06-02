@@ -20,7 +20,7 @@ class UserDataCubit extends Cubit<UserDataState> {
       required String bio,
       required String imageUrl}) async {
     final myEmail = FirebaseAuth.instance.currentUser!.email;
-    debugPrint("${myEmail}this is my email");
+
     emit(UserDataLoading());
     await Future.delayed(const Duration(seconds: 2));
     await FirebaseFirestore.instance.collection("users").doc(myEmail).update({
@@ -41,20 +41,23 @@ class UserDataCubit extends Cubit<UserDataState> {
             .snapshots()
             .listen((event) async {
           userModel = UserModel.fromjson(event);
-          await FirebaseMessaging.instance.requestPermission();
-          await FirebaseMessaging.instance.getToken().then((value) async {
-            if (value != null) {
-              await FirebaseHelper().updateToken(user: user, token: value);
-              userModel!.pushToken = value;
-            }
-          });
+
           emit(UserDataSuccess(userModel: userModel!));
         });
       }
     });
   }
-}
 
+  updateT({String? token, required String email}) async {
+    await FirebaseMessaging.instance.requestPermission();
+    await FirebaseMessaging.instance.getToken().then((value) async {
+      if (value != null) {
+        await FirebaseHelper().updateToken(email: email, token: token ?? value);
+        userModel!.pushToken = value;
+      }
+    });
+  }
+}
 
   // void resetData() {
   //   eventData.clear();

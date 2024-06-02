@@ -169,7 +169,7 @@ class _SettingsViewState extends State<SettingsView> {
               title: const Text("Signout"),
               trailing: IconButton(
                   onPressed: () async {
-                    await signOutDialog(context);
+                    await signOutDialog(context, userModel: userModel!);
                   },
                   icon: const Icon(IconlyLight.logout)),
             ))

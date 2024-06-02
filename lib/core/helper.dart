@@ -1,10 +1,13 @@
 import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/auth/presentation/views/login_view.dart';
 import 'package:chatie/features/auth/presentation/views/widgets/button.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:chatie/features/home/data/cubits/user_data_cubit/user_data_cubit.dart';
+import 'package:chatie/features/home/data/models/user_model.dart';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 
@@ -49,9 +52,8 @@ showAlert(
   );
 }
 
-Future<dynamic> signOutDialog(
-  BuildContext context,
-) {
+Future<dynamic> signOutDialog(BuildContext context,
+    {required UserModel userModel}) {
   return showDialog(
       context: context,
       builder: (context) {
@@ -72,19 +74,12 @@ Future<dynamic> signOutDialog(
             FillButton(
               height: 30,
               onPressed: () async {
-                String? email = FirebaseAuth.instance.currentUser?.email;
-
                 // If the email is not null, update the push token to an empty string in Firestore
+                await BlocProvider.of<UserDataCubit>(context)
+                    .updateT(token: "", email: userModel.email!);
                 await FirebaseHelper().updateStatus(online: false);
                 await FirebaseAuth.instance.signOut().then((value) async {
                   FirebaseMessaging.instance.deleteToken();
-                  if (email != null) {
-                    FirebaseFirestore.instance
-                        .collection("users")
-                        .doc(email)
-                        .update({"pushToken": ""});
-                  }
-
                   Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
                           builder: (context) => const LoginView()),

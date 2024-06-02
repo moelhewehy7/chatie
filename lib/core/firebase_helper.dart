@@ -118,10 +118,10 @@ class FirebaseHelper {
     //Uri.parse is used to ensure the URLs are correctly formed and we use post to send data to the server
   }
 
-  Future updateToken({required User user, required String token}) async {
+  Future updateToken({required String email, required String token}) async {
     FirebaseFirestore.instance
         .collection("users")
-        .doc(user.email)
+        .doc(email)
         .update({"pushToken": token});
   }
 
