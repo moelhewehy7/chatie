@@ -32,6 +32,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        elevation: 1,
         leading: Padding(
           padding: const EdgeInsets.only(left: 5),
           child: BackButton(onPressed: () {
