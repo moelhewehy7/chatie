@@ -8,17 +8,19 @@ part 'fetch_chats_state.dart';
 class FetchChatsCubit extends Cubit<FetchChatsState> {
   FetchChatsCubit() : super(FetchChatsInitial());
 
-  fetchChats({required String email}) {
+  void fetchChats({required String email, required BuildContext context}) {
     emit(FetchChatsLoading());
+
     FirebaseFirestore.instance
         .collection("rooms")
         .where("members", arrayContains: email)
         .snapshots()
         .listen((event) {
+      if (!context.mounted) return; // Check if the widget is still mounted
+
       List<ChatRoomModel> rooms = [];
       if (event.docs.isNotEmpty) {
         for (var doc in event.docs) {
-          //we are converting the list of query snapshot to a list of chatroommodel
           rooms.add(ChatRoomModel.fromJson(doc));
         }
         emit(FetchChatsSuccess(rooms: rooms));

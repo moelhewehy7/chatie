@@ -45,7 +45,8 @@ class _ChatViewBodyState extends State<ChatViewBody> {
                   return Text(
                       snapshot.data!.data()!["Online"] == true
                           ? "online"
-                          : 'Last seen ${formatLastSeen(snapshot.data!.data()!["lastSeen"])}',
+                          : 'Last seen ${formatLastSeen(snapshot.data!.data()!["lastSeen"])}'
+                              .toLowerCase(),
                       style: Theme.of(context).textTheme.labelMedium);
                 } else {
                   return const SizedBox();
@@ -286,12 +287,27 @@ class _ChatViewBodyState extends State<ChatViewBody> {
     );
   }
 
-  formatLastSeen(dynamic lastSeenTimestamp) {
-    final dateTime =
-        DateTime.fromMillisecondsSinceEpoch(int.parse(lastSeenTimestamp));
-    final formattedDay = DateFormat('EEEE').format(dateTime);
-    final formattedTime = DateFormat('hh:mm a').format(dateTime);
-    return '$formattedDay at $formattedTime';
+  String formatLastSeen(dynamic lastSeenTimestamp) {
+    try {
+      final dateTime = DateTime.fromMillisecondsSinceEpoch(
+          int.parse(lastSeenTimestamp.toString()));
+      final now = DateTime.now();
+      final difference = now.difference(dateTime).inDays; // Difference in days
+      String formattedDay;
+
+      if (difference == 0) {
+        formattedDay = 'Today';
+      } else if (difference == 1) {
+        formattedDay = 'Yesterday';
+      } else {
+        formattedDay = DateFormat('EEEE').format(dateTime); // Day of the week
+      }
+
+      final formattedTime = DateFormat('hh:mm a').format(dateTime);
+      return '$formattedDay at $formattedTime';
+    } catch (e) {
+      return 'Last seen: Unknown';
+    }
   }
   // Text(
   //                 DateFormat('hh:mm a').format(

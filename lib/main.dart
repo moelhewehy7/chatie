@@ -38,7 +38,9 @@ class Chatie extends StatelessWidget {
         BlocProvider(create: (context) => AuthCubit()),
         BlocProvider(
             create: (context) => FetchChatsCubit()
-              ..fetchChats(email: FirebaseAuth.instance.currentUser!.email!)),
+              ..fetchChats(
+                  email: FirebaseAuth.instance.currentUser!.email!,
+                  context: context)),
         BlocProvider(create: (context) => ChatCubit()),
         BlocProvider(create: (context) => GroupChatsCubit()),
         BlocProvider(create: (context) => CreateChatCubit()),
@@ -47,7 +49,7 @@ class Chatie extends StatelessWidget {
           create: (context) => FetchGroupsCubit()..fetchGroups(),
         ),
         BlocProvider(
-          create: (context) => FetchContactsCubit()..fetchContacts(),
+          create: (context) => FetchContactsCubit(),
         )
       ],
       child: BlocBuilder<ThemeCubit, ThemeState>(
