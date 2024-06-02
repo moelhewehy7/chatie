@@ -42,7 +42,7 @@ class _ChatViewBodyState extends State<ChatViewBody> {
         title: Row(
           children: [
             Padding(
-              padding: const EdgeInsets.only(right: 7),
+              padding: const EdgeInsets.only(right: 8),
               child: ProfilePic(
                   radius: 20, doubleRadius: 40, userModel: widget.userModel),
             ),
