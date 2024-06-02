@@ -28,6 +28,8 @@ class AuthCubit extends Cubit<AuthState> {
         "bio": bio,
         "myUsers": [],
         "pushToken": "",
+        "Online": false,
+        "lastSeen": "",
         "JoinedOn": DateTime.now().millisecondsSinceEpoch.toString()
       });
       emit(SignUpSuccess());
