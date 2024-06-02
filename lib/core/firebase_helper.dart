@@ -12,7 +12,6 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
-import 'package:shimmer/main.dart';
 
 class FirebaseHelper {
   Future readMessage({required String roomId, required String msgId}) async {

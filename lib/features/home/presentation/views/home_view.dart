@@ -1,11 +1,9 @@
 import 'package:chatie/core/firebase_helper.dart';
 import 'package:chatie/features/chats/presentation/views/chats_view.dart';
 import 'package:chatie/features/groups/presentation/views/groups_chat_view.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:iconly/iconly.dart';
-
 import '../../../contacts/presentation/views/contacts_view.dart';
 import '../../../settings/presentation/views/settings_view.dart';
 
