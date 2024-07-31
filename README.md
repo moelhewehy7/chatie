@@ -41,10 +41,6 @@ This project is still under development. I am actively working on it and making 
 ### Completed Features
 - Chats Screen: Finished implementing the chats screen, where users can chat with different people.
 
-### Upcoming Features
-- Groups Screen: Implementing the groups screen to manage and chat in group conversations.
-- Contacts Screen: Implementing the contacts screen to access and manage contacts.
-- Settings Screen: Implementing the settings screen to customize app settings, including theme preference.
 
 ### Implementation Details
 State Management: Utilizes the Cubit package for state management.
